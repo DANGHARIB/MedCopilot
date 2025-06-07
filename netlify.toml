@@ -1,31 +1,26 @@
 [build]
-  # Commande de build
-  command = "npm run build"
-  
-  # Dossier à publier
+  base = "frontend"
+  command = "npm ci && npm run build"
   publish = "frontend/dist"
-  
-  # Base directory (optionnel)
-  base = "."
 
 [build.environment]
-  # Version de Node.js
-  NODE_VERSION = "22.16.0"
-  
-  # Variables d'environnement
-  NODE_ENV = "production"
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--prefix=."
 
-# Redirections pour React Router (SPA)
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-# Headers de sécurité (optionnel)
 [[headers]]
   for = "/*"
   [headers.values]
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Content-Type-Options = "nosniff"
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin" 
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "max-age=31536000, immutable"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200 
