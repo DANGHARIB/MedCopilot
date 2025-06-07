@@ -1,24 +1,6 @@
 [build]
-  base = "frontend"
-  command = "npm ci && npm run build"
-  publish = "frontend/dist"
-
-[build.environment]
-  NODE_VERSION = "18"
-  NPM_FLAGS = "--prefix=."
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "max-age=31536000, immutable"
+  command = "npm run build"
+  publish = "dist"
 
 [[redirects]]
   from = "/*"
