@@ -1,0 +1,31 @@
+[build]
+  # Commande de build
+  command = "npm run build"
+  
+  # Dossier à publier
+  publish = "frontend/dist"
+  
+  # Base directory (optionnel)
+  base = "."
+
+[build.environment]
+  # Version de Node.js
+  NODE_VERSION = "22.16.0"
+  
+  # Variables d'environnement
+  NODE_ENV = "production"
+
+# Redirections pour React Router (SPA)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers de sécurité (optionnel)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin" 
