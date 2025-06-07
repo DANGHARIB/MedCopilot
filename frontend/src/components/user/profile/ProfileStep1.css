@@ -1,0 +1,228 @@
+/* ProfileStep1.css - Inspired by Step2UploadAmcas.css */
+.profile-step1-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0; /* Suppression de toute marge */
+  padding: var(--spacing-4); /* Padding uniforme */
+  box-sizing: border-box; /* S'assurer que le padding est inclus dans la largeur */
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.profile-step1-title {
+  font-size: 1.5rem; /* Consistent title size */
+  font-weight: 600;
+  color: var(--color-gray-800);
+  margin: 0 0 var(--spacing-4) 0; /* Adjusted margin */
+  text-align: left; /* Align title to the left */
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.profile-step1-description {
+  color: var(--color-gray-600);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: var(--spacing-6);
+  text-align: left; /* Align description to the left */
+  background-color: rgba(0, 0, 0, 0.01);
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.profile-step1-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Exactly 3 columns per row */
+  gap: var(--spacing-6); /* Spacing between grid items */
+  margin-bottom: var(--spacing-8); /* Space before actions */
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.profile-step1-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2); /* Space between label and input */
+  background-color: white;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: all 0.2s ease;
+}
+
+.profile-step1-form-field:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.profile-step1-field-label {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-gray-700);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.profile-step1-field-icon {
+  margin-right: var(--spacing-2);
+  color: var(--color-gray-500);
+  background-color: rgba(0, 0, 0, 0.02);
+  padding: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.profile-step1-input-wrapper,
+.profile-step1-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.profile-step1-field-input,
+.profile-step1-field-select {
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: 0.9rem;
+  color: var(--color-gray-800);
+  background-color: white;
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  transition: var(--transition-normal);
+  box-sizing: border-box; /* Ensure padding doesn't expand element */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.profile-step1-field-input:focus,
+.profile-step1-field-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-lighter), inset 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.profile-step1-field-input::placeholder,
+.profile-step1-field-select option[value=""] {
+  color: var(--color-gray-400);
+}
+
+.profile-step1-field-hint {
+  font-size: 0.75rem;
+  color: var(--color-gray-500);
+  margin-top: var(--spacing-1);
+  background-color: rgba(0, 0, 0, 0.01);
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.profile-step1-error-text {
+  font-size: 0.75rem;
+  color: var(--color-error);
+  margin-top: var(--spacing-1);
+  background-color: rgba(220, 38, 38, 0.05);
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(220, 38, 38, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.profile-step1-error-text::before {
+  content: "!";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-error);
+  color: white;
+  border-radius: 50%;
+  margin-right: 8px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.profile-step1-actions {
+  display: flex;
+  justify-content: flex-end; /* Align button to the right */
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-6); /* Consistent with upload-amcas-actions */
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+/* Button styles adapted from Step2UploadAmcas.css */
+.profile-button-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-info);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  min-width: 120px;
+  box-shadow: var(--shadow-sm);
+}
+
+.profile-button-primary:hover {
+  background-color: var(--color-info-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.profile-button-primary:disabled,
+.profile-button-primary.button-disabled { /* Added .button-disabled for consistency */
+  background-color: var(--color-gray-300);
+  color: var(--color-gray-500);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.profile-button-icon-right {
+  margin-left: var(--spacing-2);
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 4px;
+  border-radius: 50%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 940px) {
+  .profile-step1-form-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on medium screens */
+    gap: var(--spacing-5);
+  }
+}
+
+@media (max-width: 640px) {
+  .profile-step1-form-grid {
+    grid-template-columns: 1fr; /* Single column on smaller screens */
+    gap: var(--spacing-5);
+  }
+
+  .profile-step1-actions {
+    flex-direction: column; /* Stack button on smaller screens */
+  }
+
+  .profile-button-primary {
+    width: 100%; /* Full width button on smaller screens */
+  }
+}

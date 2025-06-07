@@ -1,0 +1,80 @@
+[
+  {
+    "id": "free",
+    "name": "Free",
+    "price": "0",
+    "interval": "Free forever",
+    "yearlyPrice": "0",
+    "yearlyInterval": "Free forever",
+    "description": "Limited access to basic tools",
+    "features": [
+      "School matching (limited)",
+      "Readiness assessment",
+      "View basic school information"
+    ],
+    "cta": "Get Started",
+    "ctaCurrent": "Current Plan",
+    "isPopular": false,
+    "accentColor": "#94a3b8"
+  },
+  {
+    "id": "basic",
+    "name": "Basic",
+    "price": "19",
+    "interval": "per month",
+    "yearlyPrice": "180",
+    "yearlyInterval": "per year",
+    "savings": "Save $48",
+    "description": "Access to core planning tools",
+    "features": [
+      "All Free features",
+      "Personal Statement Brainstormer",
+      "Application Checklist AI",
+      "Enhanced School Matching",
+      "Limited AI interactions"
+    ],
+    "cta": "Choose Basic",
+    "isPopular": false,
+    "accentColor": "#3b82f6"
+  },
+  {
+    "id": "premium",
+    "name": "Premium",
+    "price": "49",
+    "interval": "per month",
+    "yearlyPrice": "470",
+    "yearlyInterval": "per year",
+    "savings": "Save $118",
+    "description": "Full access to all AI tools",
+    "features": [
+      "All Basic features",
+      "Primary/Secondary Essay tools",
+      "Interview Preparation AI",
+      "Monthly AI interactions (500)",
+      "Competitive analysis"
+    ],
+    "cta": "Choose Premium",
+    "isPopular": true,
+    "accentColor": "#2563eb"
+  },
+  {
+    "id": "ultimate",
+    "name": "Ultimate",
+    "price": "99",
+    "interval": "per month",
+    "yearlyPrice": "999",
+    "yearlyInterval": "per year",
+    "savings": "Save $189",
+    "description": "Unlimited access to all tools",
+    "features": [
+      "All Premium features",
+      "Unlimited AI interactions",
+      "Priority processing",
+      "Advanced school insights",
+      "Unlimited mock interviews"
+    ],
+    "cta": "Choose Ultimate",
+    "isPopular": false,
+    "accentColor": "#1e40af"
+  }
+] 

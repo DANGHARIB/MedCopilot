@@ -1,0 +1,465 @@
+/* src/components/About/About.css - Nettoyé et mis à jour */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Variables du thème */
+  --primary-color: #2563eb;
+  --primary-hover: #1e40af;
+  --medschool-teal: #0891b2;
+  --medschool-green: #10b981;
+  --medschool-yellow: #f59e0b;
+  --medschool-navy: #0f172a; 
+  --medschool-charcoal: #334155;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --medschool-lightGray: #f8fafc;
+  --white: #ffffff;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --border-radius-full: 9999px;
+}
+
+/* Base Styles */
+.about-page {
+  width: 100%;
+  overflow-x: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--medschool-charcoal);
+  line-height: 1.6;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+/* Header styles alignés avec Agents.css */
+.about-header {
+  margin-bottom: 3rem;
+}
+
+.title-area {
+  max-width: 800px;
+  margin-bottom: 2rem;
+}
+
+.about-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.highlight {
+  color: var(--primary-color);
+  position: relative;
+}
+
+.about-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Common Section Container */
+.section-container {
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  position: relative;
+}
+
+/* Section Headers */
+.about-page h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+.about-page h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-color), var(--medschool-teal));
+  border-radius: var(--border-radius-full);
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+/* Common Paragraph Styles */
+.about-page p {
+  font-size: 17px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  color: var(--medschool-charcoal);
+}
+
+.about-page p:last-of-type {
+  margin-bottom: 0;
+}
+
+/* Espacement entre les sections */
+.about-page > section {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+/* Alternating Backgrounds */
+.about-page .mission-section,
+.about-page .what-we-offer-section,
+.about-page .our-approach-section,
+.about-page .difference-section {
+  background-color: var(--white);
+}
+
+.about-page .who-we-are-section,
+.about-page .access-section,
+.about-page .our-values-section,
+.about-page .journey-section {
+  background-color: var(--medschool-lightGray);
+}
+
+/* Icon Lists (Commun à "What We Offer" et "Our Values") */
+.about-page .icon-list {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.about-page .icon-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.about-page .icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.about-page .icon-list svg {
+  transition: var(--transition-base);
+}
+
+/* Couleurs spécifiques pour les icônes de "What We Offer" */
+.about-page .what-we-offer-section .icon-list li:nth-child(1) .icon-wrapper { background-color: rgba(37, 99, 235, 0.1); }
+.about-page .what-we-offer-section .icon-list li:nth-child(1) svg { color: var(--primary-color); }
+.about-page .what-we-offer-section .icon-list li:nth-child(2) .icon-wrapper { background-color: rgba(8, 145, 178, 0.1); }
+.about-page .what-we-offer-section .icon-list li:nth-child(2) svg { color: var(--medschool-teal); }
+.about-page .what-we-offer-section .icon-list li:nth-child(3) .icon-wrapper { background-color: rgba(16, 185, 129, 0.1); }
+.about-page .what-we-offer-section .icon-list li:nth-child(3) svg { color: var(--medschool-green); }
+.about-page .what-we-offer-section .icon-list li:nth-child(4) .icon-wrapper { background-color: rgba(245, 158, 11, 0.1); }
+.about-page .what-we-offer-section .icon-list li:nth-child(4) svg { color: var(--medschool-yellow); }
+
+/* Couleurs spécifiques pour les icônes de "Our Values" */
+.about-page .our-values-section .icon-list li:nth-child(1) .icon-wrapper { background-color: rgba(245, 158, 11, 0.1); }
+.about-page .our-values-section .icon-list li:nth-child(1) svg { color: var(--medschool-yellow); }
+.about-page .our-values-section .icon-list li:nth-child(2) .icon-wrapper { background-color: rgba(37, 99, 235, 0.1); }
+.about-page .our-values-section .icon-list li:nth-child(2) svg { color: var(--primary-color); }
+.about-page .our-values-section .icon-list li:nth-child(3) .icon-wrapper { background-color: rgba(16, 185, 129, 0.1); }
+.about-page .our-values-section .icon-list li:nth-child(3) svg { color: var(--medschool-green); }
+.about-page .our-values-section .icon-list li:nth-child(4) .icon-wrapper { background-color: rgba(219, 39, 119, 0.1); }
+.about-page .our-values-section .icon-list li:nth-child(4) svg { color: #db2777; }
+
+.about-page .icon-content {
+  flex: 1;
+}
+
+.about-page .icon-title {
+  font-weight: 600;
+  color: var(--medschool-navy);
+  display: inline;
+}
+
+/* Access Section */
+.about-page .access-section .feature-item {
+  background-color: var(--white);
+  border-radius: var(--border-radius-lg);
+  padding: 22px;
+  margin-top: 20px;
+  box-shadow: var(--card-shadow);
+  transition: var(--transition-base);
+}
+.about-page .access-section .feature-item:first-of-type {
+  margin-top: 25px;
+}
+
+.about-page .access-section .feature-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Our Approach Section - Cards */
+.about-page .card-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+  margin-top: 25px;
+}
+
+@media (min-width: 768px) {
+  .about-page .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.about-page .approach-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--card-shadow);
+  padding: 22px;
+  transition: var(--transition-base);
+  border: 1px solid rgba(226, 232, 240, 0.7);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.about-page .approach-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.about-page .approach-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+/* Couleurs spécifiques pour les titres des cartes d'approche */
+.about-page .approach-card:nth-child(1) h3 { color: var(--primary-color); }
+.about-page .approach-card:nth-child(2) h3 { color: var(--medschool-teal); }
+.about-page .approach-card:nth-child(3) h3 { color: var(--medschool-green); }
+.about-page .approach-card:nth-child(4) h3 { color: var(--medschool-yellow); }
+
+.about-page .approach-card p {
+  margin-bottom: 0;
+  font-size: 16px;
+  color: var(--text-secondary);
+  flex-grow: 1;
+}
+
+/* Quote styling for Journey Section */
+.about-page .quote {
+  font-size: 22px;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--medschool-teal);
+  margin-top: 25px;
+  position: relative;
+  padding-left: 24px;
+  display: inline-block;
+}
+
+.about-page .quote::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(to bottom, var(--medschool-teal), var(--primary-color));
+  border-radius: var(--border-radius-sm);
+}
+
+/* Call To Action (CTA) Section */
+.about-page .cta-section {
+  background: linear-gradient(135deg, var(--primary-color), var(--medschool-teal));
+  color: var(--white);
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.about-page .cta-section h2 {
+  color: var(--white);
+  font-size: 30px;
+  margin-bottom: 16px;
+  padding-bottom: 0;
+}
+
+.about-page .cta-section h2::after {
+  display: none;
+}
+
+.about-page .cta-section p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 18px;
+  margin-bottom: 28px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-page .cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--white);
+  color: var(--primary-color);
+  font-size: 18px;
+  font-weight: 600;
+  padding: 14px 30px;
+  border-radius: var(--border-radius-md);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-base);
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.about-page .cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  background-color: var(--medschool-lightGray);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .section-container {
+     padding-left: 20px;
+     padding-right: 20px;
+  }
+   .about-page > section {
+      padding-top: 22px;
+      padding-bottom: 22px;
+   }
+   .about-page .cta-section {
+      padding-top: 22px;
+      padding-bottom: 22px;
+   }
+
+  .about-title {
+    font-size: 32px;
+  }
+
+  .about-subtitle {
+    font-size: 18px;
+  }
+  .about-page h2 {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+   .about-page > section {
+      padding-top: 20px;
+      padding-bottom: 20px;
+   }
+   .about-page .cta-section {
+      padding-top: 20px;
+      padding-bottom: 20px;
+   }
+   .section-container {
+      padding-left: 16px;
+      padding-right: 16px;
+   }
+
+  .about-title {
+    font-size: 28px;
+    margin-bottom: 14px;
+  }
+
+  .about-subtitle {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .about-page h2 {
+    font-size: 26px;
+    padding-bottom: 8px;
+  }
+   .about-page h2::after {
+      bottom: 0;
+      height: 3px;
+      width: 50px;
+   }
+
+  .about-page p {
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+
+  .about-page .cta-section h2 {
+     font-size: 24px;
+  }
+  .about-page .cta-section p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .about-page .cta-button {
+    padding: 12px 24px;
+    font-size: 16px;
+  }
+
+  .about-page .quote {
+    font-size: 18px;
+    margin-top: 20px;
+    padding-left: 16px;
+  }
+   .about-page .quote::before {
+      width: 3px;
+   }
+
+  .about-page .icon-wrapper {
+    width: 36px;
+    height: 36px;
+  }
+
+  .about-page .icon-list {
+    gap: 18px;
+    margin-top: 20px;
+  }
+
+  .about-page .access-section .feature-item {
+    padding: 18px;
+    margin-top: 18px;
+  }
+  .about-page .access-section .feature-item:first-of-type {
+      margin-top: 20px;
+  }
+
+  .about-page .approach-card {
+    padding: 18px;
+  }
+   .about-page .card-grid {
+      margin-top: 20px;
+      gap: 18px;
+   }
+}
+
+/* Classes utilitaires */
+.flex { display: flex; }
+.items-start { align-items: flex-start; }
+.gap-4 { gap: 1rem; }
+.text-center { text-align: center; }

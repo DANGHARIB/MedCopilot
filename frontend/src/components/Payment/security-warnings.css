@@ -1,0 +1,42 @@
+/* Security Warnings Styles */
+.security-warnings {
+    margin-bottom: 2rem;
+  }
+  
+  .security-warning {
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+  }
+  
+  .security-warning:last-child {
+    margin-bottom: 0;
+  }
+  
+  .security-warning.danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: var(--danger-color);
+  }
+  
+  .security-warning.caution {
+    background-color: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    color: var(--warning-color);
+  }
+  
+  .warning-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .warning-header span {
+    font-weight: 600;
+  }
+  
+  .security-warning p {
+    margin-left: 1.75rem;
+    font-size: 0.875rem;
+  }

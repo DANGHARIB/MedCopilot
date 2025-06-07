@@ -1,0 +1,82 @@
+/* LoadingState.css */
+
+.ses-essay-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin: 2rem auto;
+  max-width: 500px;
+}
+
+.ses-essay-loading-animation {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+
+.ses-essay-loading-circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  animation: loadingBounce 1.4s infinite ease-in-out both;
+}
+
+.ses-essay-loading-circle:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.ses-essay-loading-circle:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes loadingBounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  } 
+  40% {
+    transform: scale(1);
+  }
+}
+
+.ses-essay-loading-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.ses-essay-loading-text {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .ses-essay-loading-state {
+    padding: 3rem 1.5rem;
+    margin: 1rem;
+  }
+  
+  .ses-essay-loading-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .ses-essay-loading-state {
+    padding: 2rem 1rem;
+  }
+  
+  .ses-essay-loading-animation {
+    margin-bottom: 1.5rem;
+  }
+} 

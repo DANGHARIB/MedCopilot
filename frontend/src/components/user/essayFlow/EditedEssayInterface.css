@@ -1,0 +1,587 @@
+/* EditedEssayInterface.css - Modern, elegant design */
+
+:root {
+  /* Color palette - Modern and sophisticated */
+  --primary: #6366F1;
+  --primary-light: #A5B4FC;
+  --primary-hover: #4F46E5;
+  --primary-bg: #F0F4FF;
+  
+  /* Accent colors */
+  --accent: #06B6D4;
+  --accent-light: #67E8F9;
+  
+  /* Neutrals */
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --text-tertiary: #9CA3AF;
+  --text-muted: #D1D5DB;
+  
+  /* Backgrounds */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F9FAFB;
+  --bg-tertiary: #F3F4F6;
+  --bg-card: #FFFFFF;
+  
+  /* Borders */
+  --border-primary: #E5E7EB;
+  --border-secondary: #F3F4F6;
+  
+  /* Diff colors - More subtle and modern */
+  --diff-removed-text: #DC2626;
+  --diff-removed-bg: #FEF2F2;
+  --diff-removed-border: #FECACA;
+  --diff-added-text: #059669;
+  --diff-added-bg: #F0FDF4;
+  --diff-added-border: #BBF7D0;
+  
+  /* Shadows - Sophisticated depth */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.05), 0 10px 10px rgba(0, 0, 0, 0.04);
+  
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+/* Container */
+.essay-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* Header - More prominent and modern */
+.essay-header {
+  position: relative;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-primary);
+  padding: var(--space-6) var(--space-8);
+  box-shadow: var(--shadow-sm);
+}
+
+.essay-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.essay-header-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.essay-icon {
+  color: var(--primary);
+  background: var(--primary-bg);
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+}
+
+.essay-header-title h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+.essay-header-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: var(--space-1) 0 0 0;
+  font-weight: 500;
+}
+
+.essay-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.essay-action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-lg);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  border: none;
+  outline: none;
+  min-height: 44px;
+}
+
+.essay-action-button:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.essay-action-button.primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.essay-action-button.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.essay-action-button.primary:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Tabs - Modern segmented control style */
+.essay-tabs {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-primary);
+  padding: var(--space-4) var(--space-8);
+  position: relative;
+}
+
+.essay-tabs-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.essay-tabs-list {
+  display: inline-flex;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-1);
+  position: relative;
+  box-shadow: var(--shadow-xs);
+}
+
+.essay-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: var(--space-3) var(--space-6);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.essay-tab:hover {
+  color: var(--text-primary);
+}
+
+.essay-tab.active {
+  color: var(--primary);
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Main content area */
+.essay-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-secondary);
+  min-height: 0; /* Important pour permettre le flex shrink */
+}
+
+.essay-content-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-4); /* Réduit significativement le padding */
+  overflow: hidden;
+  min-height: 0; /* Important pour permettre le flex shrink */
+  margin: 0 auto;
+  max-width: none; /* Supprime la limitation de largeur */
+  width: 100%;
+}
+
+.essay-content {
+  flex: 1;
+  max-width: none; /* Supprime la limitation de largeur */
+  width: 100%;
+  background: var(--bg-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Utilise toute la hauteur disponible */
+}
+
+.essay-content-header {
+  padding: var(--space-6) var(--space-8);
+  border-bottom: 1px solid var(--border-secondary);
+  background: var(--bg-primary);
+  flex-shrink: 0; /* Évite la compression du header */
+}
+
+.essay-content-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-1) 0;
+}
+
+.essay-content-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.essay-content-body {
+  flex: 1;
+  padding: var(--space-8);
+  overflow-y: auto;
+  background: var(--bg-primary);
+  min-height: 0; /* Important pour permettre le scroll */
+  border-radius: var(--radius-xl); /* Garde les coins arrondis */
+}
+
+/* Custom scrollbar */
+.essay-content-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.essay-content-body::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-sm);
+}
+
+.essay-content-body::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: var(--radius-sm);
+}
+
+.essay-content-body::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* Typography styles */
+.essay-paragraph {
+  margin-bottom: var(--space-8);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  position: relative;
+  font-weight: 400;
+}
+
+.essay-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+/* Diff paragraph styles - More sophisticated */
+.diff-paragraph {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, #FAFBFF 100%);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-8);
+  position: relative;
+  border: 1px solid var(--border-secondary);
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-normal);
+}
+
+.diff-paragraph:hover {
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.diff-paragraph::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* Text modifications - More elegant styling */
+.text-removed {
+  color: var(--diff-removed-text);
+  background: var(--diff-removed-bg);
+  text-decoration: line-through;
+  text-decoration-color: var(--diff-removed-text);
+  text-decoration-thickness: 1.5px;
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--diff-removed-border);
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.text-removed:hover {
+  background: #FEE2E2;
+  transform: scale(1.02);
+}
+
+.text-added {
+  color: var(--diff-added-text);
+  background: var(--diff-added-bg);
+  font-weight: 600;
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--diff-added-border);
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.text-added:hover {
+  background: #DCFCE7;
+  transform: scale(1.02);
+}
+
+/* Side-by-side view improvements */
+.essay-side-by-side {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4); /* Réduit l'espace entre les cartes */
+  height: 100%;
+  padding: var(--space-4); /* Réduit le padding global */
+  background: var(--bg-secondary);
+  overflow: hidden; /* Empêche le débordement */
+  min-height: 0; /* Important pour le flex shrink */
+}
+
+.essay-side {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  height: 100%; /* Utilise toute la hauteur disponible */
+  min-height: 0; /* Important pour permettre le flex shrink */
+}
+
+.essay-side:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-2px);
+}
+
+.essay-side-header {
+  padding: var(--space-5) var(--space-6);
+  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+  border-bottom: 1px solid var(--border-primary);
+  flex-shrink: 0; /* Évite la compression du header */
+}
+
+.essay-side-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.essay-side-header h3::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.essay-side-content {
+  flex: 1;
+  padding: var(--space-8);
+  overflow-y: auto;
+  background: var(--bg-primary);
+  min-height: 0; /* Important pour permettre le scroll */
+}
+
+/* Text highlights for side-by-side */
+.text-highlight-original,
+.text-highlight-revised {
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.text-highlight-original {
+  background: linear-gradient(135deg, var(--diff-removed-bg) 0%, #FEF2F2 100%);
+  color: var(--diff-removed-text);
+  text-decoration: line-through;
+  text-decoration-color: rgba(220, 38, 38, 0.7);
+  text-decoration-thickness: 1px;
+  border: 1px solid var(--diff-removed-border);
+}
+
+.text-highlight-revised {
+  background: linear-gradient(135deg, var(--diff-added-bg) 0%, #F0FDF4 100%);
+  color: var(--diff-added-text);
+  font-weight: 600;
+  border: 1px solid var(--diff-added-border);
+}
+
+.text-highlight-original:hover,
+.text-highlight-revised:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .essay-header {
+    padding: var(--space-4) var(--space-6);
+  }
+  
+  .essay-tabs {
+    padding: var(--space-3) var(--space-6);
+  }
+  
+  .essay-content-wrapper {
+    padding: var(--space-3); /* Encore moins de padding sur tablette */
+  }
+  
+  .essay-side-by-side {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+    padding: var(--space-3);
+  }
+  
+  /* Sur tablette, assure-toi que les cartes prennent toute la hauteur */
+  .essay-side {
+    min-height: 50vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .essay-header-content {
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+  
+  .essay-header-title h1 {
+    font-size: 20px;
+  }
+  
+  .essay-tabs-list {
+    width: 100%;
+  }
+  
+  .essay-tab {
+    flex: 1;
+    justify-content: center;
+    padding: var(--space-3) var(--space-2);
+  }
+  
+  .essay-content-wrapper {
+    padding: var(--space-2); /* Minimal padding sur mobile */
+  }
+  
+  .essay-content-body {
+    padding: var(--space-6);
+  }
+  
+  .essay-side-by-side {
+    padding: var(--space-2);
+    gap: var(--space-2);
+  }
+  
+  .essay-side-content {
+    padding: var(--space-6);
+  }
+}
+
+@media (max-width: 480px) {
+  .essay-header {
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .essay-tabs {
+    padding: var(--space-2) var(--space-4);
+  }
+  
+  .essay-action-button span {
+    display: none;
+  }
+  
+  .essay-action-button {
+    padding: var(--space-3);
+    min-width: 44px;
+  }
+}
+
+/* Focus states for accessibility */
+.essay-tab:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Animation for tab transitions */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.essay-content-body {
+  animation: slideIn var(--transition-normal);
+}

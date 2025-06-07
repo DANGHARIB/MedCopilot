@@ -1,0 +1,105 @@
+.dashboard-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-card.clickable {
+  cursor: pointer;
+}
+
+.dashboard-card.clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.dashboard-card-title {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0;
+  font-weight: 500;
+}
+
+.dashboard-card-icon {
+  color: #2563eb;
+  background: #eff6ff;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.dashboard-card-value {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 8px;
+}
+
+.dashboard-card-trend {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.dashboard-card-trend.positive {
+  color: #10b981;
+}
+
+.dashboard-card-trend.negative {
+  color: #ef4444;
+}
+
+.dashboard-card-trend.neutral {
+  color: #94a3b8;
+}
+
+.dashboard-card-trend svg {
+  margin-right: 4px;
+}
+
+.dashboard-card-description {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 8px;
+}
+
+.dashboard-card-action {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  color: #2563eb;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.dashboard-card.clickable:hover .dashboard-card-action {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+  .dashboard-card {
+    padding: 16px;
+  }
+  
+  .dashboard-card-value {
+    font-size: 1.5rem;
+  }
+} 

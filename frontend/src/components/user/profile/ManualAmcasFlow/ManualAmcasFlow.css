@@ -1,0 +1,221 @@
+/* ManualAmcasFlow.css - Design System Unifié */
+
+/* === CONTAINER PRINCIPAL === */
+.manual-amcas-flow {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  min-height: 70vh;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* === CONTENU PRINCIPAL === */
+.manual-amcas-content {
+  width: 100%;
+  transition: opacity 0.2s ease;
+}
+
+.manual-amcas-content.fade-transition {
+  opacity: 0.7;
+}
+
+/* === PLACEHOLDERS === */
+.manual-amcas-step-placeholder {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.placeholder-content {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.placeholder-title {
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+  margin: 0 0 1rem 0;
+  letter-spacing: -0.01em;
+  width: 100%;
+}
+
+.placeholder-description {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.65);
+  margin: 0 0 1.5rem 0;
+  width: 100%;
+}
+
+.placeholder-status {
+  background: rgba(0, 122, 255, 0.05);
+  border: 1px solid rgba(0, 122, 255, 0.15);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.placeholder-status p {
+  margin: 0;
+  color: #007AFF;
+  font-size: 0.875rem;
+  font-weight: 500;
+  width: 100%;
+}
+
+.placeholder-status p:first-child {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.placeholder-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.nav-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 120px;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.nav-btn-secondary {
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.nav-btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.9);
+  transform: translateY(-1px);
+}
+
+.nav-btn-primary {
+  background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+  color: white;
+  box-shadow: 0 1px 3px rgba(0, 122, 255, 0.3);
+}
+
+.nav-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 122, 255, 0.4);
+}
+
+/* === ÉTAT D'ERREUR === */
+.manual-amcas-error {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.manual-amcas-error h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #DC2626;
+  margin: 0 0 0.5rem 0;
+  width: 100%;
+}
+
+.manual-amcas-error p {
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0;
+  width: 100%;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .manual-amcas-flow {
+    padding: 0 0.75rem;
+    gap: 1rem;
+  }
+
+  .manual-amcas-step-placeholder {
+    padding: 1.5rem;
+  }
+
+  .placeholder-title {
+    font-size: 1.25rem;
+  }
+
+  .placeholder-description {
+    font-size: 0.875rem;
+  }
+
+  .placeholder-navigation {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+/* === ACCESSIBILITÉ === */
+@media (prefers-reduced-motion: reduce) {
+  .manual-amcas-content {
+    transition: none;
+  }
+  
+  .nav-btn {
+    transition: none;
+  }
+}
+
+/* === MODE SOMBRE === */
+@media (prefers-color-scheme: dark) {
+  .manual-amcas-step-placeholder,
+  .manual-amcas-error {
+    background: rgba(28, 28, 30, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .placeholder-title {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .placeholder-description {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .manual-amcas-error h2 {
+    color: #EF4444;
+  }
+
+  .manual-amcas-error p {
+    color: rgba(255, 255, 255, 0.6);
+  }
+} 

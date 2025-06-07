@@ -1,0 +1,79 @@
+/* 
+ * Styles pour le composant Breadcrumbs
+ * Basé sur les différentes implémentations dans le projet
+ */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 0;
+  font-size: 14px;
+}
+
+.breadcrumb-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-icon {
+  display: inline-flex;
+  margin-right: 4px;
+  color: inherit;
+}
+
+.breadcrumb-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-light, #64748b);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.breadcrumb-link:hover {
+  color: var(--primary, #3a86ff);
+}
+
+.breadcrumb-text {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-light, #64748b);
+  font-weight: 500;
+}
+
+.breadcrumb-active {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text, #334155);
+  font-weight: 500;
+}
+
+.breadcrumb-separator {
+  display: flex;
+  align-items: center;
+  color: var(--text-lighter, #94a3b8);
+  margin: 0 8px;
+}
+
+.breadcrumb-separator-icon {
+  display: inline-block;
+}
+
+/* Responsive styles */
+@media (max-width: 640px) {
+  .breadcrumb {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  
+  .breadcrumb-separator {
+    margin: 0 6px;
+  }
+} 

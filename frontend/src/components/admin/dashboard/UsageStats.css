@@ -1,0 +1,60 @@
+.usage-stats-section {
+    margin-bottom: 8px;
+  }
+  
+  .section-header {
+    margin-bottom: 16px;
+  }
+  
+  .section-title-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #3b82f6;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+  }
+  
+  .section-title-icon {
+    color: #3b82f6;
+  }
+  
+  /* Statistics Grid */
+  .statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  
+  .statistic-item {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    background-color: #f8fafc;
+    border-radius: 10px;
+  }
+  
+  .statistic-label {
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 6px;
+  }
+  
+  .statistic-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  
+  @media (max-width: 768px) {
+    .statistics-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }

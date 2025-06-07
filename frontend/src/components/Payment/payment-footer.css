@@ -1,0 +1,78 @@
+/* Payment Footer Styles - Avec préfixe 'pay-' pour éviter les conflits */
+.pay-footer {
+  padding: 2rem 1.5rem;
+  background-color: var(--bg-light, #ffffff);
+  border-top: 1px solid var(--border-light, #eaecf0);
+  margin-top: 3rem;
+}
+
+.pay-footer-container {
+  max-width: 28rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.pay-terms-text {
+  color: var(--text-secondary, #64748b);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  text-align: center;
+  font-weight: 400;
+  margin: 0;
+}
+
+.pay-link-button {
+  background: transparent;
+  border: none;
+  color: var(--primary-color, #3b82f6);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.pay-link-button:hover {
+  color: var(--primary-dark, #2563eb);
+  text-decoration: underline;
+}
+
+.pay-link-button:focus {
+  outline: 2px solid var(--primary-light, #93c5fd);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.pay-security-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--text-tertiary, #94a3b8);
+  font-size: 0.75rem;
+  background-color: var(--bg-subtle, #f1f5f9);
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-subtle, #e2e8f0);
+  transition: transform 0.15s ease;
+}
+
+.pay-security-badge:hover {
+  transform: translateY(-1px);
+}
+
+.pay-security-icon {
+  color: var(--success-color, #10b981);
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .pay-footer {
+    padding: 1.5rem 1rem;
+  }
+}

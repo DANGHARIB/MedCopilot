@@ -1,0 +1,57 @@
+/* Payment Header Styles */
+.payment-header {
+    margin-bottom: 2rem;
+  }
+  
+  .back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    background-color: transparent;
+    border: none;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-bottom: 2rem;
+  }
+  
+  .back-button:hover {
+    color: var(--text-primary);
+  }
+  
+  .back-button .icon {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .payment-header-content {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .payment-header-content h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+  }
+  
+  .payment-header-content p {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 640px) {
+    .payment-header-content h1 {
+      font-size: 1.75rem;
+    }
+    
+    .payment-header-content p {
+      font-size: 1rem;
+    }
+  }

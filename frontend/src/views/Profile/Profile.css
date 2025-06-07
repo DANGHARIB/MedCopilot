@@ -1,0 +1,79 @@
+/* Styles pour les sections de profil individuelles */
+.profile-content-container {
+  width: 100%;
+  max-width: none; /* Supprimer la limite de largeur */
+  margin: 0 auto;
+  /* Permettre une flexibilité dans la height */
+  min-height: fit-content;
+  /* S'assurer que le contenu s'étend complètement */
+  flex: 1;
+}
+
+.profile-section-container {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: clamp(1rem, 3vw, 1.5rem); /* Padding responsive */
+  border: 1px solid #edf2f7;
+  width: 100%;
+  margin: 0; /* Assurer qu'il n'y a pas de marge */
+}
+
+.profile-section {
+  background-color: transparent;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  border: none;
+  width: 100%;
+}
+
+.profile-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #334155;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+/* Style spécifique pour ProfileInformation */
+.profile-info-section {
+  padding: 0;
+}
+
+/* Styles spécifiques aux différentes sections */
+.agent-card, .school-card, .subscription-card {
+  margin-bottom: 1.5rem;
+  padding: clamp(1rem, 2.5vw, 1.5rem); /* Padding responsive */
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f1f5f9;
+  width: 100%;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .profile-section-container {
+    padding: 1rem;
+    border-radius: 12px;
+    margin: 0; /* Pas de marge sur mobile */
+  }
+  
+  .profile-content-container {
+    margin-top: 0;
+    padding-top: 0;
+    width: 100%;
+  }
+}
+
+/* Styles pour les largeurs moyennes (sidebar étroite) */
+@media (min-width: 769px) and (max-width: 1200px) {
+  .profile-section-container {
+    padding: 1.25rem;
+  }
+  
+  .agent-card, .school-card, .subscription-card {
+    padding: 1.25rem;
+  }
+}

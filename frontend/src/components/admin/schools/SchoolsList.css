@@ -1,0 +1,36 @@
+.schools-list-container {
+  width: 100%;
+}
+
+.schools-list-header {
+  margin-bottom: 16px;
+}
+
+.schools-filter-row {
+  margin-bottom: 20px;
+}
+
+.schools-search-input {
+  width: 100%;
+}
+
+.schools-filter-select {
+  width: 100%;
+}
+
+.schools-list-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.schools-pagination {
+  margin-top: 16px;
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .schools-filter-row > div {
+    margin-bottom: 12px;
+  }
+} 

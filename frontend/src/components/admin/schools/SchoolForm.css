@@ -1,0 +1,74 @@
+.school-form-container {
+  width: 100%;
+}
+
+.school-form-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.school-form-title {
+  margin: 0 !important;
+}
+
+.school-form-section {
+  margin-bottom: 24px;
+}
+
+.school-form-section-title {
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.school-form-divider {
+  margin: 24px 0;
+}
+
+.school-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.school-form-dynamic-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.school-form-dynamic-item-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.school-form-add-button {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.school-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .school-form-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .school-form-dynamic-item {
+    flex-direction: column;
+  }
+  
+  .school-form-dynamic-item-actions {
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+} 

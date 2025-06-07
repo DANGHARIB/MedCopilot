@@ -1,0 +1,1255 @@
+/* ========================================
+   SchoolPicker.css - Étape 4: Medical School List
+   Design: Minimaliste Jony Ive, cohérent avec le flow
+   ======================================== */
+
+/* Reset général */
+* {
+  box-sizing: border-box;
+}
+
+/* Reset spécifique */
+.school-picker h1, 
+.school-picker h2, 
+.school-picker h3, 
+.school-picker h4, 
+.school-picker h5, 
+.school-picker h6 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-weight: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* === CONTAINER PRINCIPAL === */
+.school-picker {
+  width: 100%;
+  min-height: 100vh;
+  background: rgba(249, 250, 251, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+/* === CONTAINER UNIFIÉ - SINGLE CARD === */
+.school-picker-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  
+  /* GRID LAYOUT: Header / Contenu flexible / Navigation */
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 0;
+}
+
+/* === HEADER - Style cohérent avec les autres composants === */
+.school-picker-header {
+  padding: 2rem 1.5rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.header-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.header-text-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.school-picker-container .header-title {
+  font-size: 3.5rem !important;
+  font-weight: 700 !important;
+  color: rgba(0, 0, 0, 0.9) !important;
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.045em !important;
+  line-height: 0.85 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  outline: none !important;
+}
+
+.header-title-highlight {
+  color: var(--color-info, #007AFF);
+  background: linear-gradient(135deg, var(--color-info, #007AFF) 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-subtitle {
+  font-size: 1.25rem;
+  font-weight: 500 !important;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.65);
+  margin: 0;
+}
+
+.help-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(0, 122, 255, 0.05);
+  border: 1px solid rgba(0, 122, 255, 0.15);
+  border-radius: 0.75rem;
+  color: #007AFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  height: fit-content;
+  align-self: flex-start;
+}
+
+.help-toggle:hover {
+  background: rgba(0, 122, 255, 0.1);
+  border-color: rgba(0, 122, 255, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.15);
+}
+
+.help-toggle-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* Panel d'aide */
+.help-panel {
+  background: rgba(0, 122, 255, 0.05);
+  border-top: 1px solid rgba(0, 122, 255, 0.15);
+  border-bottom: 1px solid rgba(0, 122, 255, 0.15);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-top: 1.5rem;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.help-content {
+  width: 100%;
+}
+
+.help-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #007AFF;
+  margin: 0 0 0.75rem 0;
+}
+
+.help-tips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+.tip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.tip-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #34D399;
+  flex-shrink: 0;
+}
+
+/* === CORPS PRINCIPAL === */
+.school-picker-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  flex: 1;
+}
+
+/* === ZONE DE RECHERCHE ET FILTRES === */
+.school-picker-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 1.25rem 1rem 3rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  background: rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #007AFF;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.search-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+  font-style: italic;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.filter-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.625rem;
+  background: rgba(0, 0, 0, 0.02);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.filter-button:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.filter-button.active {
+  background: #007AFF;
+  border-color: #007AFF;
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 122, 255, 0.3);
+}
+
+.filter-button.active svg {
+  color: #ffffff;
+}
+
+/* === ÉCOLES SÉLECTIONNÉES - RÉSUMÉ === */
+.selected-schools-summary {
+  background: rgba(0, 122, 255, 0.05);
+  border: 1px solid rgba(0, 122, 255, 0.15);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.summary-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #007AFF;
+  margin: 0 0 1rem 0;
+}
+
+.selected-schools-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.selected-school-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: white;
+  border: 1px solid rgba(0, 122, 255, 0.15);
+  border-radius: 0.625rem;
+  padding: 0.75rem;
+  max-width: 300px;
+}
+
+  .school-chip-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+.school-chip-name {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.school-chip-location {
+  display: block;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.school-chip-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.school-chip-remove:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.school-chip-priority {
+  font-size: 0.625rem;
+  font-weight: 600;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+  align-self: flex-start;
+}
+
+.priority-high {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+}
+
+.priority-medium {
+  background: rgba(251, 191, 36, 0.1);
+  color: #f59e0b;
+}
+
+.priority-low {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+/* === TABLE SECTION === */
+.schools-table-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.table-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+  margin: 0;
+}
+
+.table-count {
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.04);
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+}
+
+.results-summary {
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 1rem 0 0 0;
+  text-align: center;
+}
+
+/* === STYLES POUR LA TABLE === */
+.custom-table .school-rank {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.custom-table .rank-badge-top {
+  background: rgba(255, 193, 7, 0.1);
+  color: #f59e0b;
+}
+
+.custom-table .rank-badge-excellent {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.custom-table .school-name {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.actions-cell {
+  display: flex;
+  justify-content: center;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  backdrop-filter: blur(8px);
+}
+
+.save-button {
+  background: rgba(0, 122, 255, 0.08);
+  color: #007AFF;
+  border: 1px solid rgba(0, 122, 255, 0.12);
+}
+
+.save-button:hover {
+  background: rgba(0, 122, 255, 0.12);
+  border-color: rgba(0, 122, 255, 0.2);
+  transform: translateY(-0.5px);
+  box-shadow: 0 1px 3px rgba(0, 122, 255, 0.15);
+}
+
+.save-button:active {
+  transform: translateY(0);
+  background: rgba(0, 122, 255, 0.15);
+}
+
+.unsave-button {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.unsave-button:hover {
+  background: rgba(239, 68, 68, 0.04);
+  border-color: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+  transform: translateY(-0.5px);
+  box-shadow: 0 1px 2px rgba(239, 68, 68, 0.1);
+}
+
+.unsave-button:active {
+  transform: translateY(0);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.action-icon {
+  display: flex;
+  align-items: center;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+}
+
+.badge-success {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+/* === DÉTAILS DES ÉCOLES === */
+.school-details {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.details-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+  margin: 0;
+}
+
+.detail-card {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 0.625rem;
+  padding: 1.25rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detail-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.website-link {
+  color: #007AFF;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.website-link:hover {
+  text-decoration: underline;
+}
+
+.external-link-icon {
+  flex-shrink: 0;
+}
+
+.detail-full {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.metric-card {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.625rem;
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.metric-icon {
+  color: #007AFF;
+  background: rgba(0, 122, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metric-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+/* === NAVIGATION === */
+.school-picker-navigation {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  white-space: nowrap;
+}
+
+.nav-btn-secondary {
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.nav-btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.9);
+  transform: translateY(-1px);
+}
+
+.nav-btn-primary {
+  background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+  color: white;
+  box-shadow: 0 1px 3px rgba(0, 122, 255, 0.3);
+}
+
+.nav-btn-primary:hover:not(.disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 122, 255, 0.4);
+}
+
+.nav-btn-primary.disabled {
+  background: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.3);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.nav-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  justify-self: center;
+}
+
+.progress-text {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.typing-dots {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.dot {
+  width: 0.25rem;
+  height: 0.25rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.dot:nth-child(1) { animation-delay: -0.32s; }
+.dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing {
+  0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* === TOAST NOTIFICATIONS === */
+.school-picker-toast {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+  animation: slideInRight 0.3s ease;
+}
+
+.school-picker-toast.toast-success {
+  border-left: 4px solid #34D399;
+}
+
+.school-picker-toast.toast-error {
+  border-left: 4px solid #dc2626;
+}
+
+.toast-close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.toast-close-button:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* === MODAL DE PRIORITÉ === */
+.priority-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+.priority-modal {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 16px 64px rgba(0, 0, 0, 0.15);
+  animation: scaleIn 0.2s ease;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.priority-modal-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.priority-modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+  margin: 0 0 0.5rem 0;
+}
+
+.priority-modal-subtitle {
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.6);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.priority-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.priority-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  background: rgba(0, 0, 0, 0.02);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+}
+
+.priority-option:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.priority-option.priority-high:hover {
+  background: rgba(239, 68, 68, 0.05);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.priority-option.priority-medium:hover {
+  background: rgba(251, 191, 36, 0.05);
+  border-color: rgba(251, 191, 36, 0.2);
+}
+
+.priority-option.priority-low:hover {
+  background: rgba(34, 197, 94, 0.05);
+  border-color: rgba(34, 197, 94, 0.2);
+}
+
+.priority-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.priority-high .priority-dot {
+  background: #dc2626;
+}
+
+.priority-medium .priority-dot {
+  background: #f59e0b;
+}
+
+.priority-low .priority-dot {
+  background: #22c55e;
+}
+
+.priority-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.priority-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.priority-description {
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.priority-modal-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.priority-cancel-btn {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.5rem;
+  background: rgba(0, 0, 0, 0.02);
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.priority-cancel-btn:hover {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+  .school-picker-container {
+    border-radius: 0.75rem;
+  }
+  
+  .school-picker-header {
+    padding: 1.5rem 1rem 1rem;
+  }
+  
+  .header-main-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .school-picker-container .header-title {
+    font-size: 2.75rem !important;
+    line-height: 0.9 !important;
+  }
+  
+  .help-toggle {
+    align-self: flex-end;
+    font-size: 0.8125rem;
+    padding: 0.625rem 1rem;
+  }
+  
+  .header-subtitle {
+    font-size: 0.9375rem;
+  }
+  
+  .help-panel {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .help-tips {
+    grid-template-columns: 1fr;
+    gap: 0.375rem;
+  }
+  
+  .school-picker-body {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+  
+  .filter-buttons {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  
+  .selected-schools-grid {
+    flex-direction: column;
+  }
+  
+  .selected-school-chip {
+    max-width: none;
+  }
+  
+  .school-picker-navigation {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 0.75rem;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .nav-progress {
+    order: -1;
+  }
+  
+  .nav-btn {
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .detail-cards-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+  
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .priority-modal {
+    margin: 1rem;
+    max-width: 350px;
+  }
+  
+  .priority-options {
+    gap: 0.5rem;
+  }
+  
+  .priority-option {
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+}
+
+/* === ACCESSIBILITÉ === */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === MODE SOMBRE === */
+@media (prefers-color-scheme: dark) {
+  .school-picker {
+    background: rgba(15, 23, 42, 0.95);
+  }
+  
+  .school-picker-container {
+    background: rgba(28, 28, 30, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .school-picker-header {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+  }
+  
+  .school-picker-navigation {
+    border-top-color: rgba(255, 255, 255, 0.06);
+  }
+  
+  .school-picker-container .header-title {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+  
+  .header-subtitle,
+  .progress-text {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .search-input {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .search-input:focus {
+    background: rgba(28, 28, 30, 0.95);
+  }
+  
+  .search-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+  
+  .filter-button {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .filter-button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .selected-schools-summary {
+    background: rgba(0, 122, 255, 0.1);
+    border-color: rgba(0, 122, 255, 0.2);
+  }
+  
+  .selected-school-chip {
+    background: rgba(28, 28, 30, 0.8);
+    border-color: rgba(0, 122, 255, 0.2);
+  }
+  
+  .school-chip-name {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .school-chip-location {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .table-title {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .table-count {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .school-details,
+  .detail-card,
+  .metric-card {
+    background: rgba(35, 35, 37, 0.8);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .section-title {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .detail-label {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .detail-value {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .nav-btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .nav-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  
+  .typing-indicator {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .dot {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .priority-modal {
+    background: rgba(28, 28, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .priority-modal-title {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .priority-modal-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .priority-option {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .priority-option:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  .priority-label {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .priority-description {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .priority-cancel-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .priority-cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+} 

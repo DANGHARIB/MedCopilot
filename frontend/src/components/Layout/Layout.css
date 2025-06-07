@@ -1,0 +1,176 @@
+/* Layout.css - Simplifié pour un header non-fixe */
+
+:root {
+  /* Palette de couleurs */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: rgba(37, 99, 235, 0.1);
+  --dark: #0f172a;
+  --light: #f8fafc;
+  --gray: #64748b;
+  --gray-light: #e2e8f0;
+  --gray-lighter: #f1f5f9;
+  --white: #ffffff;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --border-radius: 8px;
+
+  /* Dimensions ajustées */
+  --banner-height: 40px; /* Gardé pour référence si besoin ailleurs */
+  --footer-height: 80px; /* Gardé pour référence si besoin ailleurs */
+  --transition-speed: 0.25s;
+  --content-max-width: 1280px;
+
+  /* Hauteurs header pour référence si besoin ailleurs (ex: transitions) */
+  --header-height-default: 100px;
+  --header-height-scrolled: 80px;
+}
+
+/* ----------- Base du layout ----------- */
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--white);
+  position: relative;
+}
+
+/* ----------- Contenu principal ----------- */
+/* Le contenu principal n'a plus besoin de padding-top dynamique */
+/* car le header n'est plus position: fixed */
+.layout__main-content,
+.layout__main-content-with-padding {
+  flex: 1;
+  width: 100%;
+  background-color: var(--white);
+  position: relative;
+  padding-top: 0; /* Assurer qu'il n'y a pas de padding résiduel */
+  margin-top: 0; /* Assurer qu'il n'y a pas de marge résiduelle */
+  transition: none; /* Plus besoin de transition sur le padding */
+}
+
+/* --- TOUTES LES RÈGLES DE PADDING-TOP DYNAMIQUES SONT SUPPRIMÉES --- */
+/* .header--scrolled-or-inner ~ .layout__main-content, ... */
+/* .layout--banner-visible .layout__main-content, ... */
+/* .layout--banner-visible .header--scrolled-or-inner ~ .layout__main-content, ... */
+
+/* ----------- Bouton retour en haut ----------- */
+/* Le bouton reste fixed par rapport à la fenêtre */
+.layout__back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: white;
+  color: var(--primary);
+  border: none;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.2s ease, color 0.2s ease;
+  pointer-events: none;
+}
+
+.layout__back-to-top--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.layout__back-to-top:hover {
+  background-color: var(--primary);
+  color: white;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+}
+
+/* ----------- Conteneur de contenu générique ----------- */
+.layout__container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+}
+
+/* ----------- Sections communes ----------- */
+.section {
+  padding: 64px 0;
+}
+
+.section--light {
+  background-color: var(--gray-lighter);
+}
+
+.section--gray {
+  background-color: var(--gray-light);
+}
+
+.section__header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section__title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--dark);
+}
+
+.section__subtitle {
+  font-size: 18px;
+  color: var(--gray);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ----------- Grille responsive ----------- */
+.grid {
+  display: grid;
+  gap: 24px;
+  width: 100%;
+}
+
+.grid--2-cols {
+  grid-template-columns: 1fr;
+}
+
+.grid--3-cols {
+  grid-template-columns: 1fr;
+}
+
+.grid--4-cols {
+  grid-template-columns: 1fr;
+}
+
+/* ----------- Media Queries ----------- */
+@media (min-width: 768px) {
+  .layout__container {
+    padding: 0 32px;
+  }
+
+  .grid--2-cols,
+  .grid--3-cols,
+  .grid--4-cols {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .layout__container {
+    padding: 0 48px;
+  }
+
+  .grid--3-cols {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid--4-cols {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

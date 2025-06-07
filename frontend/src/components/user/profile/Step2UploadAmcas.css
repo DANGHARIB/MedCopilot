@@ -1,0 +1,271 @@
+/* Step2UploadAmcas.css - Style révisé */
+.upload-amcas-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-gray-800);
+  margin: 0 0 var(--spacing-2) 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.upload-amcas-description {
+  color: var(--color-gray-600);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: var(--spacing-6);
+  background-color: rgba(0, 0, 0, 0.01);
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.upload-amcas-dropzone {
+  border: 2px dashed var(--color-gray-300);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  transition: var(--transition-normal);
+  cursor: pointer;
+  margin-bottom: var(--spacing-6);
+  min-height: 320px;
+}
+
+.upload-amcas-dropzone:hover {
+  border-color: var(--color-primary);
+  background-color: rgba(0, 120, 212, 0.02);
+}
+
+.upload-amcas-dropzone.dragging {
+  background-color: rgba(0, 120, 212, 0.03);
+  border-color: var(--color-primary);
+  transform: scale(1.005);
+  border-width: 3px;
+}
+
+.upload-amcas-dropzone.error {
+  border-color: var(--color-error);
+  background-color: rgba(220, 38, 38, 0.03);
+}
+
+.upload-amcas-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  /* Suppression des styles de carte blanche */
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.upload-amcas-icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-500);
+  margin-bottom: var(--spacing-4);
+  opacity: 0.85;
+  transition: var(--transition-normal);
+  /* Suppression du fond blanc et de la bordure */
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.upload-amcas-dropzone:hover .upload-amcas-icon {
+  color: var(--color-primary);
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.upload-amcas-dropzone.dragging .upload-amcas-icon {
+  color: var(--color-primary);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.upload-amcas-dropzone-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-gray-800);
+  margin: 0 0 var(--spacing-2) 0;
+  transition: var(--transition-normal);
+  width: 100%;
+  text-align: center;
+}
+
+.upload-amcas-dropzone:hover .upload-amcas-dropzone-title {
+  color: var(--color-primary);
+}
+
+.upload-amcas-dropzone-text {
+  color: var(--color-gray-600);
+  font-size: 0.9rem;
+  margin: 0 0 var(--spacing-2) 0;
+  max-width: 400px;
+}
+
+.upload-amcas-dropzone-info {
+  color: var(--color-gray-500);
+  font-size: 0.75rem;
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.upload-amcas-file-info {
+  display: flex;
+  align-items: center;
+  color: var(--color-gray-600);
+  font-size: 0.875rem;
+  margin: 0 0 var(--spacing-4) 0;
+  padding: var(--spacing-2) var(--spacing-3);
+  background-color: white;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 170, 114, 0.2);
+  background-color: rgba(0, 170, 114, 0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  justify-content: center;
+}
+
+.upload-amcas-error {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: var(--spacing-2) 0;
+  display: flex;
+  align-items: center;
+  background-color: rgba(220, 38, 38, 0.05);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(220, 38, 38, 0.15);
+  width: 100%;
+  justify-content: center;
+}
+
+.upload-amcas-error svg {
+  margin-right: var(--spacing-2);
+}
+
+.upload-amcas-browse-button {
+  background-color: var(--color-info);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.625rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  margin-top: 24px;
+}
+
+.upload-amcas-browse-button:hover {
+  background-color: var(--color-info-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.upload-amcas-browse-button svg {
+  margin-right: var(--spacing-2);
+}
+
+.upload-amcas-file-input {
+  display: none;
+}
+
+.upload-amcas-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-6);
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.profile-button-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: var(--color-gray-600);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-gray-300);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  min-width: 120px;
+}
+
+.profile-button-secondary:hover {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-400);
+  color: var(--color-gray-700);
+}
+
+.profile-button-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-info);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-normal);
+  min-width: 120px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+.profile-button-primary:hover {
+  background-color: var(--color-info-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.profile-button-primary:disabled {
+  background-color: var(--color-gray-300);
+  color: var(--color-gray-500);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .upload-amcas-dropzone {
+    padding: var(--spacing-5);
+  }
+  
+  .upload-amcas-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: var(--spacing-3);
+  }
+  
+  .upload-amcas-actions {
+    flex-direction: column-reverse;
+    gap: var(--spacing-3);
+  }
+  
+  .profile-button-secondary,
+  .profile-button-primary {
+    width: 100%;
+  }
+}

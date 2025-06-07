@@ -1,0 +1,520 @@
+/* =================================================================
+   Table All Essays - Tableau de tous les essays avec colonne école
+   Design minimaliste et élégant dans l'esprit Apple
+   ================================================================= */
+
+.table-all-essays-container {
+  background: #ffffff;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* =================================================================
+   Header de la table
+   ================================================================= */
+
+.table-all-essays-header {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr 180px 160px;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  align-items: center;
+}
+
+.table-all-essays-header-cell {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+/* =================================================================
+   Corps de la table
+   ================================================================= */
+
+.table-all-essays-body {
+  background: #ffffff;
+}
+
+.table-all-essays-card {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr 180px 160px;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #f1f5f9;
+  align-items: center;
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.table-all-essays-card:hover {
+  background: #fafbfc;
+}
+
+.table-all-essays-card.clickable-row {
+  cursor: pointer;
+}
+
+.table-all-essays-card.clickable-row:hover {
+  background: #f0f9ff;
+  border-color: #e0f2fe;
+}
+
+.table-all-essays-card:last-child {
+  border-bottom: none;
+}
+
+/* =================================================================
+   Section École
+   ================================================================= */
+
+.table-all-essays-cell.essay-school {
+  min-width: 0;
+}
+
+.essay-school-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.essay-school-logo {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.essay-school-logo-text {
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+}
+
+.essay-school-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.essay-school-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.essay-school-location {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =================================================================
+   Section Sujet d'Essay
+   ================================================================= */
+
+.table-all-essays-cell.essay-topic {
+  min-width: 0;
+}
+
+.essay-topic-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.essay-topic-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.essay-topic-icon {
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.essay-topic-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.essay-topic-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.essay-limit-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  background: #f1f5f9;
+  color: #475569;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid #e2e8f0;
+}
+
+/* =================================================================
+   Section Contexte
+   ================================================================= */
+
+.table-all-essays-cell.essay-context {
+  min-width: 0;
+}
+
+.essay-context-content {
+  display: flex;
+  align-items: flex-start;
+}
+
+.essay-context-text {
+  font-size: 0.875rem;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.essay-context-empty {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: #9ca3af;
+  margin: 0;
+  font-style: italic;
+}
+
+.context-icon {
+  flex-shrink: 0;
+}
+
+/* =================================================================
+   Section Statut
+   ================================================================= */
+
+.table-all-essays-cell.essay-status {
+  min-width: 0;
+}
+
+.essay-status-content {
+  display: flex;
+  align-items: center;
+}
+
+.essay-status-generated,
+.essay-status-pending {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+}
+
+.essay-status-generated {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.essay-status-generated .status-icon {
+  color: #059669;
+}
+
+.essay-status-pending {
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+}
+
+.essay-status-pending .status-icon {
+  color: #d97706;
+}
+
+.status-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.status-label {
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.2;
+}
+
+.status-date {
+  font-size: 0.75rem;
+  color: #6b7280;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* =================================================================
+   Section Actions
+   ================================================================= */
+
+.table-all-essays-cell.essay-actions {
+  min-width: 0;
+}
+
+.essay-actions-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.essay-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 0.5rem;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #ffffff;
+}
+
+.essay-action-btn .btn-icon {
+  color: inherit;
+}
+
+/* Bouton Generate */
+.essay-action-btn.generate-btn {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.essay-action-btn.generate-btn:hover {
+  background: #2563eb;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* Bouton View */
+.essay-action-btn.view-btn {
+  border-color: #059669;
+  color: #059669;
+}
+
+.essay-action-btn.view-btn:hover {
+  background: #059669;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(5, 150, 105, 0.3);
+}
+
+/* Bouton Edit */
+.essay-action-btn.edit-btn {
+  border-color: #d97706;
+  color: #d97706;
+}
+
+.essay-action-btn.edit-btn:hover {
+  background: #d97706;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(217, 119, 6, 0.3);
+}
+
+/* Bouton Delete */
+.essay-action-btn.delete-btn {
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+.essay-action-btn.delete-btn:hover {
+  background: #dc2626;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+}
+
+/* =================================================================
+   États de chargement et vide
+   ================================================================= */
+
+.table-all-essays-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1.5rem;
+}
+
+.table-all-essays-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f4f6;
+  border-top: 3px solid #2563eb;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.table-all-essays-loading p {
+  color: #6b7280;
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+.table-all-essays-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.table-all-essays-empty-icon {
+  color: #d1d5db;
+}
+
+.table-all-essays-empty h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.table-all-essays-empty p {
+  color: #6b7280;
+  margin: 0;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+/* =================================================================
+   Animation du spinner
+   ================================================================= */
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* =================================================================
+   Responsive Design
+   ================================================================= */
+
+@media (max-width: 1200px) {
+  .table-all-essays-header,
+  .table-all-essays-card {
+    grid-template-columns: 180px 1fr 0.8fr 160px 140px;
+    gap: 1rem;
+  }
+  
+  .essay-school-name {
+    font-size: 0.8125rem;
+  }
+  
+  .essay-topic-title {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .table-all-essays-header,
+  .table-all-essays-card {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+  }
+  
+  .table-all-essays-header {
+    display: none; /* Masquer l'en-tête sur mobile */
+  }
+  
+  .table-all-essays-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 1rem;
+  }
+  
+  .table-all-essays-card:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Réorganiser les sections pour mobile */
+  .essay-school-content {
+    justify-content: flex-start;
+  }
+  
+  .essay-actions-content {
+    justify-content: center;
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-all-essays-container {
+    padding: 0;
+  }
+  
+  .table-all-essays-card {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .essay-actions-content {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .essay-school-content {
+    gap: 0.5rem;
+  }
+  
+  .essay-school-logo {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .essay-school-logo-text {
+    font-size: 0.75rem;
+  }
+  
+  .essay-action-btn {
+    width: 32px;
+    height: 32px;
+  }
+} 

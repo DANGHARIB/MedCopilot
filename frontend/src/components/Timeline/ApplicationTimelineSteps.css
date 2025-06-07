@@ -1,0 +1,357 @@
+/* ApplicationTimelineSteps.css */
+
+:root {
+  --step-animation-delay: 0.15s;
+  --path-animation-duration: 0.8s;
+}
+
+.timeline-steps-card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  padding: 24px;
+  margin-top: 24px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+.timeline-steps-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.timeline-steps-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.timeline-steps-title h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.timeline-subtitle {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+/* Journey-style timeline visualization */
+.timeline-journey {
+  position: relative;
+  width: 100%;
+  margin: 30px 0;
+}
+
+/* Path container */
+.timeline-path-container {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  padding: 50px 0;
+}
+
+/* The path itself */
+.timeline-path {
+  position: relative;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Path line */
+.timeline-path::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--primary);
+  transform: translateY(-50%);
+  z-index: 1;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Step positioning */
+.timeline-step-position {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100% / 6); /* For 6 steps */
+  transition: transform 0.3s ease;
+}
+
+.timeline-step-position:hover {
+  transform: translateY(-5px);
+}
+
+/* Top/bottom positioning */
+.timeline-step-position--top {
+  flex-direction: column;
+}
+
+.timeline-step-position--bottom {
+  flex-direction: column-reverse;
+}
+
+/* Connector */
+.timeline-connector {
+  width: 3px;
+  height: 40px;
+  background-color: var(--primary);
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-step-position--top .timeline-connector {
+  margin-top: 10px;
+}
+
+.timeline-step-position--bottom .timeline-connector {
+  margin-bottom: 10px;
+}
+
+/* Step number on the connector */
+.timeline-step-number {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: white;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  border: 2px solid white;
+}
+
+/* Step cards */
+.timeline-step-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.07);
+  padding: 14px;
+  width: 130px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.timeline-step-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.timeline-step-card.completed {
+  border-left: 3px solid var(--green-medium);
+}
+
+.timeline-step-card.current {
+  border-left: 3px solid var(--primary);
+  background-color: var(--primary-light);
+}
+
+.timeline-step-card.upcoming {
+  border-left: 3px solid var(--border-color);
+}
+
+/* Step icon */
+.timeline-step-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+}
+
+/* Colors for step indicators */
+.timeline-step-icon-wrapper.orange {
+  background-color: var(--orange-medium);
+}
+
+.timeline-step-icon-wrapper.red {
+  background-color: var(--red-medium);
+}
+
+.timeline-step-icon-wrapper.red-dark {
+  background-color: var(--red-dark);
+}
+
+.timeline-step-icon-wrapper.amber {
+  background-color: var(--amber-medium);
+}
+
+.timeline-step-icon-wrapper.green {
+  background-color: var(--green-medium);
+}
+
+.timeline-step-number.orange {
+  background-color: var(--orange-medium);
+}
+
+.timeline-step-number.red {
+  background-color: var(--red-medium);
+}
+
+.timeline-step-number.red-dark {
+  background-color: var(--red-dark);
+}
+
+.timeline-step-number.amber {
+  background-color: var(--amber-medium);
+}
+
+.timeline-step-number.green {
+  background-color: var(--green-medium);
+}
+
+/* Step text */
+.timeline-step-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 6px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.timeline-step-date {
+  font-size: 12px;
+  color: var(--text-light);
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Legend section */
+.timeline-steps-legend {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 30px 0 20px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.legend-marker {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.legend-marker.completed {
+  background-color: var(--green-medium);
+}
+
+.legend-marker.current {
+  background-color: var(--primary);
+}
+
+.legend-marker.upcoming {
+  background-color: var(--border-color);
+  border: 1px solid var(--text-light);
+}
+
+/* Footer */
+.timeline-steps-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.timeline-steps-footer .btn {
+  padding: 10px 20px;
+  font-weight: 500;
+}
+
+/* Media Queries */
+@media screen and (max-width: 992px) {
+  .timeline-path-container {
+    overflow-x: auto;
+    padding: 40px 0;
+  }
+  
+  .timeline-path {
+    min-width: 700px;
+  }
+  
+  .timeline-step-card {
+    width: 110px;
+    padding: 12px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .timeline-steps-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .timeline-steps-actions {
+    width: 100%;
+  }
+  
+  .timeline-steps-actions .btn {
+    width: 100%;
+  }
+  
+  .timeline-journey {
+    margin: 20px -15px;
+  }
+  
+  .timeline-path-container {
+    padding: 40px 15px;
+  }
+  
+  .timeline-path {
+    min-width: 800px;
+    padding: 0 20px;
+  }
+  
+  .timeline-step-card {
+    width: 100px;
+    padding: 10px;
+  }
+  
+  .timeline-step-icon-wrapper {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .timeline-step-title {
+    font-size: 13px;
+  }
+}

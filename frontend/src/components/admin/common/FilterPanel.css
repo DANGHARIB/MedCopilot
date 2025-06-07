@@ -1,0 +1,214 @@
+.filter-panel {
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.filter-panel.expanded {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.filter-panel.has-active-filters {
+  border-color: #3b82f6;
+  border-width: 1px;
+}
+
+.filter-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.filter-panel-header:hover {
+  background-color: #f8fafc;
+}
+
+.filter-panel-title {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: #1e293b;
+  gap: 10px;
+  font-size: 0.9375rem;
+}
+
+.filter-icon {
+  color: #3b82f6;
+}
+
+.active-filters-chip {
+  height: 20px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+.filter-expand-button {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.filter-expand-button:hover {
+  background-color: #f1f5f9;
+  color: #334155;
+}
+
+.filter-panel-content {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-top: 1px solid #e2e8f0;
+  animation: slideDown 0.25s ease;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  width: calc(25% - 12px);
+  min-width: 190px;
+}
+
+.filter-panel-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 20px;
+  gap: 12px;
+  border-top: 1px solid #e2e8f0;
+  animation: slideDown 0.3s ease;
+}
+
+.filter-reset-button {
+  color: #475569 !important;
+  border-color: #e2e8f0 !important;
+  background-color: #f8fafc !important;
+  text-transform: none !important;
+}
+
+.filter-reset-button:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.filter-apply-button {
+  background-color: #3b82f6 !important;
+  color: white !important;
+  text-transform: none !important;
+}
+
+.filter-apply-button:hover {
+  background-color: #2563eb !important;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom styling for MUI components */
+.filter-panel .MuiOutlinedInput-root {
+  font-size: 0.875rem;
+}
+
+.filter-panel .MuiInputLabel-root {
+  font-size: 0.8125rem;
+}
+
+.filter-panel .MuiMenuItem-root {
+  font-size: 0.875rem;
+  min-height: 36px;
+}
+
+.filter-panel .MuiRadio-root,
+.filter-panel .MuiCheckbox-root {
+  padding: 4px;
+}
+
+.filter-panel .MuiFormControlLabel-label {
+  font-size: 0.875rem;
+  color: #334155;
+}
+
+.filter-panel .MuiInputBase-input {
+  padding: 8.5px 14px;
+}
+
+.filter-panel .MuiOutlinedInput-notchedOutline {
+  border-color: #e2e8f0;
+}
+
+.filter-panel .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #cbd5e1;
+}
+
+.filter-panel .MuiFormControl-root {
+  margin: 0;
+}
+
+/* Fix for Select dropdown positioning */
+.filter-panel .MuiSelect-select {
+  padding-right: 32px !important;
+}
+
+.filter-panel .MuiMenu-paper {
+  border-radius: 8px;
+  margin-top: 4px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.filter-panel .MuiBackdrop-root {
+  background-color: transparent !important;
+}
+
+@media (max-width: 1200px) {
+  .filter-field {
+    width: calc(33.33% - 12px);
+  }
+}
+
+@media (max-width: 992px) {
+  .filter-field {
+    width: calc(50% - 8px);
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-panel {
+    border-radius: 12px;
+  }
+  
+  .filter-panel-content {
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .filter-field {
+    width: 100%;
+  }
+  
+  .filter-panel-actions {
+    padding: 16px;
+  }
+}

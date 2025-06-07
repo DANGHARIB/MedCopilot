@@ -1,0 +1,436 @@
+/* Accueil.css - Styles globaux pour la page d'accueil */
+
+:root {
+  --primary: #2563eb;
+  --primary-light: rgba(37, 99, 235, 0.08);
+  --primary-dark: #1d4ed8;
+  --dark: #0f172a;
+  --gray: #64748b;
+  --light: #f8fafc;
+  --white: #ffffff;
+  --transition-speed: 0.3s;
+}
+
+/* Container global pour la page d'accueil */
+.accueil-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+/* Animation d'entrée globale pour la page */
+.page-loaded .accueil-wrapper {
+  animation: pageEntrance 0.5s ease-out;
+}
+
+@keyframes pageEntrance {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Transitions entre les sections */
+.accueil-wrapper > section {
+  position: relative;
+}
+
+/* Styles spécifiques pour le Hero */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--white);
+  padding: 0;
+  margin-top: 0;
+  transition: margin-top var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+/* Correction des marges entre sections */
+.feature-showcase,
+.how-it-works,
+.pricing-section {
+  position: relative;
+  z-index: 2;
+}
+
+/* Élimination des espaces indésirables entre les sections */
+.hero + .feature-showcase,
+.feature-showcase + .how-it-works,
+.how-it-works + .pricing-section {
+  margin-top: 0;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .accueil-wrapper > section {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* ----- Hero Section ----- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--light);
+  padding: 0; /* Garder à 0, l'espace est géré par Layout.css */
+  margin-top: 0; /* Garder à 0 */
+  transition: margin-top var(--transition-speed) ease, transform var(--transition-speed) ease; /* Ajouter transform */
+}
+
+/* Ajustement pour les appareils scrollés */
+.header--scrolled-or-inner ~ .hero {
+  margin-top: 0; /* Pas de marge */
+}
+
+/* Ajustement quand la bannière est visible - AUCUN ESPACE */
+.layout--banner-visible .hero {
+  /* margin-top: 0; */ /* Laisser Layout.css gérer le padding */
+  /* Optionnel: Conserver pour un effet de superposition léger */
+  transform: translateY(-20px); 
+  margin-bottom: -20px; /* Compenser la translation pour ne pas créer d'espace en bas */
+}
+
+.layout--banner-visible .header--scrolled-or-inner ~ .hero {
+  margin-top: 0; /* Pas de marge */
+}
+
+.hero .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding-top: 0; /* Le padding est géré par Layout.css */
+}
+
+.hero__content {
+  max-width: 600px;
+  text-align: center;
+  z-index: 1;
+  /* margin-top: -10px; */ /* Commenté, l'espacement est géré globalement */
+}
+
+.hero__title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--dark);
+}
+
+.hero__subtitle {
+  font-size: 1.125rem;
+  color: var(--gray);
+  margin-bottom: 1.5rem;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.hero__button {
+  padding: 0.875rem 1.75rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all var(--transition-speed) ease;
+}
+
+.hero__button--primary {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+}
+
+.hero__button--primary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.hero__button--secondary {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.hero__button--secondary:hover {
+  background-color: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+.hero__image {
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero__image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background-color: var(--gray-lighter);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.hero__image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--gray);
+}
+
+.hero__image-placeholder svg {
+  width: 30%;
+  height: 30%;
+}
+
+/* ----- Features Section ----- */
+.features {
+  padding: 5rem 0;
+  background-color: var(--gray-lighter);
+}
+
+.features__grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.feature-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  transition: transform var(--transition-speed) ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card__icon {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  background-color: var(--primary-light);
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+}
+
+.feature-card__icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.feature-card__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--dark);
+}
+
+.feature-card__description {
+  color: var(--gray);
+  line-height: 1.6;
+}
+
+/* ----- How It Works Section ----- */
+.how-it-works {
+  padding: 5rem 0;
+  background-color: white;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.step__number {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary);
+  color: white;
+  font-weight: 700;
+  font-size: 1.25rem;
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+}
+
+.step__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--dark);
+}
+
+.step__description {
+  color: var(--gray);
+  max-width: 300px;
+}
+
+/* ----- School Match Section ----- */
+.school-match {
+  padding: 5rem 0;
+  background-color: var(--primary);
+  color: white;
+}
+
+.school-match__content {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.school-match__title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.school-match__description {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.school-match__button {
+  background-color: white;
+  color: var(--primary);
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed) ease;
+}
+
+.school-match__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* ----- Media Queries ----- */
+@media (min-width: 768px) {
+  .hero .container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .hero__content {
+    text-align: left;
+  }
+  
+  .hero__actions {
+    justify-content: flex-start;
+  }
+  
+  .hero__title {
+    font-size: 3rem;
+  }
+  
+  .features__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .steps {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .step {
+    flex: 1;
+  }
+}
+
+/* Ajout pour mobiles */
+@media (max-width: 767px) {
+  .hero {
+    padding: 2rem 0;
+  }
+  
+  .hero__title {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+  
+  .hero__subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero__actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+  }
+  
+  .hero__button {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .features__grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .feature-card {
+    padding: 1.25rem;
+  }
+  
+  .steps {
+    gap: 2rem;
+  }
+  
+  .step__number {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+  }
+  
+  .school-match__content {
+    padding: 1.5rem;
+  }
+}
+
+/* Ajout pour très petits écrans */
+@media (max-width: 480px) {
+  .hero {
+    padding: 1.5rem 0;
+  }
+  
+  .hero__title {
+    font-size: 1.75rem;
+  }
+  
+  .feature-card__icon {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .school-match__title {
+    font-size: 1.5rem;
+  }
+}

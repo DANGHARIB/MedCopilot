@@ -1,0 +1,356 @@
+/* BackendTester.css - Clean, minimalist testing interface */
+
+:root {
+  --primary: #4361ee;
+  --primary-hover: #3a56d4;
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary: #6b7280;
+  --background: #f9fafb;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --border-light: #f3f4f6;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --transition: all 0.2s ease;
+}
+
+.backend-tester {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--background);
+  min-height: 100vh;
+}
+
+/* Header */
+.backend-tester-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+
+.backend-tester-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.backend-tester-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Test Actions */
+.backend-tester-actions {
+  display: grid;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.backend-tester-section {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+
+.backend-tester-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.backend-tester-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Test Buttons */
+.backend-test-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.backend-test-button.primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.backend-test-button.primary:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.backend-test-button.secondary {
+  background-color: var(--border-light);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.backend-test-button.secondary:hover:not(:disabled) {
+  background-color: var(--card);
+  color: var(--text-primary);
+  border-color: var(--primary);
+}
+
+.backend-test-button.small {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  background-color: var(--background);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.backend-test-button.small:hover:not(:disabled) {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.backend-test-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Loading State */
+.backend-tester-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  background-color: var(--card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+  z-index: 1000;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Test Results */
+.backend-tester-results {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.backend-tester-results h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.backend-test-results-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.backend-test-result {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.backend-test-result.success {
+  border-left: 4px solid var(--success);
+}
+
+.backend-test-result.error {
+  border-left: 4px solid var(--error);
+}
+
+.backend-test-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+
+.backend-test-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.backend-test-time {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+}
+
+.backend-test-duration {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.backend-test-result-content {
+  padding: 1rem;
+  background-color: var(--card);
+}
+
+.backend-test-result-content pre {
+  background-color: var(--background);
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  overflow-x: auto;
+  margin: 0;
+  white-space: pre-wrap;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.backend-test-error {
+  color: var(--error);
+  font-weight: 500;
+  padding: 0.75rem;
+  background-color: rgba(239, 68, 68, 0.05);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Mock Database State */
+.backend-tester-state {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+
+.backend-tester-state h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.backend-state-json {
+  background-color: var(--background);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+  overflow-x: auto;
+  margin: 0;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .backend-tester {
+    padding: 1rem;
+  }
+  
+  .backend-tester-header {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .backend-tester-title {
+    font-size: 1.5rem;
+  }
+  
+  .backend-tester-buttons {
+    flex-direction: column;
+  }
+  
+  .backend-test-button {
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .backend-test-result-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .backend-tester-loading {
+    left: 1rem;
+    right: 1rem;
+    transform: translateX(0) translateY(-50%);
+    width: auto;
+  }
+}
+
+/* Animation for smooth transitions */
+.backend-test-result {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus states for accessibility */
+.backend-test-button:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.backend-test-button:focus:not(:focus-visible) {
+  outline: none;
+} 

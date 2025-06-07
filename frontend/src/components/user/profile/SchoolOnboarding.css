@@ -1,0 +1,563 @@
+/* SchoolOnboarding.css - Styles for school-specific onboarding flow */
+
+:root {
+    /* Colors */
+    --primary: #4361ee;
+    --primary-light: #eef2ff;
+    --primary-dark: #3a49df;
+    
+    --secondary: #8b5cf6;
+    --secondary-light: #ede9fe;
+    
+    --success: #10b981;
+    --success-light: #d1fae5;
+    
+    --warning: #f59e0b;
+    --warning-light: #fef3c7;
+    
+    --danger: #ef4444;
+    --danger-light: #fee2e2;
+    
+    --neutral-50: #f9fafb;
+    --neutral-100: #f3f4f6;
+    --neutral-200: #e5e7eb;
+    --neutral-300: #d1d5db;
+    --neutral-400: #9ca3af;
+    --neutral-500: #6b7280;
+    --neutral-600: #4b5563;
+    --neutral-700: #374151;
+    --neutral-800: #1f2937;
+    --neutral-900: #111827;
+    
+    /* Dimensions */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Overlay (semi-transparent background) */
+  .school-onboarding-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.3s ease-out;
+    padding: 1.5rem;
+  }
+  
+  /* Main container */
+  .school-onboarding-container {
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    background-color: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    animation: scaleIn 0.3s ease-out;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  /* Close button */
+  .school-onboarding-close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--neutral-100);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: var(--transition);
+    color: var(--neutral-500);
+  }
+  
+  .school-onboarding-close-button:hover {
+    background-color: var(--neutral-200);
+    color: var(--neutral-700);
+  }
+  
+  /* Main content */
+  .school-onboarding-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+  }
+  
+  /* Step */
+  .school-onboarding-step {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  /* School info */
+  .school-onboarding-school-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    background-color: var(--primary-light);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    color: var(--primary);
+  }
+  
+  .school-onboarding-school-info h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0 0;
+  }
+  
+  .school-onboarding-location {
+    color: var(--neutral-600);
+    font-size: 0.9rem;
+  }
+  
+  /* Essay count selection */
+  .school-onboarding-count-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .school-onboarding-count-selection h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--neutral-800);
+    margin: 0;
+  }
+  
+  .school-onboarding-description {
+    color: var(--neutral-600);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+  
+  .school-onboarding-count-options {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+  
+  .school-onboarding-count-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 5rem;
+    height: 5rem;
+    border-radius: var(--radius-md);
+    background-color: white;
+    border: 2px solid var(--neutral-200);
+    cursor: pointer;
+    transition: var(--transition);
+    padding: 1rem;
+  }
+  
+  .school-onboarding-count-option:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .school-onboarding-count-option.active {
+    border-color: var(--primary);
+    background-color: var(--primary-light);
+  }
+  
+  .school-onboarding-count-option.custom {
+    border-style: dashed;
+  }
+  
+  .school-onboarding-count-option.custom:hover {
+    border-color: var(--secondary);
+  }
+  
+  .school-onboarding-count-option.custom.active {
+    border-color: var(--secondary);
+    background-color: var(--secondary-light);
+  }
+  
+  .school-onboarding-count-number {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1;
+  }
+  
+  .school-onboarding-count-option.custom .school-onboarding-count-number {
+    color: var(--secondary);
+  }
+  
+  .school-onboarding-count-label {
+    font-size: 0.8rem;
+    color: var(--neutral-500);
+    margin-top: 0.5rem;
+  }
+  
+  /* Custom input section */
+  .school-onboarding-custom-input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    margin: 1rem 0;
+    padding: 1.5rem;
+    background-color: var(--neutral-50);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--neutral-200);
+  }
+  
+  .school-onboarding-custom-input-section label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--neutral-700);
+    margin-bottom: 0.5rem;
+  }
+  
+  .school-onboarding-custom-input {
+    padding: 0.75rem;
+    border: 1px solid var(--neutral-300);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    width: 200px;
+    text-align: center;
+    transition: var(--transition-fast);
+  }
+  
+  .school-onboarding-custom-input:focus {
+    outline: none;
+    border-color: var(--secondary);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
+  }
+  
+  /* Info box */
+  .school-onboarding-info-box {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--warning-light);
+    border-radius: var(--radius-md);
+    color: var(--neutral-700);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    align-items: flex-start;
+  }
+  
+  .school-onboarding-info-box svg {
+    color: var(--warning);
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+  }
+  
+  /* Essay header */
+  .school-onboarding-essay-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .school-onboarding-essay-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--neutral-800);
+    margin: 0;
+  }
+  
+  /* Progress bar */
+  .school-onboarding-progress {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .school-onboarding-progress h3 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--neutral-600);
+    margin: 0;
+  }
+  
+  .school-onboarding-progress-bar {
+    height: 8px;
+    background-color: var(--neutral-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+  }
+  
+  .school-onboarding-progress-fill {
+    height: 100%;
+    background-color: var(--primary);
+    border-radius: var(--radius-full);
+    transition: width 0.3s ease;
+  }
+  
+  /* Essay form */
+  .school-onboarding-essay-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .school-onboarding-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .school-onboarding-form-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .school-onboarding-form-row .school-onboarding-form-group {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .school-onboarding-form-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--neutral-700);
+  }
+  
+  .school-onboarding-field-hint {
+    font-size: 0.8rem;
+    color: var(--neutral-500);
+    margin: 0.25rem 0 0;
+  }
+  
+  /* Input fields */
+  .school-onboarding-textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--neutral-300);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    resize: vertical;
+    transition: var(--transition-fast);
+    min-height: 80px;
+    width: 100%;
+    font-family: inherit;
+  }
+  
+  .school-onboarding-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.12);
+  }
+  
+  .school-onboarding-input {
+    padding: 0.75rem;
+    border: 1px solid var(--neutral-300);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    width: 100%;
+    transition: var(--transition-fast);
+  }
+  
+  .school-onboarding-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.12);
+  }
+  
+  /* Toggle buttons */
+  .school-onboarding-toggle {
+    display: flex;
+    width: 100%;
+    border-radius: var(--radius-md);
+    background-color: var(--neutral-100);
+    padding: 0.25rem;
+  }
+  
+  .school-onboarding-toggle-option {
+    flex: 1;
+    padding: 0.5rem;
+    text-align: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--neutral-600);
+    transition: var(--transition);
+  }
+  
+  .school-onboarding-toggle-option:hover {
+    color: var(--neutral-900);
+  }
+  
+  .school-onboarding-toggle-option.active {
+    background-color: white;
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  /* Footer */
+  .school-onboarding-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 2rem;
+    border-top: 1px solid var(--neutral-200);
+    background-color: var(--neutral-50);
+  }
+  
+  .school-onboarding-step-indicator {
+    font-size: 0.875rem;
+    color: var(--neutral-500);
+  }
+  
+  /* Navigation buttons */
+  .school-onboarding-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    min-width: 120px;
+  }
+  
+  .school-onboarding-button.primary {
+    background-color: var(--primary);
+    color: white;
+  }
+  
+  .school-onboarding-button.primary:hover:not(:disabled) {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .school-onboarding-button.secondary {
+    background-color: white;
+    border: 1px solid var(--neutral-300);
+    color: var(--neutral-700);
+  }
+  
+  .school-onboarding-button.secondary:hover:not(:disabled) {
+    background-color: var(--neutral-100);
+    color: var(--neutral-900);
+  }
+  
+  .school-onboarding-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  /* Loading spinner */
+  .school-onboarding-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 0.5rem;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 640px) {
+    .school-onboarding-overlay {
+      padding: 0.5rem;
+    }
+    
+    .school-onboarding-content {
+      padding: 1.5rem;
+    }
+    
+    .school-onboarding-footer {
+      padding: 1rem 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .school-onboarding-step-indicator {
+      order: -1;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .school-onboarding-button {
+      flex: 1;
+    }
+    
+    .school-onboarding-form-row {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .school-onboarding-count-options {
+      justify-content: space-between;
+    }
+    
+    .school-onboarding-count-option {
+      width: 4rem;
+      height: 4rem;
+    }
+    
+    .school-onboarding-custom-input-section {
+      margin: 0.5rem 0;
+      padding: 1rem;
+    }
+    
+    .school-onboarding-custom-input {
+      width: 150px;
+    }
+  }

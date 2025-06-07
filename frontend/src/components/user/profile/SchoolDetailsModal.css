@@ -1,0 +1,417 @@
+/* SchoolDetailsModal.css - Styles for the School Details Modal Component */
+
+:root {
+  --primary: #4361ee;
+  --primary-hover: #3a56d4;
+  --primary-light: rgba(67, 97, 238, 0.1);
+  --danger: #ef476f;
+  --danger-light: rgba(239, 71, 111, 0.1);
+  --success: #10b981;
+  --success-light: rgba(16, 185, 129, 0.1);
+  --success-dark: #059669;
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --text-tertiary: #6b7280;
+  --background: #f9fafb;
+  --card: #ffffff;
+  --border: #d1d5db;
+  --border-light: #e5e7eb;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Modal Overlay and Content */
+.school-details-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  cursor: pointer;
+}
+
+.school-details-modal-content {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 550px;
+  max-height: calc(100vh - 4rem);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  margin: auto 0;
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+  animation: fadeInScale 0.3s ease-out forwards;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.school-details-details-modal {
+  max-width: 750px;
+}
+
+.school-details-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+
+.school-details-modal-header-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-left: 1rem;
+}
+
+.school-details-modal-header h3 {
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.school-details-subtitle {
+  font-size: 0.9375rem;
+  color: var(--text-tertiary);
+  margin: 0.25rem 0 0 0;
+}
+
+.school-details-close-button,
+.school-details-delete-button-modal {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 0;
+  transition: var(--transition);
+  border-radius: 50%;
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.school-details-close-button:hover,
+.school-details-close-button:focus {
+  color: var(--text-primary);
+  background-color: var(--border-light);
+  outline: none;
+}
+
+.school-details-delete-button-modal:hover,
+.school-details-delete-button-modal:focus {
+  color: var(--danger);
+  background-color: var(--danger-light);
+  outline: none;
+}
+
+.school-details-modal-footer {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  justify-content: flex-end;
+  background-color: var(--background);
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+  flex-shrink: 0;
+}
+
+.school-details-close-details-button {
+  background-color: var(--card);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.school-details-close-details-button:hover {
+  background-color: var(--border-light);
+  border-color: var(--text-tertiary);
+  color: var(--text-primary);
+}
+
+/* Tabs */
+.school-details-tabs {
+  padding: 0 1.5rem 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.school-details-tabs-list {
+  display: flex;
+  margin: 0 -1.5rem 1.5rem;
+  padding: 0 1.5rem;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+
+.school-details-tabs-list::-webkit-scrollbar {
+  display: none;
+}
+
+.school-details-tab-button {
+  padding: 0.875rem 1rem;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+  position: relative;
+}
+
+.school-details-tab-button:hover:not(.active) {
+  color: var(--primary);
+  border-bottom-color: var(--border);
+}
+
+.school-details-tab-button:focus {
+  outline: none;
+  color: var(--primary);
+  border-bottom-color: var(--border);
+  background-color: var(--primary-light);
+}
+
+.school-details-tab-button.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  font-weight: 700;
+}
+
+.school-details-tab-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  min-height: 250px;
+}
+
+.school-details-tab-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  animation: tabFadeIn 0.4s ease-in-out forwards;
+  padding-bottom: 1rem;
+}
+
+.school-details-tab-panel:focus {
+  outline: none;
+}
+
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stats Grid */
+.school-details-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.school-details-stat-card {
+  background-color: var(--background);
+  padding: 1.25rem 1rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid var(--border-light);
+}
+
+.school-details-stat-card-label {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  margin-bottom: 0.625rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.school-details-stat-card-value {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.school-details-info-section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1.25rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.school-details-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem 1.25rem;
+}
+
+.school-details-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.school-details-info-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.school-details-info-value {
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.school-details-info-na {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+.school-details-external-link {
+  color: var(--primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: var(--transition);
+  word-break: break-all;
+}
+
+.school-details-external-link:hover {
+  text-decoration: underline;
+  color: var(--primary-hover);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .school-details-modal-overlay {
+    padding: 1rem;
+  }
+
+  .school-details-modal-content {
+    max-height: calc(100vh - 2rem);
+  }
+
+  .school-details-details-modal {
+    max-width: 650px;
+  }
+
+  .school-details-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .school-details-info-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .school-details-tabs-list {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .school-details-tabs {
+    padding: 0 1rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .school-details-modal-overlay {
+    padding: 0;
+  }
+
+  .school-details-modal-content {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+    margin: 0;
+    box-shadow: none;
+  }
+
+  .school-details-details-modal {
+    max-width: 100%;
+  }
+
+  .school-details-modal-header {
+    padding: 1rem;
+  }
+
+  .school-details-modal-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .school-details-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .school-details-stat-card-value {
+    font-size: 1.375rem;
+  }
+
+  .school-details-info-section-title {
+    font-size: 1.0625rem;
+  }
+
+  .school-details-modal-footer {
+    padding: 1rem;
+  }
+} 

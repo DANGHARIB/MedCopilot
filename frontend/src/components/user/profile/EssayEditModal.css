@@ -1,0 +1,343 @@
+/* EssayEditModal.css - Styles for the essay editing modal */
+
+:root {
+  --edit-primary: #4361ee;
+  --edit-primary-hover: #3a56d4;
+  --edit-primary-light: rgba(67, 97, 238, 0.1);
+  --edit-success: #10b981;
+  --edit-danger: #ef4444;
+  --edit-danger-hover: #dc2626;
+  --edit-text-primary: #1f2937;
+  --edit-text-secondary: #4b5563;
+  --edit-text-tertiary: #6b7280;
+  --edit-background: #f9fafb;
+  --edit-card: #ffffff;
+  --edit-border: #d1d5db;
+  --edit-border-light: #e5e7eb;
+  --edit-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --edit-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --edit-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --edit-radius-sm: 4px;
+  --edit-radius-md: 6px;
+  --edit-radius-lg: 8px;
+  --edit-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Modal overlay and container */
+.essay-edit-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(17, 24, 39, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: essayEditFadeIn 0.2s ease forwards;
+}
+
+.essay-edit-modal-container {
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--edit-card);
+  border-radius: var(--edit-radius-lg);
+  box-shadow: var(--edit-shadow-lg);
+  position: relative;
+  overflow: hidden;
+  animation: essayEditSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.essay-edit-modal-close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--edit-text-tertiary);
+  cursor: pointer;
+  transition: var(--edit-transition);
+  z-index: 10;
+}
+
+.essay-edit-modal-close-button:hover {
+  background-color: var(--edit-primary-light);
+  color: var(--edit-primary);
+  transform: rotate(90deg);
+}
+
+/* Modal content */
+.essay-edit-modal-content {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.essay-edit-modal-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--edit-border-light);
+}
+
+.essay-edit-modal-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--edit-text-primary);
+  margin: 0 0 0.5rem 0;
+}
+
+.essay-edit-modal-school-name {
+  font-size: 1rem;
+  color: var(--edit-primary);
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Form styles */
+.essay-edit-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.essay-edit-modal-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.essay-edit-modal-form-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.essay-edit-modal-form-row .essay-edit-modal-form-group {
+  flex: 1;
+}
+
+.essay-edit-modal-form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--edit-text-primary);
+}
+
+.essay-edit-modal-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--edit-border);
+  border-radius: var(--edit-radius-md);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  resize: vertical;
+  transition: var(--edit-transition);
+}
+
+.essay-edit-modal-textarea:focus {
+  outline: none;
+  border-color: var(--edit-primary);
+  box-shadow: 0 0 0 2px var(--edit-primary-light);
+}
+
+.essay-edit-modal-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--edit-border);
+  border-radius: var(--edit-radius-md);
+  font-size: 0.875rem;
+  transition: var(--edit-transition);
+}
+
+.essay-edit-modal-input:focus {
+  outline: none;
+  border-color: var(--edit-primary);
+  box-shadow: 0 0 0 2px var(--edit-primary-light);
+}
+
+.essay-edit-modal-field-hint {
+  font-size: 0.75rem;
+  color: var(--edit-text-tertiary);
+  margin: 0.25rem 0 0 0;
+}
+
+/* Toggle buttons */
+.essay-edit-modal-toggle {
+  display: flex;
+  border: 1px solid var(--edit-border);
+  border-radius: var(--edit-radius-md);
+  overflow: hidden;
+}
+
+.essay-edit-modal-toggle-option {
+  flex: 1;
+  padding: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--edit-text-secondary);
+  cursor: pointer;
+  transition: var(--edit-transition);
+  text-align: center;
+}
+
+.essay-edit-modal-toggle-option:not(:last-child) {
+  border-right: 1px solid var(--edit-border);
+}
+
+.essay-edit-modal-toggle-option.active {
+  background-color: var(--edit-primary);
+  color: white;
+}
+
+.essay-edit-modal-toggle-option:hover:not(.active) {
+  background-color: var(--edit-primary-light);
+  color: var(--edit-primary);
+}
+
+/* Info box */
+.essay-edit-modal-info-box {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem;
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: var(--edit-radius-md);
+  margin-top: 1rem;
+}
+
+.essay-edit-modal-info-box svg {
+  color: #0ea5e9;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+.essay-edit-modal-info-box p {
+  font-size: 0.875rem;
+  color: #0c4a6e;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Footer */
+.essay-edit-modal-footer {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--edit-border-light);
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  background-color: var(--edit-background);
+}
+
+.essay-edit-modal-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--edit-radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--edit-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.essay-edit-modal-button.secondary {
+  background-color: white;
+  border: 1px solid var(--edit-border);
+  color: var(--edit-text-secondary);
+}
+
+.essay-edit-modal-button.secondary:hover {
+  background-color: var(--edit-background);
+  color: var(--edit-text-primary);
+  border-color: var(--edit-text-tertiary);
+}
+
+.essay-edit-modal-button.primary {
+  background-color: var(--edit-primary);
+  color: white;
+  border: none;
+}
+
+.essay-edit-modal-button.primary:hover:not(:disabled) {
+  background-color: var(--edit-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--edit-shadow-md);
+}
+
+.essay-edit-modal-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Spinner */
+.essay-edit-modal-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: essayEditSpin 1s linear infinite;
+}
+
+/* Animations */
+@keyframes essayEditFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes essayEditSlideIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0); 
+  }
+}
+
+@keyframes essayEditSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .essay-edit-modal-container {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+  
+  .essay-edit-modal-form-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .essay-edit-modal-content {
+    padding: 1rem;
+  }
+  
+  .essay-edit-modal-footer {
+    padding: 1rem;
+    flex-direction: column-reverse;
+  }
+  
+  .essay-edit-modal-button {
+    width: 100%;
+    padding: 0.875rem 1rem;
+  }
+} 

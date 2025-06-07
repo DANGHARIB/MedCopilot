@@ -1,0 +1,1263 @@
+/* Experiences.css - Design Jony Ive: Minimaliste, épuré et élégant */
+
+/* === RESET GÉNÉRAL === */
+* {
+  box-sizing: border-box;
+}
+
+/* Reset spécifique pour éviter les conflits */
+.experiences h1, 
+.experiences h2, 
+.experiences h3, 
+.experiences h4, 
+.experiences h5, 
+.experiences h6 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-weight: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* === CONTAINER PRINCIPAL === */
+.experiences {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 70vh;
+  padding: 0;
+  box-sizing: border-box;
+  background: rgba(249, 250, 251, 0.95);
+}
+
+/* === CONTAINER UNIFIÉ - SINGLE CARD === */
+.experiences-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  
+  /* GRID LAYOUT: Header / Contenu flexible / Navigation */
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 0;
+}
+
+/* === HEADER === */
+.experiences-header {
+  padding: 2rem 1.5rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* ARCHITECTURE FLEXBOX: Ligne principale contenu + action */
+.header-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+/* GROUPE TEXTUEL: Titre et sous-titre ensemble */
+.header-text-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Forcer l'application des styles avec spécificité élevée */
+.experiences-container .header-title {
+  font-size: 3.5rem !important;
+  font-weight: 700 !important;
+  color: rgba(0, 0, 0, 0.9) !important;
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.045em !important;
+  line-height: 0.85 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+  outline: none !important;
+}
+
+.header-title-highlight {
+  color: var(--color-info, #007AFF);
+}
+
+/* Sous-titre dans le groupe - espacement minimal */
+.header-subtitle {
+  font-size: 1.25rem;
+  font-weight: 500 !important;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.65);
+  margin: 0;
+}
+
+/* Bouton action - aligné en haut à droite */
+.help-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: rgba(0, 122, 255, 0.05);
+  border: 1px solid rgba(0, 122, 255, 0.15);
+  border-radius: 0.75rem;
+  color: #007AFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  height: fit-content;
+  align-self: flex-start;
+}
+
+.help-toggle:hover {
+  background: rgba(0, 122, 255, 0.1);
+  border-color: rgba(0, 122, 255, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.15);
+}
+
+.help-toggle span {
+  font-weight: 600;
+}
+
+/* === PANEL D'AIDE INTÉGRÉ === */
+.help-panel {
+  background: rgba(0, 122, 255, 0.05);
+  border-top: 1px solid rgba(0, 122, 255, 0.15);
+  border-bottom: 1px solid rgba(0, 122, 255, 0.15);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  margin-top: 1.5rem;
+  animation: slideDown 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.help-content {
+  width: 100%;
+}
+
+.help-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #007AFF;
+  margin: 0 0 0.75rem 0;
+  width: 100%;
+}
+
+.help-tips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.tip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.tip-icon {
+  width: 1rem;
+  height: 1rem;
+  color: #34D399;
+  flex-shrink: 0;
+}
+
+.help-toggle-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+/* === CORPS PRINCIPAL === */
+.experiences-body {
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* === LISTE DES EXPÉRIENCES === */
+.experiences-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* === CARTE D'EXPÉRIENCE === */
+.experience-card {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: white;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.experience-card:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.experience-card.expanded {
+  border-color: rgba(0, 122, 255, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.experience-card.meaningful {
+  border-left: 3px solid #10B981;
+}
+
+/* EN-TÊTE DE CARTE */
+.experience-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.experience-header:hover {
+  background-color: rgba(0, 0, 0, 0.01);
+}
+
+.experience-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.experience-order {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 50%;
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.meaningful .experience-order {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+}
+
+.experience-title-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.experience-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+  max-width: 20rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Détails dans l'en-tête (badges) */
+.experience-header-details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.125rem;
+}
+
+.experience-type-badge,
+.experience-org-badge,
+.experience-date-badge {
+  display: inline-flex;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.experience-type-badge {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.experience-org-badge {
+  background: rgba(59, 130, 246, 0.08);
+  color: rgba(59, 130, 246, 0.9);
+}
+
+.experience-date-badge {
+  background: rgba(236, 72, 153, 0.08);
+  color: rgba(236, 72, 153, 0.9);
+}
+
+.experience-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.meaningful-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background: rgba(16, 185, 129, 0.1);
+  border-radius: 4px;
+  color: #10B981;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.experience-expand-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.experience-expand-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.experience-expand-btn.expanded {
+  background: rgba(0, 122, 255, 0.1);
+  color: #007AFF;
+}
+
+/* === CONTENU DE LA CARTE === */
+.experience-content {
+  padding: 0 1.25rem 0.75rem;
+  animation: expandContent 0.3s ease;
+}
+
+@keyframes expandContent {
+  from { opacity: 0; max-height: 0; }
+  to { opacity: 1; max-height: 1000px; }
+}
+
+.experience-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: -10px;
+}
+
+.form-row.triple-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: -10px;
+}
+
+.location-row {
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 0rem;
+}
+
+/* === NOUVELLE SECTION DATES-STATUS UNIFIÉE === */
+.dates-status-unified-row {
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 0rem;
+  align-items: flex-start;
+}
+
+/* Style unifié pour les groupes de dates */
+.date-group {
+  margin-bottom: 0;
+}
+
+.date-picker-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Style uniforme pour tous les inputs de la section dates-status */
+.dates-status-unified-row .form-input.modern-date-input,
+.dates-status-unified-row .form-select.modern-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.625rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.85);
+  background: white;
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  appearance: none; /* Pour le select */
+}
+
+/* Style du select moderne pour correspondre aux inputs date */
+.dates-status-unified-row .form-select.modern-select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.dates-status-unified-row .form-input.modern-date-input:focus,
+.dates-status-unified-row .form-select.modern-select:focus {
+  outline: none;
+  border-color: #007AFF;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.dates-status-unified-row .form-input.modern-date-input:disabled {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.06);
+  color: rgba(0, 0, 0, 0.4);
+  cursor: not-allowed;
+}
+
+/* Aligner les labels à la même hauteur */
+.dates-status-unified-row .form-group label {
+  height: 1.125rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+/* Suppression des anciens styles de status - radio buttons */
+.dates-status-row,
+.dates-column,
+.status-column,
+.status-options,
+.status-option,
+.status-checkbox,
+.status-group-unified,
+.status-radio-group,
+.status-radio-option,
+.radio-indicator,
+.radio-dot,
+.radio-label {
+  display: none !important;
+}
+
+/* === ACTIONS D'EXPÉRIENCE === */
+.experience-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.experience-action-left,
+.experience-action-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.meaningful-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.02);
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.meaningful-toggle:hover {
+  background: rgba(16, 185, 129, 0.05);
+  border-color: rgba(16, 185, 129, 0.2);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.meaningful-toggle.active {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #10B981;
+}
+
+.meaningful-icon {
+  color: inherit;
+}
+
+.order-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.order-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.375rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.02);
+  color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.order-button:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.order-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.delete-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  background: rgba(239, 68, 68, 0.05);
+  color: #EF4444;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.delete-button:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.delete-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* === BOUTON AJOUTER EXPÉRIENCE === */
+.add-experience-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 2px dashed rgba(0, 122, 255, 0.2);
+  border-radius: 0.75rem;
+  background: rgba(0, 122, 255, 0.02);
+  color: #007AFF;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.add-experience-button:hover {
+  background: rgba(0, 122, 255, 0.05);
+  border-color: rgba(0, 122, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.add-icon {
+  color: #007AFF;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  padding: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* === NOTE === */
+.experiences-note {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  margin-top: 0.5rem;
+}
+
+.note-icon-container {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.note-content {
+  flex: 1;
+}
+
+.note-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+  margin-bottom: 0.5rem;
+}
+
+.note-text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.65);
+  margin: 0;
+}
+
+/* === NAVIGATION === */
+.experiences-navigation {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  white-space: nowrap;
+}
+
+.nav-btn-secondary {
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.nav-btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.9);
+  transform: translateY(-1px);
+}
+
+.nav-btn-primary {
+  background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+  color: white;
+  box-shadow: 0 1px 3px rgba(0, 122, 255, 0.3);
+}
+
+.nav-btn-primary:hover:not(.disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 122, 255, 0.4);
+}
+
+.nav-btn-primary.disabled {
+  background: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.3);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.nav-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  justify-self: center;
+}
+
+.progress-text {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.typing-dots {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.dot {
+  width: 0.25rem;
+  height: 0.25rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.dot:nth-child(1) { animation-delay: -0.32s; }
+.dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typing {
+  0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .experiences {
+    min-height: 100vh;
+    padding: 0.5rem 0;
+  }
+  
+  .experiences-container {
+    border-radius: 0.75rem;
+  }
+  
+  .experiences-header {
+    padding: 1.5rem 1rem 1rem;
+  }
+  
+  .header-main-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .header-text-group {
+    order: 1;
+  }
+  
+  .experiences-container .header-title {
+    font-size: 2.75rem !important;
+    line-height: 0.9 !important;
+  }
+  
+  .help-toggle {
+    align-self: flex-end;
+    order: 2;
+    margin: 0;
+  }
+  
+  .header-subtitle {
+    font-size: 0.9375rem;
+  }
+  
+  .help-panel {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .experiences-body {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .form-row,
+  .form-row.triple-column,
+  .location-row,
+  .date-status-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .experience-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .experience-action-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .experiences-navigation {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 0.75rem;
+    text-align: center;
+    padding: 1rem;
+  }
+  
+  .nav-progress {
+    order: -1;
+  }
+  
+  .nav-btn {
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .help-tips {
+    grid-template-columns: 1fr;
+    gap: 0.375rem;
+  }
+  
+  .status-options {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+  
+  .dates-status-unified-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .dates-status-unified-row .form-group label {
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+  
+  .status-radio-group {
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+  
+  .status-radio-option {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    padding: 0.625rem 0.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .radio-label {
+    font-size: 0.75rem;
+  }
+  
+  .radio-indicator {
+    width: 1rem;
+    height: 1rem;
+    border-width: 2px;
+  }
+  
+  .radio-dot {
+    width: 0.375rem;
+    height: 0.375rem;
+  }
+}
+
+/* === ACCESSIBILITÉ === */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === MODE SOMBRE === */
+@media (prefers-color-scheme: dark) {
+  .experiences {
+    background: rgba(28, 28, 30, 0.6);
+  }
+  
+  .experiences-container {
+    background: rgba(28, 28, 30, 0.9);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .experiences-header {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .experiences-navigation {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .experiences-container .header-title {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+  
+  .header-subtitle,
+  .progress-text {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .progress-counter,
+  .progress-separator {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .progress-completed,
+  .progress-total {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .progress-bar-container {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .experience-card {
+    background: rgba(35, 35, 37, 0.8);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .experience-order {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .experience-type-badge {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .experience-org-badge {
+    background: rgba(0, 122, 255, 0.1);
+    color: rgba(0, 122, 255, 0.9);
+  }
+  
+  .experience-date-badge {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .experience-expand-btn {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .experience-expand-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .form-group label {
+    color: rgba(255, 255, 255, 0.65);
+  }
+  
+  .form-label-icon {
+    color: rgba(255, 255, 255, 0.4);
+  }
+  
+  .form-input,
+  .form-select,
+  .form-textarea {
+    background-color: rgba(28, 28, 30, 0.9);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .form-input::placeholder,
+  .form-textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+  }
+  
+  .form-select.modern-select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255, 255, 255, 0.4)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  }
+  
+  .experience-actions {
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .meaningful-toggle {
+    color: #10B981;
+    background: rgba(16, 185, 129, 0.08);
+    border-color: rgba(16, 185, 129, 0.2);
+  }
+  
+  .order-button {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .order-button:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.12);
+  }
+  
+  .experiences-note {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  .note-icon-container {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .nav-btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .nav-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  
+  .typing-indicator {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .dot {
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .status-checkbox {
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+  
+  .status-label {
+    color: rgba(255, 255, 255, 0.75);
+  }
+  
+  .meaningful-section {
+    background: rgba(16, 185, 129, 0.08);
+  }
+  
+  .meaningful-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .meaningful-textarea {
+    background: rgba(28, 28, 30, 0.8);
+  }
+  
+  /* Styles pour le mode sombre de la nouvelle section dates-status unifiée */
+  .form-input.modern-date-input {
+    background: rgba(28, 28, 30, 0.9);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .form-input.modern-date-input:disabled {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.4);
+  }
+  
+  .status-radio-group {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .status-radio-option {
+    background: rgba(28, 28, 30, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .status-radio-option:hover {
+    background: rgba(0, 122, 255, 0.08);
+    border-color: rgba(0, 122, 255, 0.2);
+  }
+  
+  .status-radio-option.active {
+    background: rgba(0, 122, 255, 0.15);
+    border-color: rgba(0, 122, 255, 0.3);
+  }
+  
+  .radio-indicator {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(28, 28, 30, 0.9);
+  }
+  
+  .status-radio-option.active .radio-indicator {
+    border-color: #007AFF;
+    background: #007AFF;
+  }
+  
+  .radio-label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .status-radio-option.active .radio-label {
+    color: rgba(255, 255, 255, 0.95);
+  }
+}
+
+/* === STYLES POUR REACT-COUNTRY-STATE-CITY === */
+/* Suppression des doubles bordures et harmonisation avec le design */
+.country-select-container,
+.state-select-container,
+.city-select-container {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.country-select-container .select-wrapper,
+.state-select-container .select-wrapper,
+.city-select-container .select-wrapper {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.country-select-container input,
+.state-select-container input,
+.city-select-container input {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.8);
+  background-color: white;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.country-select-container input:focus,
+.state-select-container input:focus,
+.city-select-container input:focus {
+  outline: none;
+  border-color: #007AFF;
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
+}
+
+/* Style pour les options des sélecteurs */
+.select-options-container {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 4px;
+  z-index: 100;
+}
+
+.option-container {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.option-container:hover {
+  background-color: rgba(0, 122, 255, 0.05);
+  color: #007AFF;
+}
+
+/* Correction du style des checkboxes après les dates */
+.status-group {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.status-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.status-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 122, 255, 0.05);
+  border: 1px solid rgba(0, 122, 255, 0.1);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.status-option:hover {
+  background: rgba(0, 122, 255, 0.1);
+  border-color: rgba(0, 122, 255, 0.2);
+}
+
+.status-option.active {
+  background: rgba(0, 122, 255, 0.15);
+  border-color: rgba(0, 122, 255, 0.3);
+}
+
+.status-checkbox {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.status-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+/* Mode sombre pour les nouveaux éléments */
+@media (prefers-color-scheme: dark) {
+  .country-select-container input,
+  .state-select-container input,
+  .city-select-container input {
+    background: rgba(28, 28, 30, 0.8);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .select-options-container {
+    background: rgba(28, 28, 30, 0.95);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  .option-container {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .option-container:hover {
+    background-color: rgba(0, 122, 255, 0.15);
+  }
+  
+  .status-option {
+    background: rgba(0, 122, 255, 0.1);
+    border-color: rgba(0, 122, 255, 0.2);
+  }
+  
+  .status-label {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}

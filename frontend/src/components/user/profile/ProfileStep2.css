@@ -1,0 +1,478 @@
+/* ============================================
+   PROFILE STEP 2 - Import Method Selection
+   Design inspired by Manual AMCAS Flow Components
+   ============================================ */
+
+/* === CONTAINER PRINCIPAL === */
+.profile-step2 {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.profile-step2-container {
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* === HEADER SECTION === */
+.profile-step2-header {
+  background-color: #ffffff;
+  padding: 32px 40px 24px 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.header-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-6);
+  margin-bottom: 0;
+}
+
+.header-text-group {
+  flex: 1;
+}
+
+.header-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.2;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.02em;
+}
+
+.header-title-highlight {
+  color: #0078d4;
+  font-weight: 700;
+}
+
+.header-subtitle {
+  color: #666666;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 500px;
+}
+
+.help-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(0, 120, 212, 0.08);
+  color: #0078d4;
+  border: 1px solid rgba(0, 120, 212, 0.2);
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.help-toggle:hover {
+  background-color: rgba(0, 120, 212, 0.12);
+  border-color: rgba(0, 120, 212, 0.3);
+  transform: translateY(-1px);
+}
+
+.help-toggle-icon {
+  flex-shrink: 0;
+}
+
+/* === HELP PANEL === */
+.help-panel {
+  margin-top: 24px;
+  background-color: #f8fafe;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 120, 212, 0.15);
+  padding: 24px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.help-content {
+  max-width: none;
+}
+
+.help-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 16px 0;
+}
+
+.help-tips {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.tip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: #444444;
+  line-height: 1.4;
+}
+
+.tip-icon {
+  color: #0078d4;
+  flex-shrink: 0;
+}
+
+/* === BODY SECTION === */
+.profile-step2-body {
+  flex: 1;
+  padding: 32px 40px;
+  background-color: #ffffff;
+}
+
+.import-methods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 24px;
+  margin-bottom: 0;
+}
+
+/* === IMPORT METHOD CARDS === */
+.import-method-card {
+  background-color: #ffffff;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 32px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  min-height: 400px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.import-method-card:hover {
+  border-color: rgba(0, 120, 212, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.import-method-card.selected {
+  border-color: #0078d4;
+  background-color: rgba(0, 120, 212, 0.02);
+  box-shadow: 0 8px 24px rgba(0, 120, 212, 0.15);
+  transform: translateY(-1px);
+}
+
+.method-selected-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #0078d4;
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 120, 212, 0.3);
+  border: 2px solid white;
+}
+
+.method-icon {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.method-icon.amcas-icon {
+  background-color: rgba(0, 120, 212, 0.08);
+  color: #0078d4;
+  border-color: rgba(0, 120, 212, 0.15);
+}
+
+.method-icon.manual-icon {
+  background-color: rgba(102, 102, 102, 0.08);
+  color: #666666;
+  border-color: rgba(102, 102, 102, 0.15);
+}
+
+.method-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.method-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+}
+
+.method-description {
+  font-size: 0.95rem;
+  color: #666666;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+  flex: 1;
+}
+
+.method-highlight {
+  background-color: rgba(0, 120, 212, 0.05);
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  color: #444444;
+  margin: 0 0 20px 0;
+  border-left: 4px solid #0078d4;
+  line-height: 1.5;
+}
+
+.method-highlight strong {
+  color: #0078d4;
+  font-weight: 600;
+}
+
+.method-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(0, 0, 0, 0.08);
+}
+
+.method-tag {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: #555555;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.method-tag svg {
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+/* === NAVIGATION SECTION === */
+.profile-step2-navigation {
+  background-color: #ffffff;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 24px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.nav-progress {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.progress-text {
+  font-size: 0.9rem;
+  color: #666666;
+  font-weight: 500;
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #0078d4;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.typing-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #0078d4;
+  animation: typingDots 1.4s infinite ease-in-out;
+}
+
+.dot:nth-child(1) { animation-delay: -0.32s; }
+.dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typingDots {
+  0%, 80%, 100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 14px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  min-width: 140px;
+}
+
+.nav-btn-primary {
+  background-color: #0078d4;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 120, 212, 0.2);
+}
+
+.nav-btn-primary:hover:not(.disabled) {
+  background-color: #106ebe;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 120, 212, 0.3);
+}
+
+.nav-btn-primary.disabled {
+  background-color: #e5e5e5;
+  color: #999999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.nav-btn-icon {
+  flex-shrink: 0;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+  .profile-step2-container {
+    border-radius: 12px;
+    margin: 0 16px;
+  }
+  
+  .profile-step2-header {
+    padding: 24px 24px 20px 24px;
+  }
+  
+  .header-main-row {
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+  }
+  
+  .header-title {
+    font-size: 1.6rem;
+  }
+  
+  .help-toggle {
+    align-self: flex-start;
+  }
+  
+  .profile-step2-body {
+    padding: 24px;
+  }
+  
+  .import-methods-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .import-method-card {
+    padding: 24px;
+    min-height: 350px;
+  }
+  
+  .profile-step2-navigation {
+    padding: 20px 24px;
+    flex-direction: column-reverse;
+    gap: 16px;
+  }
+  
+  .nav-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-step2-header {
+    padding: 20px;
+  }
+  
+  .header-title {
+    font-size: 1.4rem;
+  }
+  
+  .header-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .profile-step2-body {
+    padding: 20px;
+  }
+  
+  .import-method-card {
+    padding: 20px;
+    min-height: 320px;
+  }
+  
+  .method-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+  }
+  
+  .method-title {
+    font-size: 1.2rem;
+  }
+  
+  .profile-step2-navigation {
+    padding: 16px 20px;
+  }
+}

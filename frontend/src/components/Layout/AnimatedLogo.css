@@ -1,0 +1,31 @@
+/* Styles for AnimatedLogo component - hauteur ajustée */
+
+.animated-logo {
+  display: inline-block;
+  transition-property: opacity, transform;
+  transition-duration: 700ms;
+  transition-timing-function: ease-in-out;
+}
+
+.animated-logo--hidden {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.animated-logo--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animated-logo__image {
+  display: block;
+  height: 3.5rem; /* Augmenté de 2.5rem à 3.5rem pour un logo plus grand */
+  width: auto;
+}
+
+/* Media Query pour Desktop */
+@media (min-width: 768px) {
+  .animated-logo__image {
+    height: 4.5rem; /* Augmenté de 3rem à 4.5rem pour un logo plus imposant */
+  }
+}

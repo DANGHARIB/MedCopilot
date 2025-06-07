@@ -1,0 +1,185 @@
+[
+    {
+      "id": "school-match",
+      "name": "School Matching Recommendation AI",
+      "category": "School Selection",
+      "description": "Get personalized school recommendations based on your academic profile, experiences, and preferences.",
+      "icon": "school",
+      "imageUrl": "/lovable-uploads/bc29c42a-8b71-4538-9cbb-23a3b84648b5.png",
+      "features": [
+        "Analyzes GPA, MCAT, and other academic metrics",
+        "Considers extracurricular activities and experiences",
+        "Compares your profile with admitted student data",
+        "Provides match probability estimates",
+        "Suggests a balanced list of reach, target, and safety schools"
+      ],
+      "isPremium": false,
+      "pricingTier": "free"
+    },
+    {
+      "id": "ready-to-apply",
+      "name": "\"Are You Ready to Apply?\" Checklist AI",
+      "category": "Readiness",
+      "description": "Evaluate your application readiness and identify areas that need improvement before applying.",
+      "icon": "check-circle",
+      "imageUrl": "/lovable-uploads/bc29c42a-8b71-4538-9cbb-23a3b84648b5.png",
+      "features": [
+        "Comprehensive application readiness assessment",
+        "Identifies specific weaknesses in your profile",
+        "Creates a timeline for addressing gaps",
+        "Provides concrete action items to strengthen your application",
+        "Tracks progress toward application readiness",
+        "Recommends when you're ready to submit applications"
+      ],
+      "isPremium": true,
+      "pricingTier": "free"
+    },
+    {
+      "id": "personal-advisor",
+      "name": "Personal Med School Advisor AI",
+      "category": "Application Strategy",
+      "description": "Track deadlines, organize tasks, and receive guidance throughout your application process.",
+      "icon": "user",
+      "imageUrl": "/lovable-uploads/bc29c42a-8b71-4538-9cbb-23a3b84648b5.png",
+      "features": [
+        "Sends deadline reminders and alerts",
+        "Organizes application timeline with customizable tasks",
+        "Answers common application questions",
+        "Tracks your application progress",
+        "Recommends resources for different application components",
+        "Adapts to your specific schedule and needs"
+      ],
+      "isPremium": false,
+      "pricingTier": "basic"
+    },
+    {
+      "id": "personal-statement",
+      "name": "Personal Statement Brainstormer AI",
+      "category": "Essays",
+      "description": "Generate ideas and outline your personal statement based on your experiences and aspirations.",
+      "icon": "file-text",
+      "imageUrl": "/lovable-uploads/bc29c42a-8b71-4538-9cbb-23a3b84648b5.png",
+      "features": [
+        "Analyzes your experiences to identify compelling stories",
+        "Helps articulate your unique motivations for medicine",
+        "Provides structural templates and organizational strategies",
+        "Offers writing style guidance appropriate for medical school essays",
+        "Breaks down the writing process into manageable steps",
+        "Focuses on themes relevant to medical school admissions"
+      ],
+      "isPremium": true,
+      "pricingTier": "basic"
+    },
+    {
+      "id": "primary-essay",
+      "name": "Primary Application Essay Drafter and Editor AI",
+      "category": "Essays",
+      "description": "Draft, structure, and refine your personal statement and work/activities descriptions for primary applications.",
+      "icon": "file-text",
+      "imageUrl": "/lovable-uploads/bc29c42a-8b71-4538-9cbb-23a3b84648b5.png",
+      "features": [
+        "Helps organize your thoughts and experiences",
+        "Provides feedback on essay structure and content",
+        "Checks for grammar and writing style issues",
+        "Compares your essay to successful examples",
+        "Saves multiple versions for comparison",
+        "Ensures alignment with school-specific values"
+      ],
+      "isPremium": true,
+      "pricingTier": "premium"
+    },
+    {
+      "id": "secondary-essay",
+      "name": "Secondary Application Essay Drafter and Editor AI",
+      "category": "Essays",
+      "description": "Create customized responses for different schools' secondary application prompts efficiently.",
+      "icon": "file-text",
+      "imageUrl": "/lovable-uploads/bc29c42a-8b71-4538-9cbb-23a3b84648b5.png",
+      "features": [
+        "Analyzes secondary prompt requirements",
+        "Generates tailored content for specific schools",
+        "Customizes similar content for different prompts",
+        "Ensures consistency with your primary application",
+        "Identifies grammar and style issues",
+        "Organizes secondary responses by school"
+      ],
+      "isPremium": true,
+      "pricingTier": "premium"
+    },
+    {
+      "id": "interview-coach",
+      "name": "Interview Preparation Advisor and Mock Interviewer AI",
+      "category": "Interviews",
+      "description": "Practice interview questions and receive feedback to improve your interview skills.",
+      "icon": "user",
+      "imageUrl": "/lovable-uploads/bc29c42a-8b71-4538-9cbb-23a3b84648b5.png",
+      "features": [
+        "Simulates traditional and MMI interview formats",
+        "Prepares school-specific interview questions",
+        "Provides feedback on communication habits",
+        "Offers specific improvement suggestions",
+        "Tracks progress over multiple practice sessions",
+        "Focuses on challenging question types"
+      ],
+      "isPremium": true,
+      "pricingTier": "premium",
+      "coming_soon": true
+    },
+    {
+      "id": "letter-generator",
+      "name": "Letter of Intent & Interest Generator AI",
+      "category": "Post-Interview",
+      "description": "Create professional letters to communicate continued interest in schools after interviews.",
+      "icon": "file-text",
+      "imageUrl": "/lovable-uploads/bc29c42a-8b71-4538-9cbb-23a3b84648b5.png",
+      "features": [
+        "Provides letter templates for different situations",
+        "Helps align your message with school missions",
+        "Guides appropriate professional tone",
+        "Suggests relevant updates to include",
+        "Polishes writing for clarity and professionalism",
+        "Manages different letter versions for multiple schools"
+      ],
+      "isPremium": true,
+      "pricingTier": "ultimate",
+      "coming_soon": true
+    },
+    {
+      "id": "offer-negotiator",
+      "name": "Admissions Offer Negotiator & Decision-Making AI",
+      "category": "Decision Support",
+      "description": "Compare offers and get guidance on school selection and financial aid considerations.",
+      "icon": "check-circle",
+      "imageUrl": "/lovable-uploads/bc29c42a-8b71-4538-9cbb-23a3b84648b5.png",
+      "features": [
+        "Side-by-side comparison of offers",
+        "Financial aid package analysis",
+        "Assistance with professional communication for additional support",
+        "Long-term financial impact calculations",
+        "School fit evaluation beyond rankings",
+        "Decision deadline tracking"
+      ],
+      "isPremium": true,
+      "pricingTier": "ultimate",
+      "coming_soon": true
+    },
+    {
+      "id": "reapplication-strategy",
+      "name": "Reapplication Strategy AI",
+      "category": "Reapplication Planning",
+      "description": "Create a strategic plan to strengthen your application for the next cycle if you need to reapply.",
+      "icon": "refresh",
+      "imageUrl": "/lovable-uploads/bc29c42a-8b71-4538-9cbb-23a3b84648b5.png",
+      "features": [
+        "Analysis of application weaknesses",
+        "Personalized improvement plan",
+        "Gap year activity recommendations",
+        "Timeline for reapplication",
+        "School selection strategy for reapplicants",
+        "Guidance for addressing previous application issues"
+      ],
+      "isPremium": true,
+      "pricingTier": "ultimate",
+      "coming_soon": true
+    }
+  ]

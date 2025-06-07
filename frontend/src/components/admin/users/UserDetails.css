@@ -1,0 +1,368 @@
+.admin-user-details {
+  padding-bottom: 20px;
+}
+
+.admin-content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.user-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-header-left h1 {
+  font-size: 1.5rem;
+  color: #1e293b;
+  margin: 0;
+  font-weight: 600;
+}
+
+.user-header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.user-status-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  border: 1px solid transparent;
+}
+
+.admin-button.primary {
+  background-color: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.admin-button.primary:hover {
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.admin-button.secondary {
+  background-color: white;
+  color: #334155;
+  border-color: #e2e8f0;
+}
+
+.admin-button.secondary:hover {
+  background-color: #f8fafc;
+}
+
+.admin-button.success {
+  background-color: #10b981;
+  color: white;
+  border-color: #10b981;
+}
+
+.admin-button.success:hover {
+  background-color: #059669;
+  border-color: #059669;
+}
+
+.admin-button.warning {
+  background-color: #f59e0b;
+  color: white;
+  border-color: #f59e0b;
+}
+
+.admin-button.warning:hover {
+  background-color: #d97706;
+  border-color: #d97706;
+}
+
+.admin-button.danger {
+  background-color: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
+
+.admin-button.danger:hover {
+  background-color: #dc2626;
+  border-color: #dc2626;
+}
+
+.admin-error-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  background-color: #fee2e2;
+  border-radius: 6px;
+  color: #ef4444;
+  margin-bottom: 20px;
+}
+
+.admin-error-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+}
+
+.admin-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #64748b;
+}
+
+.admin-loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(37, 99, 235, 0.1);
+  border-radius: 50%;
+  border-top-color: #2563eb;
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.admin-tabs {
+  display: flex;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 24px;
+}
+
+.admin-tab {
+  padding: 12px 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.admin-tab:hover {
+  color: #334155;
+}
+
+.admin-tab.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+}
+
+.admin-tab-content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Styling for the Profile Tab */
+.user-profile-tab {
+  padding: 24px;
+}
+
+.user-info-section {
+  margin-bottom: 32px;
+}
+
+.section-title {
+  font-size: 1.125rem;
+  color: #334155;
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-weight: 600;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: 0.9375rem;
+  color: #334155;
+}
+
+.verification-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.verification-status.verified {
+  color: #10b981;
+}
+
+.verification-status.not-verified {
+  color: #ef4444;
+}
+
+.schools-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.school-item {
+  padding: 10px 14px;
+  background-color: #f8fafc;
+  border-radius: 6px;
+  color: #334155;
+  font-size: 0.875rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 20px;
+}
+
+.stat-item {
+  padding: 16px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.no-data-message {
+  color: #64748b;
+  font-style: italic;
+  margin: 16px 0;
+}
+
+/* Styling for the Activity Tab */
+.user-activity-tab {
+  padding: 24px;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activity-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+.activity-icon {
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background-color: rgba(37, 99, 235, 0.1);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.activity-type {
+  font-weight: 500;
+  color: #334155;
+}
+
+.activity-time {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.activity-details {
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .admin-content-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .user-header-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .user-status-actions {
+    width: 100%;
+  }
+  
+  .admin-button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+} 

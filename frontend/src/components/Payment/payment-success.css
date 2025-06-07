@@ -1,0 +1,192 @@
+/* Payment Success Styles - Avec préfixe 'pay-' pour éviter les conflits */
+.pay-success-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90vh;
+  padding: 2rem 1rem;
+  background-color: var(--bg-light, #f9fafb);
+}
+
+.pay-success-content {
+  max-width: 600px;
+  text-align: center;
+  background-color: var(--white, white);
+  border-radius: var(--radius-lg, 16px);
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
+  padding: 3rem 2rem;
+  animation: pay-scale-in 0.5s ease-out;
+}
+
+@keyframes pay-scale-in {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.pay-success-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  width: 96px;
+  height: 96px;
+  background-color: var(--success-light, rgba(16, 185, 129, 0.1));
+  border-radius: 50%;
+  color: var(--success-color, #10b981);
+  animation: pay-bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pay-bounce-in {
+  0% { opacity: 0; transform: scale(0.3); }
+  50% { opacity: 1; transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+.pay-success-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary, #1e293b);
+  margin-bottom: 1rem;
+}
+
+.pay-success-message {
+  font-size: 1.25rem;
+  color: var(--text-secondary, #64748b);
+  margin-bottom: 2rem;
+}
+
+.pay-success-details {
+  margin-bottom: 2rem;
+  color: var(--text-secondary, #64748b);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.pay-account-creation {
+  text-align: left;
+  background-color: var(--primary-light, rgba(59, 130, 246, 0.1));
+  border: 1px solid var(--primary-border, rgba(59, 130, 246, 0.2));
+  border-radius: var(--radius-md, 12px);
+  padding: 1.75rem;
+  margin-top: 1.5rem;
+}
+
+.pay-account-title {
+  color: var(--primary-color, #3b82f6);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.pay-account-text {
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+.pay-btn-create-account {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--primary-color, #3b82f6);
+  color: var(--white, white);
+  border: none;
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--radius-md, 8px);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+  width: 100%;
+}
+
+.pay-btn-create-account:hover {
+  background-color: var(--primary-hover, #2563eb);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
+}
+
+.pay-success-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.pay-btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  background-color: var(--primary-color, #3b82f6);
+  color: var(--white, white);
+  border: none;
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(0, 0, 0, 0.1));
+}
+
+.pay-btn-primary:hover {
+  background-color: var(--primary-hover, #2563eb);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1));
+}
+
+.pay-btn-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  background-color: transparent;
+  color: var(--text-secondary, #64748b);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+
+.pay-btn-outline:hover {
+  background-color: var(--bg-secondary, #f8fafc);
+  color: var(--text-primary, #1e293b);
+  border-color: var(--border-hover, #cbd5e1);
+}
+
+/* Responsive styles */
+@media (min-width: 640px) {
+  .pay-success-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .pay-btn-primary,
+  .pay-btn-outline {
+    min-width: 220px;
+  }
+}
+
+@media (max-width: 640px) {
+  .pay-success-content {
+    padding: 2rem 1.5rem;
+  }
+  
+  .pay-success-title {
+    font-size: 1.75rem;
+  }
+  
+  .pay-success-message {
+    font-size: 1.125rem;
+  }
+  
+  .pay-account-creation {
+    padding: 1.25rem;
+  }
+}

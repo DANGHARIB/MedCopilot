@@ -1,0 +1,80 @@
+.quick-actions-section {
+    margin-bottom: 8px;
+    max-height: fit-content;
+  }
+  
+  .section-title-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #3b82f6;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+  }
+  
+  .section-title-icon {
+    color: #3b82f6;
+  }
+  
+  /* Quick Actions buttons */
+  .quick-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  
+  .action-button-ab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    height: 42px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: calc(50% - 5px);
+    flex-shrink: 0;
+  }
+  
+  .action-button-ab-text {
+    flex: 1;
+  }
+  
+  .action-button-ab.primary {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .action-button-ab.primary:hover {
+    background-color: #2563eb;
+  }
+  
+  .action-button-ab:not(.primary) {
+    background-color: #f8fafc;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .action-button-ab:not(.primary):hover {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .action-button-ab {
+      width: 100%;
+    }
+  }

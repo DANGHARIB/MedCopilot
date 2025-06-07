@@ -1,0 +1,346 @@
+/* src/components/Accueil/FeatureShowcase.css */
+
+:root {
+  --card-transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  --feature-animation-stagger: 0.08s;
+  --primary: #2563eb;
+  --primary-light: rgba(37, 99, 235, 0.08);
+  --primary-dark: #1d4ed8;
+  --dark: #0f172a;
+  --dark-light: #1e293b;
+  --gray: #64748b;
+  --gray-light: #94a3b8;
+  --white: #ffffff;
+  --off-white: #f9fafb;
+  --card-hover-shadow: 0 22px 40px rgba(0, 0, 0, 0.12);
+  --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.feature-showcase {
+  padding: 100px 0 120px 0;
+  background-color: var(--off-white);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Backdrop effect with blurred shapes */
+.feature-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.feature-backdrop::before, .feature-backdrop::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+}
+
+.feature-backdrop::before {
+  width: 500px;
+  height: 500px;
+  background-color: rgba(37, 99, 235, 0.04);
+  top: -150px;
+  right: -150px;
+  animation: float-slow 15s ease-in-out infinite alternate;
+}
+
+.feature-backdrop::after {
+  width: 400px;
+  height: 400px;
+  background-color: rgba(20, 184, 166, 0.04);
+  bottom: -100px;
+  left: -100px;
+  animation: float-slow 12s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes float-slow {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(3%, 3%); }
+}
+
+/* Subtle background pattern */
+.feature-showcase::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle, var(--primary, #2563eb) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.02;
+  pointer-events: none;
+}
+
+.feature-showcase__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.feature-showcase__header {
+  text-align: center;
+  max-width: 768px;
+  margin: 0 auto 80px;
+}
+
+.feature-visible {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+.feature-showcase__pill-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(37, 99, 235, 0.08);
+  color: var(--primary, #2563eb);
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  opacity: 1;
+  transform: translateY(0);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.05);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.feature-showcase__title {
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--dark-light, #1e293b);
+  line-height: 1.2;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.feature-showcase__title-highlight {
+  background: linear-gradient(120deg, var(--primary), #4f46e5);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  display: inline-block;
+  position: relative;
+}
+
+.feature-showcase__title-highlight::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(120deg, rgba(37, 99, 235, 0.2), rgba(79, 70, 229, 0.2));
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.feature-showcase__subtitle {
+  font-size: 18px;
+  color: var(--gray, #64748b);
+  margin-bottom: 20px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.feature-showcase__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  margin-top: 60px;
+}
+
+/* Responsive grid with improved layout */
+@media (min-width: 640px) {
+  .feature-showcase__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .feature-showcase__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Feature Card */
+.feature-card {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all var(--card-transition);
+  border: 1px solid rgba(226, 232, 240, 0.7);
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-card__content {
+  padding: 32px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.feature-card__decoration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary), #4f46e5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.feature-card--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--card-hover-shadow);
+}
+
+.feature-card:hover .feature-card__decoration {
+  opacity: 1;
+}
+
+.feature-card__icon-wrapper {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.feature-card__icon-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 80%;
+  background-color: var(--primary-light);
+  border-radius: 12px;
+  z-index: -1;
+  transform: scale(0.9);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-card__icon-wrapper {
+  transform: translateY(-5px);
+}
+
+.feature-card:hover .feature-card__icon-bg {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.feature-card__icon {
+  color: var(--primary);
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover .feature-card__icon {
+  transform: scale(1.1);
+}
+
+.feature-card__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dark-light);
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+  position: relative;
+}
+
+.feature-card__description {
+  color: var(--gray);
+  font-size: 16px;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+/* Improved responsiveness */
+@media (max-width: 1023px) {
+  .feature-showcase {
+    padding: 80px 0 100px 0;
+  }
+  
+  .feature-showcase__title {
+    font-size: 36px;
+  }
+  
+  .feature-showcase__header {
+    margin-bottom: 60px;
+  }
+}
+
+@media (max-width: 639px) {
+  .feature-showcase {
+    padding: 60px 0 80px 0;
+  }
+  
+  .feature-showcase__title {
+    font-size: 32px;
+  }
+  
+  .feature-showcase__header {
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  
+  .feature-showcase__pill-badge {
+    margin-left: 0;
+  }
+  
+  .feature-showcase__subtitle {
+    margin-left: 0;
+    font-size: 16px;
+  }
+  
+  .feature-card__content {
+    padding: 28px;
+  }
+}
+
+.badge-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  width: 100%;
+}

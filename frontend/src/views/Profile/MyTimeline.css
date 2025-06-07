@@ -1,0 +1,161 @@
+/* MyTimeline.css - Styles adaptés pour correspondre au design de MySchoolTab */
+
+/* Styles spécifiques pour les éléments de date */
+.my-timeline-info-banner {
+  background-color: var(--primary-light);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--primary);
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.my-timeline-dates-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .my-timeline-dates-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.my-timeline-date-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+  border: 1px solid var(--border);
+  background-color: var(--card);
+}
+
+.my-timeline-date-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.my-timeline-date-item.primary {
+  border-left: 3px solid var(--primary);
+}
+
+.my-timeline-date-item.warning {
+  border-left: 3px solid var(--warning, #f59e0b);
+}
+
+.my-timeline-date-item.danger {
+  border-left: 3px solid var(--danger);
+}
+
+.my-timeline-date-icon {
+  background-color: var(--background);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.my-timeline-date-item.primary .my-timeline-date-icon {
+  color: var(--primary);
+  background-color: var(--primary-light);
+}
+
+.my-timeline-date-item.warning .my-timeline-date-icon {
+  color: var(--warning, #f59e0b);
+  background-color: rgba(245, 158, 11, 0.1);
+}
+
+.my-timeline-date-item.danger .my-timeline-date-icon {
+  color: var(--danger);
+  background-color: var(--danger-light);
+}
+
+.my-timeline-date-content {
+  flex-grow: 1;
+}
+
+.my-timeline-date-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.375rem 0;
+  color: var(--text-primary);
+}
+
+.my-timeline-date-text {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: 500;
+}
+
+.centered-content {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+/* Styles pour l'intégration du composant ApplicationTimelineResources */
+.my-timeline-resources {
+  margin-top: 2rem;
+}
+
+/* Adaptations des styles pour que ApplicationTimelineResources s'intègre bien */
+.my-school-container .resources-section {
+  max-width: 100%;
+  padding-top: 0;
+}
+
+.my-school-container .section-header.resources {
+  margin-top: 0;
+  border-radius: var(--radius-md);
+  /* background: linear-gradient(to right, var(--primary-light), rgba(255, 255, 255, 0.8)); */
+}
+
+.my-school-container .section-header.resources .section-header-icon {
+  background-color: var(--primary);
+}
+
+.my-school-container .resources-tabs {
+  border-radius: var(--radius-md);
+  background-color: var(--card);
+}
+
+.my-school-container .tab-button {
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.my-school-container .resource-card {
+  border-radius: var(--radius-md);
+}
+
+.my-school-container .resource-card-header {
+  background-color: var(--primary-light);
+}
+
+/* Responsive Styles */
+@media (max-width: 480px) {
+  .my-timeline-dates-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .my-timeline-date-item {
+    padding: 0.875rem;
+  }
+  
+  .my-timeline-date-title {
+    font-size: 0.9375rem;
+  }
+  
+  .my-school-container .tab-button span {
+    display: none;
+  }
+}

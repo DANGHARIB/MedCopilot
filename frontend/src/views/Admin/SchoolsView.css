@@ -1,0 +1,9 @@
+.schools-view-container {
+  width: 100%;
+  padding: 16px;
+}
+
+.schools-view-content {
+  background-color: #fff;
+  min-height: 100vh;
+} 

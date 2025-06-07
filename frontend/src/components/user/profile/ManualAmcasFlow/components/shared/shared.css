@@ -1,0 +1,338 @@
+/* shared.css - Styles partagés pour les composants du flow Manual AMCAS */
+
+/* === PROGRESS INDICATOR === */
+.progress-indicator {
+  width: 100%;
+  margin-bottom: var(--spacing-8, 32px);
+  background-color: #ffffff;
+  border-radius: var(--radius-lg, 12px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: var(--spacing-6, 24px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-6, 24px);
+  position: relative;
+  margin-left: 150px;
+}
+
+.progress-step-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: var(--spacing-3, 12px);
+  border-radius: var(--radius-md, 8px);
+  background-color: transparent;
+  border: 1px solid transparent;
+  min-width: 120px;
+}
+
+.progress-step:hover.accessible {
+  background-color: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+.progress-step:focus-visible {
+  outline: 2px solid var(--color-info);
+  outline-offset: 2px;
+}
+
+.progress-step.current {
+  background-color: rgba(0, 120, 212, 0.05);
+  border-color: rgba(0, 120, 212, 0.1);
+}
+
+.progress-step.completed {
+  background-color: rgba(34, 197, 94, 0.05);
+  border-color: rgba(34, 197, 94, 0.1);
+}
+
+.progress-step:not(.accessible) {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Indicateurs d'étape */
+.progress-step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-bottom: var(--spacing-2, 8px);
+  background-color: rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+}
+
+.progress-step.current .progress-step-indicator {
+  background-color: var(--color-info);
+  border-color: var(--color-info);
+}
+
+.progress-step.completed .progress-step-indicator {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.progress-step-number {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.progress-step.current .progress-step-number {
+  color: white;
+}
+
+.completed-icon {
+  color: white;
+}
+
+/* Contenu des étapes */
+.progress-step-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1, 4px);
+}
+
+.progress-step-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 1.2;
+}
+
+.progress-step-status {
+  font-size: 0.6875rem;
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 400;
+}
+
+.progress-step.current .progress-step-status {
+  color: var(--color-info);
+  font-weight: 500;
+}
+
+.progress-step.completed .progress-step-status {
+  color: var(--color-success);
+  font-weight: 500;
+}
+
+/* Connecteurs entre étapes */
+.progress-connector {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin: 0 var(--spacing-2, 8px);
+  margin-top: -20px; /* Aligner avec les indicateurs */
+}
+
+.progress-connector-line {
+  width: 100%;
+  height: 2px;
+  background-color: rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+}
+
+.progress-connector.completed .progress-connector-line {
+  background-color: var(--color-success);
+}
+
+/* Barre de progression globale */
+.progress-bar-container {
+  width: 100%;
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: var(--spacing-3, 12px);
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-info), var(--color-success));
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Résumé textuel */
+.progress-summary {
+  text-align: center;
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.65);
+  font-weight: 500;
+}
+
+/* === STEP HEADER === */
+.step-header {
+  width: 100%;
+  margin-bottom: var(--spacing-6, 24px);
+  background-color: #ffffff;
+  border-radius: var(--radius-lg, 12px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+}
+
+.step-header-content {
+  padding: var(--spacing-6, 24px);
+  text-align: center;
+}
+
+.step-header-meta {
+  margin-bottom: var(--spacing-3, 12px);
+}
+
+.step-header-counter {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-info);
+  background-color: rgba(0, 120, 212, 0.08);
+  padding: var(--spacing-1, 4px) var(--spacing-3, 12px);
+  border-radius: var(--radius-full, 50px);
+  border: 1px solid rgba(0, 120, 212, 0.15);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.step-header-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
+  margin: 0 0 var(--spacing-3, 12px) 0;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.step-header-subtitle {
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+  .progress-steps {
+    flex-direction: column;
+    gap: var(--spacing-4, 16px);
+  }
+  
+  .progress-step-container {
+    flex-direction: column;
+  }
+  
+  .progress-connector {
+    display: none; /* Masquer les connecteurs sur mobile */
+  }
+  
+  .progress-step {
+    min-width: unset;
+    width: 100%;
+    flex-direction: row;
+    text-align: left;
+    padding: var(--spacing-4, 16px);
+  }
+  
+  .progress-step-indicator {
+    margin-bottom: 0;
+    margin-right: var(--spacing-3, 12px);
+    width: 32px;
+    height: 32px;
+  }
+  
+  .progress-step-content {
+    align-items: flex-start;
+  }
+  
+  .step-header-title {
+    font-size: 1.5rem;
+  }
+  
+  .step-header-subtitle {
+    font-size: 0.875rem;
+  }
+  
+  .step-header-content {
+    padding: var(--spacing-5, 20px);
+  }
+}
+
+@media (max-width: 480px) {
+  .progress-indicator {
+    padding: var(--spacing-4, 16px);
+  }
+  
+  .progress-step-title {
+    font-size: 0.875rem;
+  }
+  
+  .progress-step-status {
+    font-size: 0.75rem;
+  }
+  
+  .step-header-title {
+    font-size: 1.25rem;
+  }
+  
+  .step-header-content {
+    padding: var(--spacing-4, 16px);
+  }
+}
+
+/* === ACCESSIBILITÉ === */
+@media (prefers-reduced-motion: reduce) {
+  .progress-step,
+  .progress-connector-line,
+  .progress-bar-fill,
+  .progress-step-indicator {
+    transition: none !important;
+  }
+}
+
+/* États de focus pour accessibilité */
+.progress-step:focus-visible,
+.step-header:focus-visible {
+  outline: 2px solid var(--color-info);
+  outline-offset: 2px;
+}
+
+/* Mode sombre (préparation future) */
+@media (prefers-color-scheme: dark) {
+  .progress-indicator,
+  .step-header {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .progress-step-title,
+  .step-header-title {
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .progress-step-status,
+  .step-header-subtitle,
+  .progress-summary {
+    color: rgba(255, 255, 255, 0.6);
+  }
+} 

@@ -1,0 +1,370 @@
+/* src/components/Accueil/Hero.css */
+
+:root {
+  /* Define color variables based on the Tailwind config */
+  --medschool-navy: #0f172a;
+  --medschool-blue: #2563eb;
+  --medschool-teal: #14b8a6;
+  --medschool-green: #22c55e;
+  --white: #ffffff;
+  --text-primary: var(--medschool-navy);
+  --text-secondary: rgba(15, 23, 42, 0.8);
+  --background-light: #f8fafc;
+
+  --transition-speed: 0.3s;
+  --animation-delay-base: 0.2s;
+}
+
+.hero {
+  position: relative;
+  min-height: 88vh;
+  padding-top: 20px;
+  padding-bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--white, #ffffff);
+  margin-top: 0;
+  z-index: 5;
+}
+
+/* Background Gradients with improved visual */
+.hero__background-gradient {
+  position: absolute;
+  z-index: 0;
+  border-radius: 9999px;
+  opacity: 0.12;
+  filter: blur(60px);
+  pointer-events: none;
+  transition: transform 1.5s ease-in-out;
+}
+
+.hero__background-gradient--blue {
+  top: -5%;
+  right: -5%;
+  width: 80%;
+  height: 80%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.9), rgba(37, 99, 235, 0.2) 80%);
+  border-bottom-left-radius: 50%;
+  animation: float-slow 8s ease-in-out infinite alternate;
+}
+
+.hero__background-gradient--teal {
+  bottom: -10%;
+  left: -5%;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.9), rgba(20, 184, 166, 0.1) 80%);
+  border-top-right-radius: 50%;
+  animation: float-slow 10s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes float-slow {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(2%, 2%) scale(1.05); }
+}
+
+/* Content Container */
+.hero__container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 60px 32px;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 35px;
+}
+
+/* Text Content */
+.hero__content {
+  flex: 1;
+  max-width: 720px;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .hero__content {
+    text-align: left;
+  }
+}
+
+.hero__pill-badge {
+  display: inline-block;
+  background-color: rgba(37, 99, 235, 0.08);
+  color: var(--medschool-blue);
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(-10px);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.05);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hero__title {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(20px);
+  letter-spacing: -0.02em;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hero__title--highlight {
+  background: linear-gradient(120deg, var(--medschool-blue), #4f46e5);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  display: inline-block;
+  position: relative;
+}
+
+.hero__title--highlight::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(120deg, rgba(37, 99, 235, 0.2), rgba(79, 70, 229, 0.2));
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.hero__subtitle {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  line-height: 1.6;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hero__cta {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@media (min-width: 640px) {
+  .hero__cta {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+@media (min-width: 1024px) {
+  .hero__cta {
+    justify-content: flex-start;
+  }
+}
+
+/* Buttons */
+.hero__button {
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 180px;
+}
+
+.hero__button--primary {
+  background: linear-gradient(135deg, var(--medschool-blue), #4f46e5);
+  color: var(--white);
+  border: none;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.hero__button--primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+.hero__button-icon {
+  margin-left: 6px;
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+}
+
+.hero__button--primary:hover .hero__button-icon {
+  transform: translateX(4px);
+}
+
+.hero__button--secondary {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: var(--medschool-blue);
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+}
+
+.hero__button--secondary:hover {
+  background-color: rgba(37, 99, 235, 0.05);
+  color: #1d4ed8;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(37, 99, 235, 0.15);
+}
+
+/* Scroll Indicator */
+.hero__scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hero__scroll-text {
+  font-size: 14px;
+  color: rgba(15, 23, 42, 0.6);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.hero__scroll-mouse {
+  width: 28px;
+  height: 50px;
+  border: 2px solid rgba(37, 99, 235, 0.3);
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.hero__scroll-wheel {
+  width: 6px;
+  height: 10px;
+  background: linear-gradient(to bottom, var(--medschool-blue), #4f46e5);
+  border-radius: 9999px;
+  margin-top: 8px;
+  animation: scrollWheel 2s infinite;
+}
+
+/* --- Animations --- */
+
+@keyframes scrollWheel {
+  0% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.5; }
+  100% { opacity: 0; transform: translateY(20px); }
+}
+
+/* Apply animations to elements */
+.hero__pill-badge--animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero__title--animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero__subtitle--animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero__cta--animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero__scroll-indicator--animate {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Welcome Message */
+.hero__welcome {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: white;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-align: center;
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 9999px;
+  margin-bottom: 28px;
+  background: linear-gradient(90deg, #4887F1, #58B0F6);
+  box-shadow: 0 2px 8px rgba(72, 135, 241, 0.15);
+}
+
+.hero__welcome::before {
+  content: none;
+}
+
+.hero__welcome::after {
+  content: none;
+}
+
+.hero__welcome--animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (min-width: 1024px) {
+  .hero__welcome {
+    text-align: center;
+  }
+}
+
+/* Adaptation pour les appareils mobiles */
+@media (max-width: 768px) {
+  .hero {
+    min-height: 80vh;
+    padding-top: 30px;
+  }
+  
+  .hero__container {
+    padding: 20px 24px 80px;
+  }
+  
+  .hero__title {
+    font-size: 36px;
+  }
+  
+  .hero__subtitle {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .hero__button {
+    padding: 12px 24px;
+    width: 100%;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero__title {
+    font-size: 32px;
+  }
+}

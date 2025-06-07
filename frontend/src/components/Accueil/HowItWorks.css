@@ -1,0 +1,398 @@
+/* src/components/Accueil/HowItWorks.css */
+
+:root {
+  --step-animation-delay: 0.15s;
+  --path-animation-duration: 1.5s;
+  --primary: #2563eb;
+  --dark: #0f172a;
+  --gray: #64748b;
+  --light: #f8fafc;
+}
+
+.how-it-works {
+  padding: 100px 0 120px 0;
+  background-color: var(--white, #ffffff);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background patterns */
+.how-it-works::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle, var(--primary) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.02;
+  pointer-events: none;
+}
+
+.how-it-works::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.03) 0%, rgba(37, 99, 235, 0) 70%);
+  border-bottom-left-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.how-it-works__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.how-it-works__header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 80px;
+}
+
+.how-it-works__pill-badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(37, 99, 235, 0.08);
+  color: var(--primary, #2563eb);
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.05);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.how-it-works__title {
+  font-size: 42px;
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.how-it-works__title-highlight {
+  background: linear-gradient(120deg, var(--primary), #4f46e5);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  display: inline-block;
+  position: relative;
+}
+
+.how-it-works__title-highlight::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(120deg, rgba(37, 99, 235, 0.2), rgba(79, 70, 229, 0.2));
+  z-index: -1;
+  border-radius: 4px;
+}
+
+.how-it-works__subtitle {
+  font-size: 18px;
+  color: var(--gray, #64748b);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  line-height: 1.6;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+/* Journey Section */
+.how-it-works__journey {
+  position: relative;
+  width: 100%;
+  margin: 80px 0 20px;
+  opacity: 0;
+}
+
+/* Conteneur de chemin */
+.how-it-works__path-container {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  padding: 50px 0;
+}
+
+/* Le chemin lui-même */
+.how-it-works__path {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Ligne du chemin */
+.how-it-works__path::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), #4f46e5);
+  transform: translateY(-50%);
+  z-index: 1;
+  transition: width var(--path-animation-duration) ease;
+  width: 0;
+  max-width: 100%;
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.1);
+}
+
+.how-it-works__journey--animate {
+  opacity: 1;
+}
+
+.how-it-works__journey--animate .how-it-works__path::before {
+  width: 100%;
+}
+
+/* Positionnement des étapes */
+.how-it-works__step-position {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 23%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.how-it-works__journey--animate .how-it-works__step-position {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: calc(var(--step-index) * var(--step-animation-delay) + var(--path-animation-duration) * 0.3);
+}
+
+/* Positionnement haut/bas */
+.how-it-works__step-position--top {
+  flex-direction: column;
+}
+
+.how-it-works__step-position--bottom {
+  flex-direction: column-reverse;
+}
+
+/* Connecteur - redesign pour la barre verticale */
+.how-it-works__connector {
+  width: 3px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--primary), #4f46e5);
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.1);
+}
+
+.how-it-works__step-position--top .how-it-works__connector {
+  margin-top: 15px;
+}
+
+.how-it-works__step-position--bottom .how-it-works__connector {
+  margin-bottom: 15px;
+  background: linear-gradient(to top, var(--primary), #4f46e5);
+}
+
+/* Numéro sur la barre */
+.how-it-works__step-number {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--primary, #2563eb), #4f46e5);
+  color: white;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 15px;
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  z-index: 10;
+  border: 2px solid white;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.how-it-works__journey--animate .how-it-works__step-number {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  transition-delay: calc(var(--step-index) * 0.1s + 0.7s);
+}
+
+/* Cartes d'étape */
+.how-it-works__step-card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  padding: 24px;
+  width: 100%;
+  max-width: 220px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  margin: 0 auto;
+}
+
+.how-it-works__step-position:hover .how-it-works__step-card {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(37, 99, 235, 0.12);
+}
+
+/* Icône d'étape */
+.how-it-works__step-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: rgba(37, 99, 235, 0.08);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.how-it-works__step-position:hover .how-it-works__step-icon-wrapper {
+  transform: translateY(-5px);
+  background-color: rgba(37, 99, 235, 0.12);
+}
+
+.how-it-works__step-icon {
+  color: var(--primary, #2563eb);
+}
+
+/* Texte d'étape */
+.how-it-works__step-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--dark, #0f172a);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.how-it-works__step-description {
+  font-size: 14px;
+  color: var(--gray, #64748b);
+  line-height: 1.5;
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.how-it-works__header-element--animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Ajustements responsifs */
+@media (max-width: 1024px) {
+  .how-it-works__path-container {
+    overflow-x: auto;
+    padding: 40px 10px;
+  }
+  
+  .how-it-works__path {
+    min-width: 800px;
+    padding: 0;
+    gap: 10px;
+  }
+  
+  .how-it-works__step-card {
+    width: 170px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .how-it-works {
+    padding: 80px 0 100px;
+  }
+  
+  .how-it-works__title {
+    font-size: 36px;
+  }
+  
+  .how-it-works__header {
+    margin-bottom: 60px;
+  }
+  
+  .how-it-works__journey {
+    margin: 30px 0;
+  }
+  
+  .how-it-works__path {
+    min-width: 700px;
+    gap: 10px;
+  }
+  
+  .how-it-works__step-card {
+    width: 140px;
+    padding: 16px;
+  }
+  
+  .how-it-works__step-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 12px;
+  }
+  
+  .how-it-works__step-title {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+  
+  .how-it-works__step-description {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .how-it-works {
+    padding: 60px 0 80px;
+  }
+  
+  .how-it-works__title {
+    font-size: 32px;
+  }
+  
+  .how-it-works__subtitle {
+    font-size: 16px;
+  }
+}
