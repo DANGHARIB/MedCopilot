@@ -120,14 +120,8 @@ const UserSidebar = () => {
           path: '/get-all-essays',
         },
         {
-          id: 'my-letters',
-          label: 'My Letters of Intent/Interest',
-          icon: <Pen size={16} />,
-          path: '/letters',
-        },
-        {
           id: 'timeline',
-          label: 'Timeline',
+          label: 'Command Center',
           icon: <CalendarDays size={16} />,
           path: '/timeline',
         }

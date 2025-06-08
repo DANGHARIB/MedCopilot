@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import "./MySchoolTab.css";
+import { getSimpleDeadlineMessage } from "../../utils/deadlineMessages";
 // import SchoolDetailsModal from "../../components/user/profile/SchoolDetailsModal";
 import {
   Trash2,
@@ -11,7 +12,8 @@ import {
   CheckCircle,
   X,
   FileText,
-  ExternalLink
+  ExternalLink,
+  Calendar
 } from "lucide-react";
 
 const LOCAL_STORAGE_KEY = "mySavedSchools";
@@ -21,7 +23,7 @@ const LOCAL_STORAGE_KEY = "mySavedSchools";
  * Features: School logos (initials), portal links, essay progress tracking
  */
 const MySchoolTab = () => {
-  // État des écoles sauvegardées
+  // États principaux
   const [savedSchools, setSavedSchools] = useState(() => {
     const storedSchools = localStorage.getItem(LOCAL_STORAGE_KEY);
     try {
@@ -79,6 +81,62 @@ const MySchoolTab = () => {
     } catch (error) {
       console.error("Error calculating essay progress:", error);
       return { total: 0, completed: 0, percentage: 0 };
+    }
+  };
+
+  // Function to get and format deadline for a school
+  const getSchoolDeadline = (schoolId) => {
+    try {
+      const deadlines = JSON.parse(localStorage.getItem('schoolDeadlines') || '{}');
+      const deadline = deadlines[schoolId];
+      
+      if (!deadline || deadline === "not defined") {
+        return { 
+          status: 'not_defined', 
+          formatted: 'Not defined', 
+          urgency: 'none',
+          daysRemaining: null 
+        };
+      }
+
+      const deadlineDate = new Date(deadline);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      deadlineDate.setHours(0, 0, 0, 0);
+      
+      const timeDiff = deadlineDate.getTime() - today.getTime();
+      const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      
+      // Compact numeric format for card view: MM/DD/YYYY
+      const formatted = deadlineDate.toLocaleDateString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: 'numeric'
+      });
+
+      let urgency = 'normal';
+      if (daysRemaining < 0) {
+        urgency = 'overdue';
+      } else if (daysRemaining <= 7) {
+        urgency = 'urgent';
+      } else if (daysRemaining <= 30) {
+        urgency = 'soon';
+      }
+
+      return {
+        status: 'defined',
+        formatted,
+        urgency,
+        daysRemaining
+      };
+    } catch (error) {
+      console.error("Error getting school deadline:", error);
+      return { 
+        status: 'not_defined', 
+        formatted: 'Not defined', 
+        urgency: 'none',
+        daysRemaining: null 
+      };
     }
   };
 
@@ -253,18 +311,18 @@ const MySchoolTab = () => {
             My{" "}
             <span className="my-school-title-highlight">Saved Schools</span>
           </h2>
-          <div className="my-school-free-trial-banner">
-            Free Trial: 1 essay available
+          <div className="my-school-header-bottom">
+            <div className="my-school-free-trial-banner">
+              Free Trial: 1 essay available
+            </div>
+            <button
+              className="my-school-view-all-button"
+              onClick={handleViewAllSchools}
+              type="button"
+            >
+              <Eye size={16} aria-hidden="true" /> View All Schools
+            </button>
           </div>
-        </div>
-        <div className="my-school-header-buttons">
-          <button
-            className="my-school-view-all-button"
-            onClick={handleViewAllSchools}
-            type="button"
-          >
-            <Eye size={16} aria-hidden="true" /> View All Schools
-          </button>
         </div>
       </div>
 
@@ -280,8 +338,33 @@ const MySchoolTab = () => {
           </div>
         ) : (
           <div className="my-school-grid">
-            {savedSchools.map((school) => {
+            {savedSchools
+              .sort((a, b) => {
+                const deadlineA = getSchoolDeadline(a.id);
+                const deadlineB = getSchoolDeadline(b.id);
+                const priorityOrder = { HIGH: 1, MEDIUM: 2, LOW: 3 };
+
+                const aHasDeadline = deadlineA.status === 'defined';
+                const bHasDeadline = deadlineB.status === 'defined';
+
+                // 1. One has a deadline, the other doesn't
+                if (aHasDeadline && !bHasDeadline) return -1;
+                if (!aHasDeadline && bHasDeadline) return 1;
+
+                // 2. Both have deadlines: sort by urgency, then priority
+                if (aHasDeadline && bHasDeadline) {
+                  if (deadlineA.daysRemaining !== deadlineB.daysRemaining) {
+                    return deadlineA.daysRemaining - deadlineB.daysRemaining;
+                  }
+                  return priorityOrder[a.priority] - priorityOrder[b.priority];
+                }
+
+                // 3. Both have no deadline: sort by priority
+                return priorityOrder[a.priority] - priorityOrder[b.priority];
+              })
+              .map((school) => {
               const progress = schoolEssayProgress[school.id] || { total: 0, completed: 0, percentage: 0 };
+              const deadline = getSchoolDeadline(school.id);
               const initials = generateInitials(school.name);
               
               return (
@@ -307,6 +390,34 @@ const MySchoolTab = () => {
                           </div>
                         )}
                       </div>
+                    </div>
+                  </div>
+
+                  {/* Deadline Section */}
+                  <div className="my-school-deadline">
+                    <div className="my-school-deadline-content">
+                      {deadline.status === 'defined' ? (
+                        <>
+                          <div className="my-school-deadline-header">
+                            <Calendar className="my-school-deadline-icon" size={16} />
+                            <span className="my-school-deadline-label">Deadline: {deadline.formatted}</span>
+                          </div>
+                          <div className="my-school-deadline-info">
+                            {deadline.daysRemaining !== null && (
+                              <span className={`my-school-deadline-status urgency-${deadline.urgency}`}>
+                                {getSimpleDeadlineMessage(deadline.daysRemaining)}
+                                {deadline.urgency === 'urgent' && ' !'}
+                                {deadline.urgency === 'overdue' && ' !!'}
+                              </span>
+                            )}
+                          </div>
+                        </>
+                      ) : (
+                        <div className="my-school-deadline-undefined">
+                          <Calendar className="my-school-deadline-icon undefined" size={16} />
+                          <span className="my-school-deadline-text">Deadline not defined</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 

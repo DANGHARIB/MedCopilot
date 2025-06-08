@@ -28,7 +28,7 @@ const ProgressIndicator = ({
   return (
     <div className="progress-indicator" role="progressbar" aria-valuenow={currentStep} aria-valuemin="1" aria-valuemax={totalSteps}>
       <div className="progress-steps">
-        {Array.from({ length: totalSteps }, (_, index) => {
+        {stepTitles.map((title, index) => {
           const step = index + 1;
           const isCompleted = isStepCompleted(step);
           const isCurrent = isStepCurrent(step);

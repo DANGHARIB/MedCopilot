@@ -1,11 +1,11 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../components/UI/Tabs';
 import Table from '../../components/UI/Table';
 import Breadcrumbs from '../../components/UI/Breadcrumbs';
 import {
   Search, Award, TrendingUp, Info, ClipboardCheck, Book,
-  ExternalLink, CheckCircle, XCircle, School, LineChart, BookmarkPlus, BookmarkMinus, X
+  ExternalLink, CheckCircle, XCircle, School, LineChart, BookmarkPlus, BookmarkMinus, X, Eye
 } from 'lucide-react';
 import medicalSchoolsData from '../../data/medicalSchools.json';
 import './ViewAllMedicalSchool.css';
@@ -14,11 +14,62 @@ import SchoolOnboarding from '../../components/user/profile/SchoolOnboarding';
 const LOCAL_STORAGE_KEY = "mySavedSchools";
 
 /**
- * ViewAllMedicalSchool - A specialized component for displaying all medical schools
- * with the ability to save them to the user's personal list of saved schools.
+ * ViewAllMedicalSchool - Medical School Database avec design SchoolPicker
  */
 const ViewAllMedicalSchool = () => {
-  // Formatting function
+  // États pour la recherche et les filtres
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [expandedRows, setExpandedRows] = useState({});
+  const [activeTabsMap, setActiveTabsMap] = useState({});
+  const [filter, setFilter] = useState('all');
+  const [showHelp, setShowHelp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  // États pour les écoles sauvegardées
+  const [savedSchools, setSavedSchools] = useState(() => {
+    try {
+      if (typeof localStorage === 'undefined') return [];
+      const storedSchools = localStorage.getItem(LOCAL_STORAGE_KEY);
+      return storedSchools ? JSON.parse(storedSchools) : [];
+    } catch (e) {
+      console.error("Failed to parse saved schools from localStorage", e);
+      return [];
+    }
+  });
+
+  // État pour les notifications toast
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    type: "success",
+  });
+
+  // État pour le modal de priorité
+  const [priorityModal, setPriorityModal] = useState({
+    show: false,
+    school: null,
+  });
+
+  // State for SchoolOnboarding modal
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [currentSchool, setCurrentSchool] = useState(null);
+  
+  // Ref pour le modal de priorité (centrage automatique)
+  const priorityModalRef = useRef(null);
+  
+  const schoolsPerPage = 10;
+  const navigate = useNavigate();
+  
+  // Créer un Set des IDs d'écoles sauvegardées pour une recherche efficace
+  const savedSchoolIds = useMemo(() => 
+    new Set((savedSchools || []).map(school => school.id))
+  , [savedSchools]);
+  
+  // Toutes les écoles depuis le JSON
+  const allSchools = useMemo(() => medicalSchoolsData || [], []);
+
+  // Fonction pour formatter les valeurs
   const formatValue = (key, value) => {
     if (value == null || value === undefined) return 'N/A';
 
@@ -32,53 +83,15 @@ const ViewAllMedicalSchool = () => {
       case 'inStateTuition':
       case 'outOfStateTuition':
       case 'avgDebtAtGraduation':
-        return typeof value === 'number' ? `${value.toLocaleString()}` : 'N/A';
+        return typeof value === 'number' ? `$${value.toLocaleString()}` : 'N/A';
       case 'avgGPA':
         return typeof value === 'number' ? value.toFixed(2) : 'N/A';
       default:
         return value;
     }
   };
-  
-  // States
-  const [searchQuery, setSearchQuery] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [expandedRows, setExpandedRows] = useState({});
-  const [activeTabsMap, setActiveTabsMap] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [filter, setFilter] = useState('all');
-  const [savedSchools, setSavedSchools] = useState(() => {
-    try {
-      if (typeof localStorage === 'undefined') return [];
-      const storedSchools = localStorage.getItem(LOCAL_STORAGE_KEY);
-      return storedSchools ? JSON.parse(storedSchools) : [];
-    } catch (e) {
-      console.error("Failed to parse saved schools from localStorage", e);
-      return [];
-    }
-  });
-  // Toast notification state
-  const [toast, setToast] = useState({
-    show: false,
-    message: "",
-    type: "success",
-  });
-  // State for SchoolOnboarding modal
-  const [showOnboarding, setShowOnboarding] = useState(false);
-  const [currentSchool, setCurrentSchool] = useState(null);
-  
-  const schoolsPerPage = 10;
-  const navigate = useNavigate();
-  
-  // Create a Set of saved school IDs for efficient lookup
-  const savedSchoolIds = useMemo(() => 
-    new Set((savedSchools || []).map(school => school.id))
-  , [savedSchools]);
-  
-  // All schools from JSON data
-  const allSchools = useMemo(() => medicalSchoolsData || [], []);
 
-  // Toast effect
+  // Effet pour les toasts
   useEffect(() => {
     let toastTimer;
     if (toast.show) {
@@ -89,18 +102,125 @@ const ViewAllMedicalSchool = () => {
     return () => clearTimeout(toastTimer);
   }, [toast]);
 
-  // Show toast notification
+  // Centrer le modal et verrouiller le scroll au montage
+  useEffect(() => {
+    if (priorityModal.show) {
+      // Verrouiller le scroll du body
+      document.body.style.overflow = 'hidden';
+      
+      // Centrer le modal avec un délai
+      const timer = setTimeout(() => {
+        centerModal();
+      }, 50);
+
+      return () => {
+        // Restaurer le scroll du body
+        document.body.style.overflow = '';
+        clearTimeout(timer);
+      };
+    }
+  }, [priorityModal.show]);
+
+  // Fonction pour centrer le modal
+  const centerModal = () => {
+    if (!priorityModalRef.current) return;
+
+    const modalElement = priorityModalRef.current;
+    const modalRect = modalElement.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+
+    // Calculer la position de scroll désirée pour centrer le modal
+    const desiredScrollTop = window.scrollY + modalRect.top - (viewportHeight - modalRect.height) / 2;
+    const finalScrollTop = Math.max(0, desiredScrollTop);
+
+    // Effectuer le scroll de la fenêtre avec animation fluide
+    window.scrollTo({ top: finalScrollTop, behavior: 'smooth' });
+  };
+
+  // Afficher un toast
   const showToast = (message, type = "success") => {
     setToast({ show: true, message, type });
   };
 
-  // Functions to handle saving and removing schools
+  // Créer un objet école propre (sans références circulaires)
+  const createCleanSchoolObject = (school) => {
+    const {
+      id,
+      name,
+      location,
+      rank,
+      acceptanceRate,
+      avgGPA,
+      avgMCAT,
+      annualTuition,
+      inStateTuition,
+      outOfStateTuition,
+      classSize,
+      officialURL,
+      percentReceivingAid,
+      financialAidHighlights,
+      inStateAcceptanceRate,
+      outOfStateAcceptanceRate,
+      primaryDeadline,
+      avgDebtAtGraduation,
+      casperRequired,
+      aamcPreviewRequired,
+      interviewFormat,
+      curriculumFeatures,
+      dualDegreesOffered
+    } = school;
+
+    return {
+      id,
+      name,
+      location,
+      rank,
+      acceptanceRate,
+      avgGPA,
+      avgMCAT,
+      annualTuition,
+      inStateTuition,
+      outOfStateTuition,
+      classSize,
+      officialURL,
+      percentReceivingAid,
+      financialAidHighlights,
+      inStateAcceptanceRate,
+      outOfStateAcceptanceRate,
+      primaryDeadline,
+      avgDebtAtGraduation,
+      casperRequired,
+      aamcPreviewRequired,
+      interviewFormat,
+      curriculumFeatures,
+      dualDegreesOffered,
+      notes: "",
+      priority: "MEDIUM", // Priorité par défaut
+      dateAdded: new Date().toISOString()
+    };
+  };
+
+  // Ouvrir le modal de priorité
   const handleSaveSchool = (school) => {
     if (!school || !school.id || savedSchoolIds.has(school.id)) return;
     
-    const schoolWithNotes = { ...school, notes: "" };
-    const updatedSchools = [...savedSchools, schoolWithNotes];
-    
+    const cleanSchool = createCleanSchoolObject(school);
+    setPriorityModal({
+      show: true,
+      school: cleanSchool,
+    });
+  };
+
+  // Sauvegarder l'école avec la priorité sélectionnée
+  const handleSaveSchoolWithPriority = (priority) => {
+    if (!priorityModal.school) return;
+
+    const schoolWithPriority = {
+      ...priorityModal.school,
+      priority: priority
+    };
+
+    const updatedSchools = [...savedSchools, schoolWithPriority];
     setSavedSchools(updatedSchools);
     
     try {
@@ -111,11 +231,19 @@ const ViewAllMedicalSchool = () => {
       console.error("Failed to save to localStorage", e);
     }
     
-    showToast(`${school.name} ajoutée à vos écoles sauvegardées`, "success");
+    // Fermer le modal
+    setPriorityModal({ show: false, school: null });
+    
+    showToast(`${schoolWithPriority.name} ajoutée à vos écoles sauvegardées (${priority})`, "success");
     
     // Déclencher le flux d'onboarding pour cette école
-    setCurrentSchool(school);
+    setCurrentSchool(schoolWithPriority);
     setShowOnboarding(true);
+  };
+
+  // Fermer le modal de priorité
+  const handleClosePriorityModal = () => {
+    setPriorityModal({ show: false, school: null });
   };
   
   const handleUnsaveSchool = (schoolId) => {
@@ -152,11 +280,11 @@ const ViewAllMedicalSchool = () => {
     }));
   };
 
-  // Filtering based on search and additional filter
+  // Filtrage des écoles
   const filteredSchools = useMemo(() => {
     let schools = allSchools;
 
-    // Apply category filter
+    // Appliquer le filtre de catégorie
     if (filter === 'top20') {
       schools = schools.filter(school => school.rank <= 20);
     } else if (filter === 'affordable') {
@@ -166,9 +294,11 @@ const ViewAllMedicalSchool = () => {
       ));
     } else if (filter === 'highAcceptance') {
       schools = schools.filter(school => school.acceptanceRate > 5);
+    } else if (filter === 'saved') {
+      schools = schools.filter(school => savedSchoolIds.has(school.id));
     }
 
-    // Apply search filter
+    // Appliquer le filtre de recherche
     if (searchQuery) {
       return schools.filter(school =>
         school.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -177,7 +307,7 @@ const ViewAllMedicalSchool = () => {
     }
 
     return schools;
-  }, [allSchools, searchQuery, filter]);
+  }, [allSchools, searchQuery, filter, savedSchoolIds]);
 
   // Column definitions with the Actions column
   const columns = useMemo(() => [
@@ -186,8 +316,8 @@ const ViewAllMedicalSchool = () => {
       accessor: 'rank',
       render: (row) => {
         if (!row) return null;
-        const rankClass = row.rank <= 10 ? 'viewall-rank-badge-top' : (row.rank <= 20 ? 'viewall-rank-badge-excellent' : '');
-        return <span className={`viewall-school-rank ${rankClass}`}>{row.rank}</span>;
+        const rankClass = row.rank <= 10 ? 'rank-badge-top' : (row.rank <= 20 ? 'rank-badge-excellent' : '');
+        return <span className={`school-rank ${rankClass}`}>{row.rank}</span>;
       },
       sortable: true,
       width: '10%'
@@ -197,7 +327,7 @@ const ViewAllMedicalSchool = () => {
       accessor: 'name',
       render: (row) => {
         if (!row) return null;
-        return <span className="viewall-school-name">{row.name}</span>;
+        return <span className="school-name">{row.name}</span>;
       },
       sortable: true,
       width: '25%'
@@ -240,7 +370,7 @@ const ViewAllMedicalSchool = () => {
       render: (row) => {
         if (!row) return null;
         return row.annualTuition === 0 ?
-          <span className="viewall-badge viewall-badge-success">Full Scholarship</span> : 
+          <span className="badge badge-success">Full Scholarship</span> : 
           formatValue('annualTuition', row.annualTuition);
       },
       sortable: true,
@@ -255,9 +385,9 @@ const ViewAllMedicalSchool = () => {
         if (!row || !row.id) return null;
         
         return (
-          <div className="viewall-actions-cell" onClick={(e) => e.stopPropagation()}>
+          <div className="actions-cell" onClick={(e) => e.stopPropagation()}>
             <button 
-              className={savedSchoolIds.has(row.id) ? 'viewall-action-button viewall-unsave-button' : 'viewall-action-button viewall-save-button'}
+              className={savedSchoolIds.has(row.id) ? 'action-button unsave-button' : 'action-button save-button'}
               onClick={(e) => {
                 e.stopPropagation(); // Prevent row expansion
                 savedSchoolIds.has(row.id) ? handleUnsaveSchool(row.id) : handleSaveSchool(row);
@@ -265,12 +395,12 @@ const ViewAllMedicalSchool = () => {
             >
               {savedSchoolIds.has(row.id) ? (
                 <>
-                  <span className="viewall-action-icon"><BookmarkMinus size={16} /></span>
+                  <span className="action-icon"><BookmarkMinus size={16} /></span>
                   Unsave
                 </>
               ) : (
                 <>
-                  <span className="viewall-action-icon"><BookmarkPlus size={16} /></span>
+                  <span className="action-icon"><BookmarkPlus size={16} /></span>
                   Save
                 </>
               )}
@@ -288,7 +418,7 @@ const ViewAllMedicalSchool = () => {
     const activeTab = getActiveTabForSchool(school.id);
 
     return (
-      <div className="viewall-school-details viewall-animate-fade-in">
+      <div className="school-details animate-fade-in">
         <Tabs
           value={activeTab}
           onValueChange={(value) => handleTabChange(school.id, value)}
@@ -316,69 +446,69 @@ const ViewAllMedicalSchool = () => {
           </TabsList>
 
           <TabsContent value="general">
-            <div className="viewall-details-grid">
-              <div className="viewall-details-section viewall-delay-100">
-                <h3 className="viewall-section-title">School Information</h3>
+            <div className="details-grid">
+              <div className="details-section delay-100">
+                <h3 className="section-title">School Information</h3>
                 
-                <div className="viewall-detail-card">
-                  <div className="viewall-detail-grid">
-                    <div className="viewall-detail-item">
-                      <span className="viewall-detail-label">Official Website</span>
+                <div className="detail-card">
+                  <div className="detail-grid">
+                    <div className="detail-item">
+                      <span className="detail-label">Official Website</span>
                       {school.officialURL ? (
                         <a
                           href={school.officialURL}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="viewall-website-link viewall-detail-value"
+                          className="website-link detail-value"
                         >
                           {school.officialURL} 
-                          <ExternalLink size={14} className="viewall-external-link-icon" />
+                          <ExternalLink size={14} className="external-link-icon" />
                         </a>
                       ) : (
-                        <span className="viewall-detail-value">N/A</span>
+                        <span className="detail-value">N/A</span>
                       )}
                     </div>
                     
-                    <div className="viewall-detail-item">
-                      <span className="viewall-detail-label">Class Size:</span>
-                      <span className="viewall-detail-value">{school.classSize || 'N/A'} students</span>
+                    <div className="detail-item">
+                      <span className="detail-label">Class Size:</span>
+                      <span className="detail-value">{school.classSize || 'N/A'} students</span>
                     </div>
                     
-                    <div className="viewall-detail-item">
-                      <span className="viewall-detail-label">% Receiving Aid:</span>
-                      <span className="viewall-detail-value">{formatValue('percentReceivingAid', school.percentReceivingAid)}</span>
+                    <div className="detail-item">
+                      <span className="detail-label">% Receiving Aid:</span>
+                      <span className="detail-value">{formatValue('percentReceivingAid', school.percentReceivingAid)}</span>
                     </div>
                   </div>
                 </div>
                 
-                <div className="viewall-detail-card">
-                  <div className="viewall-detail-full">
-                    <span className="viewall-detail-label">Financial Aid:</span>
-                    <span className="viewall-detail-value">{school.financialAidHighlights || 'N/A'}</span>
+                <div className="detail-card">
+                  <div className="detail-full">
+                    <span className="detail-label">Financial Aid:</span>
+                    <span className="detail-value">{school.financialAidHighlights || 'N/A'}</span>
                   </div>
                 </div>
 
-                <div className="viewall-metrics-grid">
-                  <div className="viewall-metric-card">
-                    <div className="viewall-metric-icon">
+                <div className="metrics-grid">
+                  <div className="metric-card">
+                    <div className="metric-icon">
                       <Award size={18} /> 
                     </div>
-                    <div className="viewall-metric-label">Rank</div>
-                    <div className="viewall-metric-value">{school.rank || 'N/A'}</div>
+                    <div className="metric-label">Rank</div>
+                    <div className="metric-value">{school.rank || 'N/A'}</div>
                   </div>
-                  <div className="viewall-metric-card">
-                    <div className="viewall-metric-icon">
+                  <div className="metric-card">
+                    <div className="metric-icon">
                       <LineChart size={18} />
                     </div>
-                    <div className="viewall-metric-label">Avg GPA</div>
-                    <div className="viewall-metric-value">{formatValue('avgGPA', school.avgGPA)}</div>
+                    <div className="metric-label">Avg GPA</div>
+                    <div className="metric-value">{formatValue('avgGPA', school.avgGPA)}</div>
                   </div>
-                  <div className="viewall-metric-card">
-                    <div className="viewall-metric-icon">
+                  <div className="metric-card">
+                    <div className="metric-icon">
                       <TrendingUp size={18} />
                     </div>
-                    <div className="viewall-metric-label">Avg MCAT</div>
-                    <div className="viewall-metric-value">{school.avgMCAT || 'N/A'}</div>
+                    <div className="metric-label">Avg MCAT</div>
+                    <div className="metric-value">{school.avgMCAT || 'N/A'}</div>
                   </div>
                 </div>
               </div>
@@ -386,83 +516,83 @@ const ViewAllMedicalSchool = () => {
           </TabsContent>
 
           <TabsContent value="admissions">
-            <div className="viewall-details-section viewall-delay-100">
-              <div className="viewall-detail-cards-row">
-                <div className="viewall-detail-card flex-1">
-                  <h3 className="viewall-section-title">Acceptance Rates</h3>
-                  <div className="viewall-detail-grid">
-                    <div className="viewall-detail-item">
-                      <span className="viewall-detail-label">Overall</span>
-                      <span className="viewall-detail-value">{formatValue('acceptanceRate', school.acceptanceRate)}</span>
+            <div className="details-section delay-100">
+              <div className="detail-cards-row">
+                <div className="detail-card flex-1">
+                  <h3 className="section-title">Acceptance Rates</h3>
+                  <div className="detail-grid">
+                    <div className="detail-item">
+                      <span className="detail-label">Overall</span>
+                      <span className="detail-value">{formatValue('acceptanceRate', school.acceptanceRate)}</span>
                     </div>
-                    <div className="viewall-detail-item">
-                      <span className="viewall-detail-label">In-State</span>
-                      <span className="viewall-detail-value">{formatValue('inStateAcceptanceRate', school.inStateAcceptanceRate) || formatValue('acceptanceRate', school.acceptanceRate)}</span>
+                    <div className="detail-item">
+                      <span className="detail-label">In-State</span>
+                      <span className="detail-value">{formatValue('inStateAcceptanceRate', school.inStateAcceptanceRate) || formatValue('acceptanceRate', school.acceptanceRate)}</span>
                     </div>
-                    <div className="viewall-detail-item">
-                      <span className="viewall-detail-label">Out-of-State</span>
-                      <span className="viewall-detail-value">{formatValue('outOfStateAcceptanceRate', school.outOfStateAcceptanceRate) || formatValue('acceptanceRate', school.acceptanceRate)}</span>
+                    <div className="detail-item">
+                      <span className="detail-label">Out-of-State</span>
+                      <span className="detail-value">{formatValue('outOfStateAcceptanceRate', school.outOfStateAcceptanceRate) || formatValue('acceptanceRate', school.acceptanceRate)}</span>
                     </div>
-                    <div className="viewall-detail-item">
-                      <span className="viewall-detail-label">Primary Deadline</span>
-                      <span className="viewall-detail-value">{school.primaryDeadline || 'N/A'}</span>
+                    <div className="detail-item">
+                      <span className="detail-label">Primary Deadline</span>
+                      <span className="detail-value">{school.primaryDeadline || 'N/A'}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="viewall-detail-card flex-1">
-                  <h3 className="viewall-section-title">Tuition Information</h3>
-                  <div className="viewall-detail-grid">
-                    <div className="viewall-detail-item">
-                      <span className="viewall-detail-label">Annual</span>
-                      <span className="viewall-detail-value">
+                <div className="detail-card flex-1">
+                  <h3 className="section-title">Tuition Information</h3>
+                  <div className="detail-grid">
+                    <div className="detail-item">
+                      <span className="detail-label">Annual</span>
+                      <span className="detail-value">
                         {school.annualTuition === 0 ? 
-                          <span className="viewall-badge viewall-badge-success">Full Scholarship</span> : 
+                          <span className="badge badge-success">Full Scholarship</span> : 
                           formatValue('annualTuition', school.annualTuition)}
                       </span>
                     </div>
-                    <div className="viewall-detail-item">
-                      <span className="viewall-detail-label">In-State</span>
-                      <span className="viewall-detail-value">
+                    <div className="detail-item">
+                      <span className="detail-label">In-State</span>
+                      <span className="detail-value">
                         {school.inStateTuition === 0 ? 
-                          <span className="viewall-badge viewall-badge-success">Full Scholarship</span> : 
+                          <span className="badge badge-success">Full Scholarship</span> : 
                           (formatValue('inStateTuition', school.inStateTuition) || formatValue('annualTuition', school.annualTuition))}
                       </span>
                     </div>
-                    <div className="viewall-detail-item">
-                      <span className="viewall-detail-label">Out-of-State</span>
-                      <span className="viewall-detail-value">
+                    <div className="detail-item">
+                      <span className="detail-label">Out-of-State</span>
+                      <span className="detail-value">
                         {school.outOfStateTuition === 0 ? 
-                          <span className="viewall-badge viewall-badge-success">Full Scholarship</span> : 
+                          <span className="badge badge-success">Full Scholarship</span> : 
                           (formatValue('outOfStateTuition', school.outOfStateTuition) || formatValue('annualTuition', school.annualTuition))}
                       </span>
                     </div>
-                    <div className="viewall-detail-item">
-                      <span className="viewall-detail-label">Avg Debt at Graduation</span>
-                      <span className="viewall-detail-value">{formatValue('avgDebtAtGraduation', school.avgDebtAtGraduation)}</span>
+                    <div className="detail-item">
+                      <span className="detail-label">Avg Debt at Graduation</span>
+                      <span className="detail-value">{formatValue('avgDebtAtGraduation', school.avgDebtAtGraduation)}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="viewall-detail-card mt-4">
-                <h3 className="viewall-section-title">Application Requirements</h3>
-                <div className="viewall-requirements-grid">
-                  <div className="viewall-requirement-item">
-                    <span className="viewall-detail-label">CASPer</span>
-                    <span className={`viewall-requirement-indicator ${school.casperRequired ? 'viewall-required' : 'viewall-not-required'}`}>
+              <div className="detail-card mt-4">
+                <h3 className="section-title">Application Requirements</h3>
+                <div className="requirements-grid">
+                  <div className="requirement-item">
+                    <span className="detail-label">CASPer</span>
+                    <span className={`requirement-indicator ${school.casperRequired ? 'required' : 'not-required'}`}>
                       {school.casperRequired ? <CheckCircle size={16} /> : <XCircle size={16} />}
                     </span>
                   </div>
-                  <div className="viewall-requirement-item">
-                    <span className="viewall-detail-label">AAMC PREview</span>
-                    <span className={`viewall-requirement-indicator ${school.aamcPreviewRequired ? 'viewall-required' : 'viewall-not-required'}`}>
+                  <div className="requirement-item">
+                    <span className="detail-label">AAMC PREview</span>
+                    <span className={`requirement-indicator ${school.aamcPreviewRequired ? 'required' : 'not-required'}`}>
                       {school.aamcPreviewRequired ? <CheckCircle size={16} /> : <XCircle size={16} />}
                     </span>
                   </div>
-                  <div className="viewall-requirement-item">
-                    <span className="viewall-detail-label">Interview Format</span>
-                    <span className="viewall-detail-value">{school.interviewFormat || 'Traditional'}</span>
+                  <div className="requirement-item">
+                    <span className="detail-label">Interview Format</span>
+                    <span className="detail-value">{school.interviewFormat || 'Traditional'}</span>
                   </div>
                 </div>
               </div>
@@ -470,19 +600,19 @@ const ViewAllMedicalSchool = () => {
           </TabsContent>
 
           <TabsContent value="curriculum">
-            <div className="viewall-details-section viewall-delay-100">
-              <div className="viewall-detail-cards-row">
-                <div className="viewall-detail-card flex-1">
-                  <h3 className="viewall-section-title">Curriculum</h3>
-                  <div className="viewall-detail-full">
-                    <span className="viewall-detail-value">{school.curriculumFeatures || 'N/A'}</span>
+            <div className="details-section delay-100">
+              <div className="detail-cards-row">
+                <div className="detail-card flex-1">
+                  <h3 className="section-title">Curriculum</h3>
+                  <div className="detail-full">
+                    <span className="detail-value">{school.curriculumFeatures || 'N/A'}</span>
                   </div>
                   
                   {school.curriculumFeatures && (
-                    <div className="viewall-feature-badges">
+                    <div className="feature-badges">
                       {['Clinical', 'Research', 'Problem-based', 'Systems-based', 'Traditional'].map(term => 
                         school.curriculumFeatures.includes(term) && (
-                          <span key={term} className="viewall-badge viewall-badge-primary">
+                          <span key={term} className="badge badge-primary">
                             {term}
                           </span>
                         )
@@ -491,16 +621,16 @@ const ViewAllMedicalSchool = () => {
                   )}
                 </div>
                 
-                <div className="viewall-detail-card flex-1">
-                  <h3 className="viewall-section-title">Dual Degrees</h3>
-                  <div className="viewall-detail-full">
-                    <span className="viewall-detail-value">{school.dualDegreesOffered || 'N/A'}</span>
+                <div className="detail-card flex-1">
+                  <h3 className="section-title">Dual Degrees</h3>
+                  <div className="detail-full">
+                    <span className="detail-value">{school.dualDegreesOffered || 'N/A'}</span>
                   </div>
                   
                   {school.dualDegreesOffered && (
-                    <div className="viewall-feature-badges">
+                    <div className="feature-badges">
                       {school.dualDegreesOffered.split(',').map((degree, index) => (
-                        <span key={index} className="viewall-badge viewall-badge-secondary">{degree.trim()}</span>
+                        <span key={index} className="badge badge-secondary">{degree.trim()}</span>
                       ))}
                     </div>
                   )}
@@ -511,19 +641,17 @@ const ViewAllMedicalSchool = () => {
         </Tabs>
       </div>
     );
-  }, [activeTabsMap]); // Only depends on the active tabs map
+  }, [activeTabsMap]);
 
   // Global statistics
   const stats = useMemo(() => {
     const totalSchools = allSchools.length;
     const avgAcceptance = allSchools.reduce((sum, school) => sum + (school.acceptanceRate || 0), 0) / totalSchools;
-    const avgTuition = allSchools.reduce((sum, school) => sum + (school.annualTuition || 0), 0) / totalSchools;
     const avgMcat = allSchools.reduce((sum, school) => sum + (school.avgMCAT || 0), 0) / totalSchools;
 
     return {
       totalSchools,
       avgAcceptance: avgAcceptance.toFixed(1),
-      avgTuition: formatValue('annualTuition', avgTuition),
       avgMcat: avgMcat.toFixed(1)
     };
   }, [allSchools]);
@@ -582,148 +710,260 @@ const ViewAllMedicalSchool = () => {
   };
 
   return (
-    <div className="viewall-container">
-      {/* Breadcrumbs */}
-      <div className="viewall-header">
-        <Breadcrumbs
-          items={[
-            {
-              label: 'My Saved Schools',
-              path: '/schools', // Path to the Profile component that handles saved schools
-              onClick: handleGoToSavedSchools
-            },
-            {
-              label: 'Medical Schools Database',
-            }
-          ]}
-        />
-      </div>
-      
-      {/* Page Title */}
-      <div className="viewall-page-header viewall-animate-fade-in">
-        <h1 className="viewall-page-title">Medical School Database</h1>
-        <p className="viewall-page-description">
-          Explore detailed information about medical schools, including acceptance rates, tuition, and admissions requirements.
-        </p>
-      </div>
-
-      {/* General statistics */}
-      <div className="viewall-stats-grid viewall-animate-fade-in viewall-delay-100">
-        <div className="viewall-stat-card">
-          <div className="viewall-stat-icon">
-            <School size={20} />
-          </div>
-          <div className="viewall-stat-value">{stats.totalSchools}</div>
-          <div className="viewall-stat-label">Medical Schools</div>
-        </div>
-        <div className="viewall-stat-card">
-          <div className="viewall-stat-icon">
-            <ClipboardCheck size={20} />
-          </div>
-          <div className="viewall-stat-value">{stats.avgAcceptance}%</div>
-          <div className="viewall-stat-label">Avg Acceptance Rate</div>
-        </div>
-        <div className="viewall-stat-card">
-          <div className="viewall-stat-icon">
-            <LineChart size={20} />
-          </div>
-          <div className="viewall-stat-value">{stats.avgMcat}</div>
-          <div className="viewall-stat-label">Avg MCAT Score</div>
-        </div>
-      </div>
-
-      {/* Search bar and filters */}
-      <div className="viewall-filters-section viewall-animate-fade-in viewall-delay-200">
-        <div className="viewall-search-container">
-          <div className="viewall-search-bar">
-            <input
-              type="text"
-              placeholder="Search by school name or location..."
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="viewall-search-input"
+    <div className="medical-school-database">
+      <div className="medical-school-database-container">
+        {/* Header */}
+        <div className="medical-school-database-header">
+          <div className="header-breadcrumbs">
+            <Breadcrumbs
+              items={[
+                {
+                  label: 'My Saved Schools',
+                  path: '/schools',
+                  onClick: handleGoToSavedSchools
+                },
+                {
+                  label: 'Medical Schools Database',
+                }
+              ]}
             />
-            <span className="viewall-search-icon">
-              <Search size={18} />
-            </span>
+          </div>
+          
+          <div className="header-main-row">
+            <div className="header-text-group">
+              <div className="header-title">
+                Medical{" "}
+                <span className="header-title-highlight">School Database</span>
+              </div>
+            
+            </div>
+            
+            <button 
+              className="help-toggle"
+              onClick={() => setShowHelp(!showHelp)}
+              aria-label="Toggle help information"
+            >
+              <Info className="help-toggle-icon" />
+              <span>Database Info</span>
+            </button>
+          </div>
+          
+          {/* Panel d'aide */}
+          {showHelp && (
+            <div className="help-panel">
+              <div className="help-content">
+                <h3 className="help-title">Database Overview</h3>
+                <div className="help-tips">
+                  <div className="tip">
+                    <CheckCircle className="tip-icon" />
+                    <span>Browse all medical schools with detailed information</span>
+                  </div>
+                  <div className="tip">
+                    <CheckCircle className="tip-icon" />
+                    <span>Save schools to your personal list for applications</span>
+                  </div>
+                  <div className="tip">
+                    <CheckCircle className="tip-icon" />
+                    <span>Compare acceptance rates, tuition, and requirements</span>
+                  </div>
+                  <div className="tip">
+                    <CheckCircle className="tip-icon" />
+                    <span>Set priorities for your school selections</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Global statistics */}
+          <div className="msd-stats-grid">
+            <div className="msd-stat-card">
+              <div className="msd-stat-icon">
+                <School size={18} />
+              </div>
+              <div className="msd-stat-content">
+                <div className="msd-stat-value">{stats.totalSchools}</div>
+                <div className="msd-stat-label">Medical Schools</div>
+              </div>
+            </div>
+            <div className="msd-stat-card">
+              <div className="msd-stat-icon">
+                <ClipboardCheck size={18} />
+              </div>
+              <div className="msd-stat-content">
+                <div className="msd-stat-value">{stats.avgAcceptance}%</div>
+                <div className="msd-stat-label">Avg Acceptance Rate</div>
+              </div>
+            </div>
+            <div className="msd-stat-card">
+              <div className="msd-stat-icon">
+                <LineChart size={18} />
+              </div>
+              <div className="msd-stat-content">
+                <div className="msd-stat-value">{stats.avgMcat}</div>
+                <div className="msd-stat-label">Avg MCAT Score</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="viewall-filters-buttons">
-          <button
-            className={`viewall-filter-button ${filter === 'all' ? 'viewall-active' : ''}`}
-            onClick={() => handleFilterChange('all')}
-          >
-            <span className="viewall-filter-button-icon">
-              <Info size={16} />
-            </span>
-            All
-          </button>
-          <button
-            className={`viewall-filter-button ${filter === 'top20' ? 'viewall-active' : ''}`}
-            onClick={() => handleFilterChange('top20')}
-          >
-            <span className="viewall-filter-button-icon">
-              <Award size={16} />
-            </span>
-            Top 20
-          </button>
-          <button
-            className={`viewall-filter-button ${filter === 'highAcceptance' ? 'viewall-active' : ''}`}
-            onClick={() => handleFilterChange('highAcceptance')}
-          >
-            <span className="viewall-filter-button-icon">
-              <TrendingUp size={16} />
-            </span>
-            Higher Acceptance Rate
-          </button>
-        </div>
-      </div>
-
-      {/* Medical schools table */}
-      <div className="viewall-animate-fade-in viewall-delay-300" style={{ position: 'relative' }}>
-        {isLoading && (
-          <div className="viewall-loading-overlay">
-            <div className="viewall-loading-spinner"></div>
-          </div>
-        )}
+        {/* Corps principal */}
+        <div className="medical-school-database-body">
         
-        <Table
-          columns={columns}
-          data={dataForTable || []}
-          expandable={true}
-          rowsPerPage={schoolsPerPage}
-          currentPage={currentPage}
-          onPageChange={setCurrentPage}
-          sortable={true}
-          emptyMessage="No medical schools match your search"
-          expandedRows={expandedRows}
-          onRowExpand={customExpandFunction}
-          tableClassName="viewall-custom-table"
-          rowClickable={true} // Make rows clickable for expansion
-        />
+            {/* Zone de recherche et filtres */}
+            <div className="medical-school-database-filters">
+            <div className="search-container">
+              <div className="search-bar">
+                <input
+                  type="text"
+                  placeholder="Search by school name or location..."
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                  className="search-input"
+                />
+                <span className="search-icon">
+                  <Search size={18} />
+                </span>
+              </div>
+            </div>
+
+            <div className="filter-buttons">
+              <button
+                className={`filter-button ${filter === 'all' ? 'active' : ''}`}
+                onClick={() => handleFilterChange('all')}
+              >
+                <Eye size={16} />
+                <span>All Schools</span>
+              </button>
+              <button
+                className={`filter-button ${filter === 'saved' ? 'active' : ''}`}
+                onClick={() => handleFilterChange('saved')}
+              >
+                <School size={16} />
+                <span>Saved ({savedSchools.length})</span>
+              </button>
+              <button
+                className={`filter-button ${filter === 'top20' ? 'active' : ''}`}
+                onClick={() => handleFilterChange('top20')}
+              >
+                <Award size={16} />
+                <span>Top 20</span>
+              </button>
+              <button
+                className={`filter-button ${filter === 'highAcceptance' ? 'active' : ''}`}
+                onClick={() => handleFilterChange('highAcceptance')}
+              >
+                <TrendingUp size={16} />
+                <span>Higher Acceptance</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Table des écoles */}
+          <div className="schools-table-section">
+            <div style={{ position: 'relative' }}>
+              {isLoading && (
+                <div className="loading-overlay">
+                  <div className="loading-spinner"></div>
+                </div>
+              )}
+              
+              <Table
+                columns={columns}
+                data={dataForTable || []}
+                expandable={true}
+                rowsPerPage={schoolsPerPage}
+                currentPage={currentPage}
+                onPageChange={setCurrentPage}
+                sortable={true}
+                emptyMessage="No medical schools match your search"
+                expandedRows={expandedRows}
+                onRowExpand={customExpandFunction}
+                tableClassName="custom-table"
+                rowClickable={true}
+              />
+
+              <p className="results-summary">
+                {filteredSchools.length > 0 ? (
+                  <span>Showing {Math.min(currentPage * schoolsPerPage, filteredSchools.length)} of {filteredSchools.length} schools</span>
+                ) : (
+                  searchQuery && <span>No schools found matching "{searchQuery}"</span>
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Display number of schools */}
-      <p className="viewall-results-summary viewall-animate-fade-in viewall-delay-300">
-        {filteredSchools.length > 0 ? (
-          <span>Showing {Math.min(currentPage * schoolsPerPage, filteredSchools.length)} of {filteredSchools.length} schools</span>
-        ) : (
-          searchQuery && <span>No schools found matching "{searchQuery}"</span>
-        )}
-      </p>
+      {/* Modal de sélection de priorité */}
+      {priorityModal.show && (
+        <div className="priority-modal-overlay" onClick={handleClosePriorityModal}>
+          <div className="priority-modal" ref={priorityModalRef} onClick={(e) => e.stopPropagation()}>
+            <div className="priority-modal-header">
+              <h3 className="priority-modal-title">Select Priority</h3>
+              <p className="priority-modal-subtitle">
+                Choose the priority level for <strong>{priorityModal.school?.name}</strong>
+              </p>
+            </div>
+            
+            <div className="priority-options">
+              <button
+                className="priority-option priority-high"
+                onClick={() => handleSaveSchoolWithPriority('HIGH')}
+              >
+                <span className="priority-dot"></span>
+                <div className="priority-text">
+                  <span className="priority-label">HIGH</span>
+                  <span className="priority-description">Top choice, dream school</span>
+                </div>
+              </button>
+              
+              <button
+                className="priority-option priority-medium"
+                onClick={() => handleSaveSchoolWithPriority('MEDIUM')}
+              >
+                <span className="priority-dot"></span>
+                <div className="priority-text">
+                  <span className="priority-label">MEDIUM</span>
+                  <span className="priority-description">Target school, good match</span>
+                </div>
+              </button>
+              
+              <button
+                className="priority-option priority-low"
+                onClick={() => handleSaveSchoolWithPriority('LOW')}
+              >
+                <span className="priority-dot"></span>
+                <div className="priority-text">
+                  <span className="priority-label">LOW</span>
+                  <span className="priority-description">Safety school, backup option</span>
+                </div>
+              </button>
+            </div>
+            
+            <div className="priority-modal-footer">
+              <button
+                className="priority-cancel-btn"
+                onClick={handleClosePriorityModal}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Toast notification */}
       {toast.show && (
-        <div className={`viewall-toast toast-${toast.type}`}>
+        <div className={`medical-school-database-toast toast-${toast.type}`}>
           <span className="toast-icon">
             {toast.type === "success" ? (
               <CheckCircle size={18} style={{ color: "#059669" }} />
             ) : (
-              <Info size={18} style={{ color: "#DC2626" }} />
+              <X size={18} style={{ color: "#DC2626" }} />
             )}
           </span>
           <span>{toast.message}</span>

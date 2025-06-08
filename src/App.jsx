@@ -15,8 +15,7 @@ import Agents from './views/FooterPages/Agents.jsx';
 import Subscriptions from './views/Subscriptions.jsx';
 import PaymentInterface from './views/PaymentInterface.jsx';
 import plansData from './data/plans.json';
-import ApplicationTimeline from './views/ApplicationTimeline.jsx';
-import TimelineCalendarPage from './views/TimelineCalendarPage.jsx';
+import Timeline from './views/Profile/Timeline.jsx';
 import ViewAllMedicalSchool from './views/Profile/ViewAllMedicalSchool.jsx';
 import EssayGenerator from './views/Profile/Essay/EssayGenerator.jsx';
 import GetAllEssays from './views/Profile/GetAllEssays.jsx';
@@ -27,6 +26,8 @@ import PaymentMethods from './views/Profile/UserSettings/PaymentMethods.jsx';
 import ProfileWizard from './components/user/profile/ProfileWizard.jsx';
 // Composant de test des règles .cursorrules
 import TestWrapper from './components/test/TestWrapper.jsx';
+// Nouveau composant NewEssayStep3
+import NewEssayStep3 from './components/user/essayFlow/NewEssayStep3.jsx';
 // Admin components
 import AdminLayout from './components/admin/layout/AdminLayout.jsx';
 import Dashboard from './views/Admin/Dashboard.jsx';
@@ -106,11 +107,12 @@ function App() {
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/subscriptions" element={<Subscriptions />} />
           <Route path="/payment" element={<PaymentInterface subscriptionPlans={plansData} />} />
-          <Route path="/application-timeline" element={<ApplicationTimeline />} />
-          <Route path="/timeline-calendar" element={<TimelineCalendarPage />} />
           
           {/* ============= ROUTE DE TEST DES RÈGLES ============= */}
           <Route path="/test-rules" element={<TestWrapper />} />
+          
+          {/* ============= ROUTE DE TEST DU NOUVEAU ESSAY STEP 3 ============= */}
+          <Route path="/test-essay-step3" element={<NewEssayStep3 />} />
           
           {/* ============= REDIRECTION PAR DÉFAUT VERS SCHOOLS ============= */}
           <Route path="/profile" element={<Navigate to="/schools" replace />} />
@@ -125,11 +127,11 @@ function App() {
           <Route path="/profile/settings/payment-methods" element={<PaymentMethods />} />
           <Route path="/assistants" element={<Profile />} />
           <Route path="/schools" element={<Profile />} />
+          <Route path="/timeline" element={<Profile />} />
           <Route path="/viewAllSchool" element={<ViewAllMedicalSchool />} />
           <Route path="/essay-generator" element={<EssayGenerator />} />
           <Route path="/schools/:schoolId/essays" element={<SchoolEssayList />} />
           <Route path="/schools/:schoolId/essays/:essayId" element={<SchoolEssaySingle />} />
-          <Route path="/timeline" element={<Profile />} />
           <Route path="/subscription" element={<Profile />} />
           <Route path="/history" element={<Profile />} />
           <Route path="/get-all-essays" element={<GetAllEssays />} />

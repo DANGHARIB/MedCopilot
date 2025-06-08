@@ -1,0 +1,698 @@
+/* Timeline Command Center - Design minimaliste inspiré de Jony Ive */
+
+:root {
+  /* Couleurs Command Center - Palette sophistiquée */
+  --command-primary: #4361ee;
+  --command-primary-hover: #3a56d4;
+  --command-primary-light: rgba(67, 97, 238, 0.1);
+  --command-accent: #7c3aed;
+  --command-accent-light: rgba(124, 58, 237, 0.1);
+  
+  /* Système d'urgence intelligent */
+  --critical: #dc2626;
+  --critical-light: rgba(220, 38, 38, 0.1);
+  --urgent: #f59e0b;
+  --urgent-light: rgba(245, 158, 11, 0.1);
+  --success: #10b981;
+  --success-light: rgba(16, 185, 129, 0.1);
+  --success-dark: #059669;
+  
+  /* Nuances de gris élégantes */
+  --text-primary: #1a1a1a;
+  --text-secondary: #4a5568;
+  --text-tertiary: #718096;
+  --text-accent: #2d3748;
+  
+  /* Surfaces et arrière-plans */
+  --background: #fafbfc;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --border: #e2e8f0;
+  --border-light: #f1f5f9;
+  --border-accent: rgba(67, 97, 238, 0.2);
+  
+  /* Système d'ombres raffinées */
+  --shadow-subtle: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-elevated: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-command: 0 20px 25px -5px rgba(67, 97, 238, 0.15), 0 10px 10px -5px rgba(67, 97, 238, 0.04);
+  
+  /* Rayons de courbure harmonieux */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  
+  /* Transitions fluides */
+  --transition-swift: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Typographie */
+  --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace;
+}
+
+/* Container principal */
+.timeline-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  background: var(--background);
+  min-height: 100vh;
+}
+
+/* Header élégant */
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.timeline-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.timeline-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+.timeline-title-icon {
+  color: var(--command-primary);
+  transform: translateY(-2px);
+}
+
+.timeline-title-highlight {
+  color: var(--command-primary);
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.timeline-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Indicateur de statut */
+.timeline-status-indicator {
+  display: flex;
+  align-items: center;
+}
+
+.timeline-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-lg);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+  transition: var(--transition-swift);
+  box-shadow: var(--shadow-subtle);
+}
+
+.timeline-status-badge.status-critical {
+  background: var(--critical-light);
+  color: var(--critical);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.timeline-status-badge.status-urgent {
+  background: var(--urgent-light);
+  color: var(--urgent);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.timeline-status-badge.status-normal {
+  background: var(--success-light);
+  color: var(--success-dark);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.timeline-status-badge.status-setup {
+  background: var(--command-primary-light);
+  color: var(--command-primary);
+  border: 1px solid var(--border-accent);
+}
+
+/* Navigation des vues */
+.timeline-navigation {
+  margin-bottom: 2rem;
+}
+
+.timeline-nav-buttons {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.375rem;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-subtle);
+  width: fit-content;
+}
+
+.timeline-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-swift);
+  letter-spacing: -0.01em;
+}
+
+.timeline-nav-btn:hover {
+  background: var(--command-primary-light);
+  color: var(--command-primary);
+  transform: translateY(-1px);
+}
+
+.timeline-nav-btn.active {
+  background: var(--command-primary);
+  color: white;
+  box-shadow: var(--shadow-soft);
+}
+
+.timeline-nav-btn.active:hover {
+  background: var(--command-primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Hero Card - Container principal */
+.timeline-hero-card {
+  background: var(--surface-elevated);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-command);
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* Métriques Bar */
+.timeline-metrics-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1px;
+  background: var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.timeline-metric {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 1.5rem;
+  background: var(--surface);
+  transition: var(--transition-swift);
+}
+
+.timeline-metric:hover {
+  background: var(--command-primary-light);
+}
+
+/* Styles pour les métriques cliquables */
+.timeline-metric.clickable {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeline-metric.clickable:hover {
+  background: var(--command-primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.timeline-metric.clickable:hover .timeline-metric-icon {
+  transform: scale(1.05);
+}
+
+.timeline-metric.clickable:active {
+  transform: translateY(0);
+}
+
+.timeline-metric-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.timeline-metric-icon.schools {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+}
+
+.timeline-metric-icon.essays {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.timeline-metric-icon.progress {
+  background: linear-gradient(135deg, var(--command-accent), #6366f1);
+  color: white;
+}
+
+.timeline-metric-icon.alerts {
+  background: linear-gradient(135deg, var(--urgent), #ea580c);
+  color: white;
+}
+
+.timeline-metric-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.timeline-metric-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.timeline-metric-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Contenu principal */
+.timeline-main-content {
+  padding: 2.5rem;
+}
+
+/* Vue Dashboard */
+.timeline-dashboard-view {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.timeline-welcome-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* État vide élégant */
+.timeline-empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.timeline-empty-content {
+  text-align: center;
+  max-width: 500px;
+}
+
+.timeline-empty-icon {
+  width: 5rem;
+  height: 5rem;
+  color: var(--command-primary);
+  margin: 0 auto 1.5rem;
+  opacity: 0.8;
+}
+
+.timeline-empty-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.timeline-empty-content p {
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  margin: 0 0 2rem 0;
+  line-height: 1.6;
+}
+
+/* Dashboard Content */
+.timeline-dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.timeline-dashboard-section {
+  margin-bottom: 1rem;
+}
+
+.timeline-overview-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-subtle);
+}
+
+.timeline-overview-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  color: var(--text-primary);
+}
+
+.timeline-overview-card p {
+  color: var(--text-secondary);
+  margin: 0 0 1rem 0;
+  line-height: 1.6;
+}
+
+.timeline-progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.timeline-progress-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--border-light);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.timeline-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--success), #34d399);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.timeline-progress-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Section d'actions */
+.timeline-action-section h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+}
+
+/* Actions rapides */
+.timeline-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.875rem;
+}
+
+.timeline-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition-swift);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+
+.timeline-action-btn:hover {
+  background: var(--command-primary-light);
+  border-color: var(--command-primary);
+  color: var(--command-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.timeline-action-btn.primary {
+  background: var(--command-primary);
+  border-color: var(--command-primary);
+  color: white;
+}
+
+.timeline-action-btn.primary:hover {
+  background: var(--command-primary-hover);
+  border-color: var(--command-primary-hover);
+  color: white;
+}
+
+.timeline-action-btn.secondary {
+  background: var(--command-accent-light);
+  border-color: var(--command-accent);
+  color: var(--command-accent);
+}
+
+.timeline-action-btn.secondary:hover {
+  background: var(--command-accent);
+  color: white;
+}
+
+/* Vues placeholder */
+.timeline-view-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 300px;
+  gap: 1rem;
+}
+
+.timeline-placeholder-icon {
+  width: 4rem;
+  height: 4rem;
+  color: var(--text-tertiary);
+  opacity: 0.6;
+}
+
+.timeline-view-placeholder h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.timeline-view-placeholder p {
+  color: var(--text-tertiary);
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Footer */
+.timeline-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.timeline-last-update {
+  font-size: 0.8125rem;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .timeline-metrics-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .timeline-metric {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .timeline-container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .timeline-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .timeline-title {
+    font-size: 2rem;
+  }
+  
+  .timeline-nav-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .timeline-nav-btn {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .timeline-metrics-bar {
+    grid-template-columns: 1fr;
+  }
+  
+  .timeline-main-content {
+    padding: 1.5rem;
+  }
+  
+  .timeline-quick-actions {
+    flex-direction: column;
+  }
+  
+  .timeline-action-btn {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-title {
+    font-size: 1.75rem;
+  }
+  
+  .timeline-subtitle {
+    font-size: 1rem;
+  }
+  
+  .timeline-nav-btn {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+  }
+  
+  .timeline-metric {
+    padding: 1rem;
+  }
+  
+  .timeline-metric-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .timeline-metric-value {
+    font-size: 1.25rem;
+  }
+}
+
+/* Animations d'entrée élégantes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timeline-hero-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.timeline-header {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.timeline-navigation {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Analytics View Integration */
+.timeline-analytics-view {
+  width: 100%;
+}
+
+/* Override Analytics container for seamless integration */
+.timeline-analytics-view .analytics-container {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  max-width: none;
+  min-height: auto;
+}
+
+/* Remove duplicate header since Timeline has its own */
+.timeline-analytics-view .analytics-header {
+  display: none;
+}
+
+/* Adjust analytics body spacing for Timeline context */
+.timeline-analytics-view .analytics-body {
+  gap: 1.5rem;
+}
+
+/* Adjust metrics overview for Timeline integration */
+.timeline-analytics-view .metrics-overview {
+  margin-bottom: 0;
+  gap: 1rem;
+}
+
+/* Make analytics sections blend with Timeline design */
+.timeline-analytics-view .analytics-section {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-subtle);
+}
+
+/* Calendar View Integration */
+.timeline-calendar-view {
+  width: 100%;
+  background: transparent;
+}
+
+/* Responsive adjustments for Analytics in Timeline */
+@media (max-width: 768px) {
+  .timeline-analytics-view .analytics-body {
+    gap: 1rem;
+  }
+  
+  .timeline-analytics-view .metrics-overview {
+    gap: 0.75rem;
+  }
+}

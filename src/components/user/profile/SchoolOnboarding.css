@@ -277,7 +277,6 @@
   .school-onboarding-info-box svg {
     color: var(--warning);
     flex-shrink: 0;
-    margin-top: 0.25rem;
   }
   
   /* Essay header */
@@ -389,10 +388,69 @@
   }
   
   .school-onboarding-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.12);
-  }
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.12);
+}
+
+/* Select dropdown */
+.school-onboarding-select-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.school-onboarding-select {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  border: 2px solid var(--neutral-200);
+  border-radius: var(--radius-md);
+  background-color: white;
+  font-size: 0.95rem;
+  color: var(--neutral-800);
+  transition: var(--transition);
+  appearance: none;
+  cursor: pointer;
+  position: relative;
+  
+  /* Custom arrow */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%236b7280'%3e%3cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.25rem;
+}
+
+.school-onboarding-select:hover {
+  border-color: var(--neutral-300);
+  background-color: var(--neutral-50);
+}
+
+.school-onboarding-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.12);
+  background-color: white;
+  
+  /* Change arrow color on focus */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%234361ee'%3e%3cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3e%3c/svg%3e");
+}
+
+.school-onboarding-select option {
+  padding: 0.75rem;
+  background-color: white;
+  color: var(--neutral-800);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.school-onboarding-select option:hover {
+  background-color: var(--primary-light);
+}
+
+/* Enhanced form group for select */
+.school-onboarding-form-group:has(.school-onboarding-select-container) {
+  margin-bottom: 1.5rem;
+}
   
   /* Toggle buttons */
   .school-onboarding-toggle {
@@ -560,4 +618,209 @@
     .school-onboarding-custom-input {
       width: 150px;
     }
+  }
+
+  /* Invitation Section (Step 0) */
+  .school-onboarding-invitation-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .school-onboarding-invitation-section h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--neutral-800);
+    margin: 0;
+    text-align: center;
+  }
+
+  .school-onboarding-invitation-options {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+
+  .school-onboarding-invitation-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 2rem;
+    border-radius: var(--radius-lg);
+    background-color: white;
+    border: 2px solid var(--neutral-200);
+    cursor: pointer;
+    transition: var(--transition);
+    min-width: 140px;
+    text-align: center;
+  }
+
+  .school-onboarding-invitation-option:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--neutral-300);
+  }
+
+  .school-onboarding-invitation-option.active {
+    border-color: var(--primary);
+    background-color: var(--primary-light);
+    box-shadow: var(--shadow-md);
+  }
+
+  .school-onboarding-option-text {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--neutral-800);
+    margin-bottom: 0.25rem;
+  }
+
+  .school-onboarding-invitation-option.active .school-onboarding-option-text {
+    color: var(--primary);
+  }
+
+  .school-onboarding-option-subtitle {
+    font-size: 0.875rem;
+    color: var(--neutral-500);
+  }
+
+  .school-onboarding-invitation-option.active .school-onboarding-option-subtitle {
+    color: var(--primary-dark);
+  }
+
+  /* Deadline Section */
+  .school-onboarding-deadline-section {
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: var(--neutral-50);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--neutral-200);
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .school-onboarding-deadline-section h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--neutral-800);
+    margin: 0 0 0.5rem 0;
+  }
+
+  .school-onboarding-deadline-description {
+    font-size: 0.9rem;
+    color: var(--neutral-600);
+    margin: 0 0 1.5rem 0;
+  }
+
+  .school-onboarding-date-picker-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .school-onboarding-date-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--neutral-700);
+  }
+
+  .school-onboarding-date-input {
+    padding: 1rem;
+    border: 2px solid var(--neutral-200);
+    border-radius: var(--radius-lg);
+    background-color: white;
+    font-size: 1rem;
+    color: var(--neutral-800);
+    transition: var(--transition);
+    cursor: pointer;
+    font-family: inherit;
+    position: relative;
+    min-width: 200px;
+  }
+
+  .school-onboarding-date-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-light);
+    transform: translateY(-1px);
+  }
+
+  .school-onboarding-date-input:hover {
+    border-color: var(--neutral-300);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Custom date input styling for modern browsers */
+  .school-onboarding-date-input::-webkit-calendar-picker-indicator {
+    background-color: transparent;
+    color: var(--primary);
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 0.25rem;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+  }
+
+  .school-onboarding-date-input::-webkit-calendar-picker-indicator:hover {
+    background-color: var(--primary-light);
+  }
+
+  .school-onboarding-date-input::-webkit-datetime-edit {
+    color: var(--neutral-800);
+  }
+
+  .school-onboarding-date-input::-webkit-datetime-edit-text {
+    color: var(--neutral-500);
+  }
+
+  .school-onboarding-date-input::-webkit-datetime-edit-month-field:focus,
+  .school-onboarding-date-input::-webkit-datetime-edit-day-field:focus,
+  .school-onboarding-date-input::-webkit-datetime-edit-year-field:focus {
+    background-color: var(--primary-light);
+    color: var(--primary);
+    border-radius: 2px;
+    outline: none;
+  }
+
+  /* Empty state styling */
+  .school-onboarding-date-input:invalid {
+    color: var(--neutral-400);
+  }
+
+  .school-onboarding-date-input[value=""]:before {
+    content: "Select a date";
+    color: var(--neutral-400);
+    font-style: italic;
+  }
+
+  .school-onboarding-date-input:focus:invalid {
+    color: var(--neutral-800);
+  }
+
+  /* Invitation options responsive */
+  .school-onboarding-invitation-options {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .school-onboarding-invitation-option {
+    padding: 1.25rem 1.5rem;
+    min-width: unset;
+    width: 100%;
+  }
+
+  .school-onboarding-date-picker-container {
+    gap: 0.5rem;
+  }
+
+  .school-onboarding-date-input {
+    padding: 0.875rem;
+    font-size: 0.9375rem;
+    min-width: unset;
+    width: 100%;
+  }
+
+  .school-onboarding-deadline-section {
+    padding: 1.5rem;
+    margin-top: 1.5rem;
   }

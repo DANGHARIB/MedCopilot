@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Plus, Trash2, Check, AlertCircle, Info, ChevronUp, ChevronDown, Heart, Sparkles } from 'lucide-react';
 import './OtherImpactful.css';
+import '../shared/shared.css';
 
 const OtherImpactful = ({
   formData,
@@ -384,8 +385,8 @@ const OtherImpactful = ({
           )}
         </div>
         
-        {/* Navigation */}
-        <div className="other-impactful-navigation">
+        {/* Navigation simplifiée */}
+        <div className="step-navigation">
           <button
             type="button"
             className="nav-btn nav-btn-secondary"
@@ -395,19 +396,19 @@ const OtherImpactful = ({
             Back to Experiences
           </button>
 
-          <div className="nav-progress">
-            <span className="progress-text">Step 3 of 4</span>
-            {isTyping && (
+          {/* Indicateur de sauvegarde uniquement */}
+          {isTyping && (
+            <div className="auto-save-indicator">
               <div className="typing-indicator">
-                <span>Saving...</span>
+                <span>Auto-saving...</span>
                 <div className="typing-dots">
                   <div className="dot"></div>
                   <div className="dot"></div>
                   <div className="dot"></div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           <button
             type="button"

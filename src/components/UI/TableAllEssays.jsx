@@ -7,7 +7,6 @@ import {
   Clock,
   CheckCircle2,
   Trash2,
-  Info,
   School,
 } from "lucide-react";
 import "./TableAllEssays.css";
@@ -25,6 +24,28 @@ const TableAllEssays = ({
   isLoading = false,
   emptyMessage = "Aucun essay configuré",
 }) => {
+  // Formater la catégorie d'essay pour l'affichage
+  const formatCategory = (category) => {
+    if (!category || category === 'other') return 'Other';
+    
+    const categoryLabels = {
+      'diversity': 'Diversity Essay',
+      'adversity': 'Adversity Essay',
+      'challenge': 'Challenge Essay',
+      'why-school': '"Why Our School?" Essay',
+      'gap-year': 'Gap Year Essay',
+      'leadership': 'Leadership Essay',
+      'covid': 'COVID-19 Essay',
+      'clinical-experience': 'Meaningful Clinical Experience Essay',
+      'teamwork': 'Teamwork / Collaboration Essay',
+      'medicine-interest': 'Area of Medicine Interest Essay',
+      'anything-else': '"Anything Else You\'d Like Us to Know?" Essay',
+      'other': 'Other'
+    };
+    
+    return categoryLabels[category] || 'Other';
+  };
+
   // Formater la limite de mots ou de caractères
   const formatLimit = (essay) => {
     if (!essay) return "N/A";
@@ -91,7 +112,7 @@ const TableAllEssays = ({
       <div className="table-all-essays-header">
         <div className="table-all-essays-header-cell essay-school">School</div>
         <div className="table-all-essays-header-cell essay-topic">Essay Topic</div>
-        <div className="table-all-essays-header-cell essay-context">Context</div>
+        <div className="table-all-essays-header-cell essay-category">Category</div>
         <div className="table-all-essays-header-cell essay-status">Status</div>
         <div className="table-all-essays-header-cell essay-actions">Actions</div>
       </div>
@@ -133,31 +154,24 @@ const TableAllEssays = ({
             {/* Section Sujet d'Essay */}
             <div className="table-all-essays-cell essay-topic">
               <div className="essay-topic-content">
-                <div className="essay-topic-header">
-                  <FileText size={20} className="essay-topic-icon" />
-                  <h4 className="essay-topic-title">
-                    {essay.subject || "Untitled Essay"}
-                  </h4>
-                </div>
-                <div className="essay-topic-meta">
-                  <span className="essay-limit-badge">
-                    {formatLimit(essay)}
-                  </span>
-                </div>
+              
+                <span className="essay-limit-badge">
+                  {formatLimit(essay)}
+                </span>
+                <h4 className="essay-topic-title">
+                  {essay.subject || "Untitled Essay"}
+                </h4>
               </div>
             </div>
 
-            {/* Section Contexte */}
-            <div className="table-all-essays-cell essay-context">
-              <div className="essay-context-content">
-                {essay.context ? (
-                  <p className="essay-context-text">{essay.context}</p>
-                ) : (
-                  <p className="essay-context-empty">
-                    <Info size={14} className="context-icon" />
-                    <span>No additional context provided</span>
-                  </p>
-                )}
+            {/* Section Catégorie */}
+            <div className="table-all-essays-cell essay-category">
+              <div className="essay-category-content">
+                <div className={`category-badge-wrapper ${essay.category || 'other'}`}>
+                  <span className="category-badge-text">
+                    {formatCategory(essay.category)}
+                  </span>
+                </div>
               </div>
             </div>
 

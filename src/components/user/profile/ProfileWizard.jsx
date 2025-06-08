@@ -5,28 +5,25 @@ import './ProfileWizard.css';
 
 // Import des composants existants
 import ProfileStep2 from './ProfileStep2';
-import Step2UploadAmcas from './Step2UploadAmcas';
-import Step2ExtractedInfo from './Step2ExtractedInfo';
-import ProfileSetupComplete from './ProfileSetupComplete';
 
-// Import du nouveau flow Manual AMCAS
+// Import des flows organisés
 import ManualAmcasFlow from './ManualAmcasFlow/ManualAmcasFlow';
+import UploadAmcasFlow from './UploadAmcasFlow/UploadAmcasFlow';
 
 const ProfileWizard = ({ onCompleteProfile, initialFormData = {} }) => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [isSetupComplete, setIsSetupComplete] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const totalSteps = 4;
+  const [isSetupComplete] = useState(false);
+  const totalSteps = 2; // 2 étapes principales : choix de méthode → flow spécifique
   const navigate = useNavigate();
 
-  // État pour le nouveau flow Manual AMCAS (4 étapes)
+  // États pour les différents flows
   const [isInManualAmcasFlow, setIsInManualAmcasFlow] = useState(false);
+  const [isInUploadAmcasFlow, setIsInUploadAmcasFlow] = useState(false);
 
   const [formData, setFormData] = useState({
     importMethod: '',
     amcasFile: null,
     extractedData: null,
-    // Nouvelles données pour le flow Manual AMCAS
     amcasManualData: null,
     ...initialFormData,
   });
@@ -41,31 +38,6 @@ const ProfileWizard = ({ onCompleteProfile, initialFormData = {} }) => {
     setFormData(prevData => ({ ...prevData, ...newData }));
   };
   
-  // Avancer à l'étape suivante du wizard principal avec animation
-  const goToNextStep = () => {
-    if (currentStep < totalSteps) {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setCurrentStep(prev => prev + 1);
-        setIsAnimating(false);
-      }, 300);
-    } else {
-      // Si nous sommes à la dernière étape, terminer le processus
-      handleComplete();
-    }
-  };
-  
-  // Revenir à l'étape précédente du wizard principal avec animation
-  const goToPreviousStep = () => {
-    if (currentStep > 1) {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setCurrentStep(prev => prev - 1);
-        setIsAnimating(false);
-      }, 300);
-    }
-  };
-  
   // Terminer le processus de complétion du profil
   const handleComplete = () => {
     // This function is called when the setup is truly complete.
@@ -73,31 +45,45 @@ const ProfileWizard = ({ onCompleteProfile, initialFormData = {} }) => {
     onCompleteProfile(formData);
   };
 
-  const handleFinalStepCompleted = () => {
-    // Ne pas appeler handleComplete() immédiatement
-    // Cette fonction sera appelée lorsque l'utilisateur cliquera sur "Let's get started" dans ProfileSetupComplete
-    setIsSetupComplete(true); // Afficher d'abord le composant ProfileSetupComplete
-  };
+  // Fonction non utilisée - supprimée car le flow ne passe plus par Step2ExtractedInfo
+  // const handleFinalStepCompleted = () => {
+  //   setIsSetupComplete(true);
+  // };
 
   // Fonction pour gérer l'entrée dans le flow Manual AMCAS
   const handleEnterManualAmcasFlow = () => {
     setIsInManualAmcasFlow(true);
-    setCurrentStep(2); // Rester sur l'étape 2 mais avec le nouveau flow
+    setCurrentStep(2);
   };
 
   // Fonction pour gérer la sortie du flow Manual AMCAS (retour au choix)
   const handleExitManualAmcasFlow = () => {
     setIsInManualAmcasFlow(false);
-    setCurrentStep(1); // Retour au choix de méthode
+    setCurrentStep(1);
   };
 
   // Fonction pour gérer la finalisation du flow Manual AMCAS
   const handleManualAmcasComplete = () => {
-    // Sauvegarder les données finales
     onCompleteProfile(formData);
-    
-    // Rediriger directement vers MySchoolTab
     navigate('/schools');
+  };
+
+  // Fonction pour gérer l'entrée dans le flow Upload AMCAS
+  const handleEnterUploadAmcasFlow = () => {
+    setIsInUploadAmcasFlow(true);
+    setCurrentStep(2);
+  };
+
+  // Fonction pour gérer la sortie du flow Upload AMCAS (retour au choix)
+  const handleExitUploadAmcasFlow = () => {
+    setIsInUploadAmcasFlow(false);
+    setCurrentStep(1);
+  };
+
+  // Fonction pour gérer la finalisation du flow Upload AMCAS
+  const handleUploadAmcasComplete = () => {
+    onCompleteProfile(formData);
+    navigate('/profile/information');
   };
 
   // Rendu du contenu basé sur l'étape actuelle
@@ -106,10 +92,10 @@ const ProfileWizard = ({ onCompleteProfile, initialFormData = {} }) => {
       return <ProfileSetupComplete onGetStarted={handleComplete} />;
     }
 
-    // Si nous sommes dans le nouveau flow Manual AMCAS
+    // Si nous sommes dans le flow Manual AMCAS
     if (isInManualAmcasFlow) {
       return (
-        <div className={`wizard-step-content ${isAnimating ? 'fade-exit-active' : 'fade-enter-active'}`}>
+        <div className="wizard-step-content">
           <ManualAmcasFlow
             formData={formData}
             updateFormData={updateFormData}
@@ -120,11 +106,25 @@ const ProfileWizard = ({ onCompleteProfile, initialFormData = {} }) => {
       );
     }
 
+    // Si nous sommes dans le flow Upload AMCAS
+    if (isInUploadAmcasFlow) {
+      return (
+        <div className="wizard-step-content">
+          <UploadAmcasFlow
+            formData={formData}
+            updateFormData={updateFormData}
+            onComplete={handleUploadAmcasComplete}
+            onBack={handleExitUploadAmcasFlow}
+          />
+        </div>
+      );
+    }
+
     switch (currentStep) {
       case 1:
         // ProfileStep2 devient la première étape (choix de méthode)
         return (
-          <div className={`wizard-step-content ${isAnimating ? 'fade-exit-active' : 'fade-enter-active'}`}>
+          <div className="wizard-step-content">
             <ProfileStep2 
               formData={formData} 
               updateFormData={updateFormData} 
@@ -132,56 +132,12 @@ const ProfileWizard = ({ onCompleteProfile, initialFormData = {} }) => {
                 // Déterminer quel flow utiliser selon la méthode choisie
                 updateFormData(data);
                 if (data.importMethod === 'manual') {
-                  // Utiliser le nouveau flow Manual AMCAS
                   handleEnterManualAmcasFlow();
-                } else {
-                  // Utiliser le flow PDF AMCAS existant
-                  goToNextStep();
+                } else if (data.importMethod === 'amcas') {
+                  handleEnterUploadAmcasFlow();
                 }
               }}
-              // Pas de onBack car c'est la première étape maintenant
             />
-          </div>
-        );
-      case 2:
-        // Cette étape n'est utilisée que pour le flow AMCAS PDF
-        if (formData.importMethod === 'amcas') {
-          return (
-            <div className={`wizard-step-content ${isAnimating ? 'fade-exit-active' : 'fade-enter-active'}`}>
-              <Step2UploadAmcas
-                formData={formData}
-                updateFormData={updateFormData}
-                onNext={goToNextStep}
-                onBack={goToPreviousStep}
-              />
-            </div>
-          );
-        }
-        // Si manual, nous serions dans ManualAmcasFlow
-        return null;
-
-      case 3:
-        // Pour AMCAS PDF : extraction des données
-        if (formData.importMethod === 'amcas') {
-          return (
-            <div className={`wizard-step-content ${isAnimating ? 'fade-exit-active' : 'fade-enter-active'}`}>
-              <Step2ExtractedInfo
-                formData={formData}
-                updateFormData={updateFormData}
-                onSetupComplete={handleFinalStepCompleted}
-                onBack={goToPreviousStep}
-              />
-            </div>
-          );
-        }
-        // Pour Manual, on ne devrait jamais arriver ici
-        return null;
-
-      case 4:
-        // Étape de finalisation pour le flow AMCAS PDF uniquement
-        return (
-          <div className={`wizard-step-content ${isAnimating ? 'fade-exit-active' : 'fade-enter-active'}`}>
-            <ProfileSetupComplete onGetStarted={handleComplete} />
           </div>
         );
 
@@ -192,13 +148,11 @@ const ProfileWizard = ({ onCompleteProfile, initialFormData = {} }) => {
 
   // Calculer l'étape actuelle pour la barre de progression
   const getCurrentProgressStep = () => {
-    if (isInManualAmcasFlow) {
-      // Dans le flow Manual AMCAS, nous sommes techniquement à l'étape 2
-      // mais ManualAmcasFlow gère sa propre progression interne
+    if (isInManualAmcasFlow || isInUploadAmcasFlow) {
+      // Dans les flows spécialisés, ils gèrent leur propre progression
       return 2;
     }
     
-    // Flow AMCAS : Step2 (choix) → Upload → Extract → Complete
     return currentStep;
   };
 
@@ -206,9 +160,9 @@ const ProfileWizard = ({ onCompleteProfile, initialFormData = {} }) => {
 
   return (
     <div className="wizard-container">
-      {/* Ne pas afficher la barre de progression pendant le flow Manual AMCAS car il a sa propre progression */}
-      {!isInManualAmcasFlow && (
-        <div className="wizard-progress" role="progressbar" aria-valuenow={progressStep} aria-valuemin="1" aria-valuemax="4">
+      {/* Ne pas afficher la barre de progression pendant les flows spécialisés */}
+      {!isInManualAmcasFlow && !isInUploadAmcasFlow && (
+        <div className="wizard-progress" role="progressbar" aria-valuenow={progressStep} aria-valuemin="1" aria-valuemax="2">
           {[...Array(totalSteps)].map((_, index) => (
             <div 
               key={index} 
@@ -237,3 +191,4 @@ const ProfileWizard = ({ onCompleteProfile, initialFormData = {} }) => {
 };
 
 export default ProfileWizard;
+

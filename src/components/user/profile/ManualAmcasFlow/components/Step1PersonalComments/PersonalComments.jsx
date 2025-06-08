@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MessageSquare, CheckCircle2, AlertCircle, FileText, Sparkles, TrendingUp, Type, BarChart3 } from 'lucide-react';
 import './PersonalComments.css';
+import '../shared/shared.css';
 
 const PersonalComments = ({
   formData,
@@ -288,8 +289,8 @@ const PersonalComments = ({
           </div>
         </div>
 
-        {/* Navigation intégrée */}
-        <div className="personal-comments-navigation">
+        {/* Navigation simplifiée */}
+        <div className="step-navigation">
           <button
             type="button"
             className="nav-btn nav-btn-secondary"
@@ -299,19 +300,19 @@ const PersonalComments = ({
             Back to Method Selection
           </button>
 
-          <div className="nav-progress">
-            <span className="progress-text">Step 1 of 4</span>
-            {isTyping && (
+          {/* Indicateur de sauvegarde uniquement */}
+          {isTyping && (
+            <div className="auto-save-indicator">
               <div className="typing-indicator">
-                <span>Saving...</span>
+                <span>Auto-saving...</span>
                 <div className="typing-dots">
                   <div className="dot"></div>
                   <div className="dot"></div>
                   <div className="dot"></div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           <button
             type="button"

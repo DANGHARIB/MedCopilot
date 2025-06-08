@@ -85,21 +85,19 @@ const WelcomeHeader = () => {
 
   // Récupérer le nom de l'utilisateur
   const getUserFullName = () => {
-    // Essayer de récupérer depuis localStorage d'abord
-    const storedName = localStorage.getItem('userFullName');
-    if (storedName) {
-      return storedName;
-    }
+    // Pour l'instant, on affiche John Doe par défaut
+    return 'John Doe';
     
-    // Essayer de récupérer depuis le contexte utilisateur ou une API
     // TODO: Intégrer avec le système d'authentification
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (user.fullName) {
-      return user.fullName;
-    }
+    // const storedName = localStorage.getItem('userFullName');
+    // if (storedName) {
+    //   return storedName;
+    // }
     
-    // Fallback vers un nom par défaut
-    return 'Futur Médecin';
+    // const user = JSON.parse(localStorage.getItem('user') || '{}');
+    // if (user.fullName) {
+    //   return user.fullName;
+    // }
   };
 
   // Fonction pour changer le message avec morphing
@@ -211,7 +209,9 @@ const WelcomeHeader = () => {
                 onClick={handleMessageClick}
                 title="Click to change message"
               >
-                {currentMessage}, {userFullName}
+                <span className="welcome-greeting">{currentMessage}</span>
+                <span className="welcome-separator">, </span>
+                <span className="welcome-name">{userFullName}</span>
               </h1>
               <p className="welcome-inspiration">
                 Dream big, work hard, stay focused

@@ -5,7 +5,7 @@ import AvailableAgents from './AvailableAgents';
 import './Profile.css';
 import MySchoolTab from './MySchoolTab';
 import MySubscription from './MySubscription';
-import MyTimeline from './MyTimeline';
+import Timeline from './Timeline';
 import ProfileInformation from './ProfileSections/ProfileInformation';
 
 const Profile = () => {
@@ -51,7 +51,7 @@ const Profile = () => {
         return <MySchoolTab />;
           
       case '/timeline':
-        return <MyTimeline />;
+        return <Timeline />;
    
       case '/subscription':
         return <MySubscription 
@@ -59,13 +59,7 @@ const Profile = () => {
                  shouldShowContent={!isLoadingSubscription} 
                />;
         
-      case '/history':
-        return (
-          <div className="profile-section-container">
-            <h2>History</h2>
-            {/* Contenu de l'historique ici */}
-          </div>
-        );
+     
         
       default:
         return (

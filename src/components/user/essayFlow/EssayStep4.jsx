@@ -1,77 +1,58 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { 
-  Download, 
-  Copy, 
-  Share2, 
   CheckCircle, 
   Clock, 
-  Save,
   FileText,
   HistoryIcon,
   ChevronDown,
   ChevronRight,
   School,
-  Award,
   Calendar,
-  MessageSquare,
   Edit3,
-  Settings,
-  Book,
   Type,
   BarChart2,
   Target,
-  Bookmark,
-  Users,
-  Mail,
-  Link,
-  AlertCircle,
   HelpCircle,
-  ExternalLink,
-  Star,
   ArrowRight,
   BookOpen,
   X,
   Lightbulb,
-  Check
+  Check,
+  MessageSquare,
+  Star
 } from "lucide-react";
-import { jsPDF } from "jspdf";
 import { useNavigate } from 'react-router-dom';
 import "./EssayStep4.css";
 
 /**
- * Enhanced component for finalizing, saving and sharing the essay
+ * Enhanced component for finalizing and confirming the essay
  * Redesigned to match the design system used across the essay generator flow
- * Improved modal accessibility and scrolling behavior
  */
 const EssayStep4 = ({ 
   essayData, 
-  school = { name: 'Medical School' },
-  onCopy,
-  onDownload
+  school = { name: 'Medical School' }
 }) => {
   // Navigation
   const navigate = useNavigate();
   
   // State management
-  const [copied, setCopied] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [downloading, setDownloading] = useState(false);
-  const [showHistory, setShowHistory] = useState(false);
-  const [showMetrics, setShowMetrics] = useState(true);
-  const [showShareModal, setShowShareModal] = useState(false);
+  const [showStats, setShowStats] = useState(false);
   const [showTipsModal, setShowTipsModal] = useState(false);
+  const [showVersioningModal, setShowVersioningModal] = useState(false);
   const [showSuccessNotification, setShowSuccessNotification] = useState(true);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [confirming, setConfirming] = useState(false);
-  // const [darkMode, setDarkMode] = useState(false);
+  const [currentCount, setCurrentCount] = useState(0);
+  const [animatedCount, setAnimatedCount] = useState(0);
+  const [hasUnseenVersions, setHasUnseenVersions] = useState(false);
   
   // Scroll position state for shadow effects
   const [scrolled, setScrolled] = useState(false);
   
   // Refs
   const essayContainerRef = useRef(null);
-  const shareModalRef = useRef(null);
   const tipsModalRef = useRef(null);
+  const versioningModalRef = useRef(null);
   const previousFocusRef = useRef(null);
   
   // Custom hook for scroll lock management
@@ -110,6 +91,59 @@ const EssayStep4 = ({
   
   const { lockScroll, unlockScroll } = useScrollLock();
   
+  // Function to center modal position
+  const centerModal = useCallback((modalRef) => {
+    if (!modalRef.current) return;
+    
+    const modal = modalRef.current;
+    const rect = modal.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    // Calculate center position
+    const centerX = (viewportWidth - rect.width) / 2;
+    const centerY = (viewportHeight - rect.height) / 2;
+    
+    // Ensure modal doesn't go outside viewport bounds
+    const minX = 16; // 1rem padding
+    const minY = 16; // 1rem padding
+    const maxX = viewportWidth - rect.width - 16;
+    const maxY = viewportHeight - rect.height - 16;
+    
+    const finalX = Math.max(minX, Math.min(centerX, maxX));
+    const finalY = Math.max(minY, Math.min(centerY, maxY));
+    
+    // Apply positioning
+    modal.style.position = 'fixed';
+    modal.style.left = `${finalX}px`;
+    modal.style.top = `${finalY}px`;
+    modal.style.transform = 'none';
+    modal.style.margin = '0';
+  }, []);
+  
+  // Determine if we're counting characters or words based on limitType
+  const isCountingCharacters = essayData?.limitType === 'characters';
+  
+  // Maximum count (words or characters) based on user's choice in Step 1
+  const maxCount = isCountingCharacters 
+    ? (essayData?.characterLimit || 2500) 
+    : (essayData?.wordLimit || 500);
+  
+  // Label for the count (words or characters)
+  const countLabel = isCountingCharacters ? "characters" : "words";
+
+  // Calculate word count
+  const countWords = (text) => {
+    if (!text) return 0;
+    return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+  };
+  
+  // Calculate character count
+  const countCharacters = (text) => {
+    if (!text) return 0;
+    return text.length;
+  };
+
   // Stats & metrics calculations
   const calculateStats = () => {
     const essayText = essayData.revisedEssay || essayData.generatedEssay || "";
@@ -128,6 +162,8 @@ const EssayStep4 = ({
   };
   
   const stats = calculateStats();
+
+
   
   // Format date for display
   const formatDate = (dateString) => {
@@ -162,6 +198,37 @@ const EssayStep4 = ({
     };
   }, []);
   
+  // Update current count when essayData changes
+  useEffect(() => {
+    const updateCount = () => {
+      const essayText = essayData?.revisedEssay || essayData?.generatedEssay || "";
+      if (essayText) {
+        const count = isCountingCharacters 
+          ? countCharacters(essayText) 
+          : countWords(essayText);
+        setCurrentCount(count);
+      }
+    };
+    
+    updateCount();
+  }, [essayData?.revisedEssay, essayData?.generatedEssay, isCountingCharacters, countWords, countCharacters]);
+
+  // Animated count effect
+  useEffect(() => {
+    if (animatedCount !== currentCount) {
+      const step = Math.ceil(Math.abs(currentCount - animatedCount) / 20);
+      const timer = setTimeout(() => {
+        if (animatedCount < currentCount) {
+          setAnimatedCount(Math.min(animatedCount + step, currentCount));
+        } else {
+          setAnimatedCount(Math.max(animatedCount - step, currentCount));
+        }
+      }, 50);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [currentCount, animatedCount]);
+
   // Fade out success notification after delay
   useEffect(() => {
     if (showSuccessNotification) {
@@ -173,96 +240,6 @@ const EssayStep4 = ({
     }
   }, [showSuccessNotification]);
   
-  // Handle clipboard copy with visual feedback
-  const handleCopy = () => {
-    onCopy();
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-  
-  // Handle essay saving with visual feedback
-  const handleSave = () => {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  };
-  
-  // Handle PDF download with visual feedback
-  const handleDownload = () => {
-    setDownloading(true);
-    
-    try {
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a4"
-      });
-      
-      // Configure styling
-      const fontSize = 11;
-      // const lineHeight = 7;
-      const margin = 20;
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const contentWidth = pageWidth - 2 * margin;
-      
-      // Add header
-      pdf.setFontSize(18);
-      pdf.setFont("helvetica", "bold");
-      pdf.text(school?.name || 'Medical School Essay', pageWidth / 2, margin, { align: "center" });
-      
-      // Add metadata
-      pdf.setFontSize(10);
-      pdf.setFont("helvetica", "normal");
-      pdf.setTextColor(100, 100, 100);
-      pdf.text(`Generated on ${new Date().toLocaleDateString()} • ${stats.wordCount} words • ${stats.readingTime} min read`, pageWidth / 2, margin + 10, { align: "center" });
-      
-      // Add content
-      pdf.setTextColor(0, 0, 0);
-      pdf.setFontSize(fontSize);
-      pdf.setFont("helvetica", "normal");
-      
-      const essayText = essayData.revisedEssay || essayData.generatedEssay || "";
-      const splitText = pdf.splitTextToSize(essayText, contentWidth);
-      
-      let yPosition = margin + 20;
-      
-      // Check if content fits on first page
-      if (yPosition + (splitText.length * (fontSize * 0.35)) > pageHeight - margin) {
-        const linesPerPage = Math.floor((pageHeight - margin - yPosition) / (fontSize * 0.35));
-        let currentLine = 0;
-        
-        // First page
-        pdf.text(splitText.slice(currentLine, linesPerPage), margin, yPosition);
-        currentLine += linesPerPage;
-        
-        // Additional pages as needed
-        while (currentLine < splitText.length) {
-          pdf.addPage();
-          pdf.text(splitText.slice(currentLine, currentLine + linesPerPage), margin, margin);
-          currentLine += linesPerPage;
-        }
-      } else {
-        pdf.text(splitText, margin, yPosition);
-      }
-      
-      // Add footer
-      pdf.setFontSize(8);
-      pdf.setTextColor(100, 100, 100);
-      pdf.text(`Generated with MedSchool Copilot • ${new Date().toLocaleDateString()}`, pageWidth / 2, pageHeight - 10, { align: "center" });
-      
-      // Save PDF
-      const schoolNameFormatted = (school?.name || 'MedicalSchool').replace(/\s+/g, '_');
-      pdf.save(`${schoolNameFormatted}_Essay_${new Date().toLocaleDateString()}.pdf`);
-      
-      onDownload();
-      
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-    } finally {
-      setDownloading(false);
-    }
-  };
-  
   // Modal management functions
   const openModal = (modalType) => {
     // Store the currently focused element
@@ -272,10 +249,11 @@ const EssayStep4 = ({
     lockScroll();
     
     // Set the appropriate modal state
-    if (modalType === 'share') {
-      setShowShareModal(true);
-    } else if (modalType === 'tips') {
+    if (modalType === 'tips') {
       setShowTipsModal(true);
+    }
+    if (modalType === 'versioning') {
+      setShowVersioningModal(true);
     }
   };
   
@@ -289,23 +267,14 @@ const EssayStep4 = ({
     }
     
     // Set the appropriate modal state
-    if (modalType === 'share') {
-      setShowShareModal(false);
-    } else if (modalType === 'tips') {
+    if (modalType === 'tips') {
       setShowTipsModal(false);
     }
+    if (modalType === 'versioning') {
+      setShowVersioningModal(false);
+    }
   };
-  
-  // Toggle share modal with improved accessibility
-  const handleShareClick = () => {
-    openModal('share');
-  };
-  
-  // Close share modal
-  const handleCloseShareModal = () => {
-    closeModal('share');
-  };
-  
+
   // Toggle tips modal with improved accessibility
   const handleTipsClick = () => {
     openModal('tips');
@@ -315,16 +284,21 @@ const EssayStep4 = ({
   const handleCloseTipsModal = () => {
     closeModal('tips');
   };
+
+  // Close versioning modal
+  const handleCloseVersioningModal = () => {
+    closeModal('versioning');
+  };
   
   // Handle escape key for modals
   useEffect(() => {
     const handleEscapeKey = (e) => {
       if (e.key === 'Escape') {
-        if (showShareModal) {
-          handleCloseShareModal();
-        }
         if (showTipsModal) {
           handleCloseTipsModal();
+        }
+        if (showVersioningModal) {
+          handleCloseVersioningModal();
         }
       }
     };
@@ -334,7 +308,7 @@ const EssayStep4 = ({
     return () => {
       document.removeEventListener('keydown', handleEscapeKey);
     };
-  }, [showShareModal, showTipsModal]);
+  }, [showTipsModal, showVersioningModal]);
   
   // Focus trap for modals
   const handleTabKey = (e, modalRef) => {
@@ -364,28 +338,6 @@ const EssayStep4 = ({
     }
   };
   
-  // Setup focus trap for share modal
-  useEffect(() => {
-    if (!showShareModal) return;
-    
-    const handleKeyDown = (e) => handleTabKey(e, shareModalRef);
-    document.addEventListener('keydown', handleKeyDown);
-    
-    // Focus the first focusable element when modal opens
-    if (shareModalRef.current) {
-      const focusableElements = shareModalRef.current.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      if (focusableElements.length > 0) {
-        setTimeout(() => focusableElements[0].focus(), 50);
-      }
-    }
-    
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [showShareModal]);
-  
   // Setup focus trap for tips modal
   useEffect(() => {
     if (!showTipsModal) return;
@@ -407,20 +359,28 @@ const EssayStep4 = ({
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [showTipsModal]);
-  
-  // Handle email sharing
-  const handleEmailShare = () => {
-    const subject = encodeURIComponent(`Essay for ${school?.name || 'Medical School'}`);
-    const body = encodeURIComponent(`Here's my essay for ${school?.name || 'Medical School'}:\n\n${essayData.revisedEssay || essayData.generatedEssay}`);
-    window.open(`mailto:?subject=${subject}&body=${body}`);
-    handleCloseShareModal();
-  };
-  
-  // Handle mentor sharing
-  const handleMentorShare = (mentorId) => {
-    console.log(`Sharing essay with mentor ID: ${mentorId}`);
-    handleCloseShareModal();
-  };
+
+  // Setup focus trap for versioning modal
+  useEffect(() => {
+    if (!showVersioningModal) return;
+    
+    const handleKeyDown = (e) => handleTabKey(e, versioningModalRef);
+    document.addEventListener('keydown', handleKeyDown);
+    
+    // Focus the first focusable element when modal opens
+    if (versioningModalRef.current) {
+      const focusableElements = versioningModalRef.current.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusableElements.length > 0) {
+        setTimeout(() => focusableElements[0].focus(), 50);
+      }
+    }
+    
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [showVersioningModal]);
   
   // Detect if modal content is scrollable
   const checkModalContentScrollable = (modalRef) => {
@@ -438,15 +398,44 @@ const EssayStep4 = ({
     }
   };
   
+  // Auto-center modals when they open
+  useEffect(() => {
+    if (showVersioningModal && versioningModalRef.current) {
+      // Small delay to ensure modal is rendered
+      setTimeout(() => centerModal(versioningModalRef), 10);
+    }
+  }, [showVersioningModal, centerModal]);
+  
+  useEffect(() => {
+    if (showTipsModal && tipsModalRef.current) {
+      setTimeout(() => centerModal(tipsModalRef), 10);
+    }
+  }, [showTipsModal, centerModal]);
+  
+  // Handle window resize to re-center modals
+  useEffect(() => {
+    const handleResize = () => {
+      if (showVersioningModal && versioningModalRef.current) {
+        centerModal(versioningModalRef);
+      }
+      if (showTipsModal && tipsModalRef.current) {
+        centerModal(tipsModalRef);
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [showVersioningModal, showTipsModal, centerModal]);
+
   // Check if modal content is scrollable after render
   useEffect(() => {
-    if (showShareModal) {
-      setTimeout(() => checkModalContentScrollable(shareModalRef), 100);
-    }
     if (showTipsModal) {
       setTimeout(() => checkModalContentScrollable(tipsModalRef), 100);
     }
-  }, [showShareModal, showTipsModal]);
+    if (showVersioningModal) {
+      setTimeout(() => checkModalContentScrollable(versioningModalRef), 100);
+    }
+  }, [showTipsModal, showVersioningModal]);
 
   // Handle confirming the essay and redirecting to MySchoolTab
   const handleConfirmEssay = () => {
@@ -512,98 +501,183 @@ const EssayStep4 = ({
 
   return (
     <div className="essay-finalized-container">
-      {/* Success notification (visible initially and fades out) */}
-      {showSuccessNotification && (
-        <div className="essay-success-notification">
-          <div className="success-icon-container">
-            <CheckCircle size={20} />
-          </div>
-          <div className="success-message-container">
-            <h4>Essay successfully finalized!</h4>
-            <p>Your essay is ready to use for your application to {school?.name || 'Medical School'}.</p>
-          </div>
-          <button 
-            className="notification-close-button"
-            onClick={() => setShowSuccessNotification(false)}
-            aria-label="Close notification"
+      {/* Top Navigation */}
+      <header className="essay-viewer-header">
+        <div className="essay-viewer-nav-left">
+          <h1 className="essay-viewer-title">
+            <FileText size={20} />
+            <span>Your Finalized Essay</span>
+          </h1>
+        </div>
+        
+        <div className="essay-viewer-nav-right">
+          <div 
+            className="essay-viewer-word-count"
+            onClick={() => setShowStats(!showStats)}
+            aria-label="Show statistics"
+            role="button"
           >
-            <X size={16} />
+            <span className="essay-viewer-count-current">{animatedCount}</span>
+            <span className="essay-viewer-count-separator">/</span>
+            <span className="essay-viewer-count-limit">{maxCount}</span>
+            <span className="essay-viewer-count-label">{countLabel}</span>
+            <ChevronDown size={14} className="essay-viewer-count-icon" />
+          </div>
+          
+          <button 
+            className={`essay-viewer-action-button secondary ${
+              (essayData.revisionHistory?.length || 1) > 1 ? 'has-versions' : ''
+            }`}
+            onClick={() => {
+              setShowVersioningModal(true);
+              setHasUnseenVersions(false);
+            }}
+            aria-label="View revision versions"
+          >
+            <HistoryIcon size={16} />
+            <span>
+              Versioning ({essayData.revisionHistory?.length || 1})
+            </span>
+            {hasUnseenVersions && (essayData.revisionHistory?.length || 1) > 1 && (
+              <div className="essay-versions-badge" />
+            )}
           </button>
+          
+
+          
+          <button 
+            className="essay-viewer-icon-button essay-viewer-help-button"
+            onClick={handleTipsClick}
+            aria-label="Show tips"
+            title="Show tips"
+          >
+            <Lightbulb size={18} />
+          </button>
+        </div>
+      </header>
+
+      {/* Statistics Panel (Conditional) */}
+      {showStats && (
+        <div className="essay-viewer-stats-panel">
+          <div className="essay-viewer-stats-header">
+            <BarChart2 size={16} />
+            <h2>Essay Statistics</h2>
+            <button 
+              className="essay-viewer-close-button"
+              onClick={() => setShowStats(false)}
+              aria-label="Close statistics"
+            >
+              <X size={16} />
+            </button>
+          </div>
+          <div className="essay-viewer-stats-content">
+            <div className="essay-viewer-stat-item">
+              <Type size={16} />
+              <div className="essay-viewer-stat-info">
+                <span className="essay-viewer-stat-value">{stats.wordCount}</span>
+                <span className="essay-viewer-stat-label">Words</span>
+              </div>
+            </div>
+            <div className="essay-viewer-stat-item">
+              <FileText size={16} />
+              <div className="essay-viewer-stat-info">
+                <span className="essay-viewer-stat-value">{stats.characterCount}</span>
+                <span className="essay-viewer-stat-label">Characters</span>
+              </div>
+            </div>
+            <div className="essay-viewer-stat-item">
+              <MessageSquare size={16} />
+              <div className="essay-viewer-stat-info">
+                <span className="essay-viewer-stat-value">{stats.sentenceCount}</span>
+                <span className="essay-viewer-stat-label">Sentences</span>
+              </div>
+            </div>
+            <div className="essay-viewer-stat-item">
+              <BookOpen size={16} />
+              <div className="essay-viewer-stat-info">
+                <span className="essay-viewer-stat-value">{stats.paragraphCount}</span>
+                <span className="essay-viewer-stat-label">Paragraphs</span>
+              </div>
+            </div>
+            <div className="essay-viewer-stat-item">
+              <Star size={16} />
+              <div className="essay-viewer-stat-info">
+                <span className="essay-viewer-stat-value">{stats.avgWordsPerSentence}</span>
+                <span className="essay-viewer-stat-label">Words per Sentence</span>
+              </div>
+            </div>
+            <div className="essay-viewer-stat-item">
+              <Clock size={16} />
+              <div className="essay-viewer-stat-info">
+                <span className="essay-viewer-stat-value">{stats.readingTime} min</span>
+                <span className="essay-viewer-stat-label">Reading Time</span>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
-      {/* Main content grid */}
-      <div className="essay-final-grid">
-        {/* Left column - Essay content only */}
-        <div className="essay-main-column">
-          {/* Enhanced Essay card */}
-          <div className="essay-final-card" style={{ marginBottom: '1.5rem' }}>
+      {/* Main content area */}
+      <div className="essay-viewer-main">
+        {/* Success notification (visible initially and fades out) */}
+        {showSuccessNotification && (
+          <div className="essay-success-notification">
+            <div className="success-icon-container">
+              <CheckCircle size={20} />
+            </div>
+            <div className="success-message-container">
+              <h4>Essay successfully finalized!</h4>
+              <p>Your essay is ready to use for your application to {school?.name || 'Medical School'}.</p>
+            </div>
+            <button 
+              className="notification-close-button"
+              onClick={() => setShowSuccessNotification(false)}
+              aria-label="Close notification"
+            >
+              <X size={16} />
+            </button>
+          </div>
+        )}
+
+        {/* Main content - Full width */}
+        <div className="essay-final-content-container">
+          {/* Enhanced Essay card - Full width */}
+          <div className="essay-final-card">
             <div className={`essay-final-header ${scrolled ? 'scrolled' : ''}`}>
               <div className="essay-final-header-content">
                 <div className="essay-final-title">
-                  <School size={20} className="essay-icon" />
+                  <School size={36} className="essay-icon" />
                   <h2>{school?.name || 'Medical School'}</h2>
-                </div>
-                <div className="essay-final-meta">
                   <div className="essay-final-tag success">
                     <CheckCircle size={14} />
                     <span>Finalized</span>
-                  </div>
-                  <div className="essay-meta-item">
-                    <Type size={14} />
-                    <span>{stats.wordCount} words</span>
-                  </div>
-                  <div className="essay-meta-item">
-                    <Clock size={14} />
-                    <span>{stats.readingTime} min read</span>
                   </div>
                 </div>
               </div>
               
               <div className="essay-final-actions">
                 <button 
-                  className={`essay-action-button ${saved ? 'success' : ''}`}
-                  onClick={handleSave}
-                  aria-label="Save to my essays"
+                  className={`essay-confirm-button ${isConfirmed ? 'confirmed' : ''} ${confirming ? 'confirming' : ''}`}
+                  onClick={handleConfirmEssay}
+                  disabled={isConfirmed || confirming}
+                  aria-label="Confirm and save essay"
                 >
-                  {saved ? <CheckCircle size={16} /> : <Bookmark size={16} />}
-                  <span>{saved ? 'Saved!' : 'Save'}</span>
-                </button>
-                
-                <button 
-                  className={`essay-action-button ${copied ? 'success' : ''}`}
-                  onClick={handleCopy}
-                  aria-label="Copy to clipboard"
-                >
-                  {copied ? <CheckCircle size={16} /> : <Copy size={16} />}
-                  <span>{copied ? 'Copied!' : 'Copy'}</span>
-                </button>
-                
-                <button 
-                  className={`essay-action-button ${downloading ? 'processing' : ''}`}
-                  onClick={handleDownload}
-                  disabled={downloading}
-                  aria-label="Download as PDF"
-                >
-                  <Download size={16} />
-                  <span>{downloading ? 'Processing...' : 'Download'}</span>
-                </button>
-                
-                <button 
-                  className="essay-action-button"
-                  onClick={handleShareClick}
-                  aria-label="Share essay"
-                >
-                  <Share2 size={16} />
-                  <span>Share</span>
-                </button>
-                
-                <button 
-                  className="essay-icon-button essay-help-button"
-                  onClick={handleTipsClick}
-                  aria-label="Show tips and help"
-                >
-                  <Lightbulb size={18} />
+                  {isConfirmed ? (
+                    <>
+                      <Check size={18} />
+                      <span>Confirmed</span>
+                    </>
+                  ) : confirming ? (
+                    <>
+                      <div className="confirm-spinner"></div>
+                      <span>Confirming...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Check size={18} />
+                      <span>Confirm</span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -621,151 +695,43 @@ const EssayStep4 = ({
                 <Calendar size={14} />
                 <span>Finalized on {formatDate(new Date().toISOString())}</span>
               </div>
-              
-              <div className="essay-final-styleguide">
-                <span className="essay-style-tag">
-                  {essayData.tone === 'professional' ? 'Professional' : 'Conversational'} Tone
-                </span>
-                <span className="essay-style-tag">
-                  {essayData.style === 'narrative' ? 'Narrative' : 'Analytical'} Style
-                </span>
-              </div>
             </div>
           </div>
         </div>
-        
-        {/* Right column - Metrics and history */}
-        <div className="essay-sidebar-column">
-          {/* Essay Metrics Card */}
-          <div className="essay-sidebar-card">
-            <div 
-              className="essay-section-header"
-              onClick={() => setShowMetrics(!showMetrics)}
-            >
-              <div className="section-title-container">
-                <BarChart2 size={18} />
-                <h3>Essay Metrics</h3>
-              </div>
-              <button 
-                className="toggle-section-button"
-                aria-label={showMetrics ? "Hide metrics" : "Show metrics"}
-                aria-expanded={showMetrics}
-              >
-                {showMetrics ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-              </button>
-            </div>
-            
-            {showMetrics && (
-              <div className="essay-metrics-grid">
-                <div className="essay-metric-item">
-                  <div className="metric-icon word-count">
-                    <Type size={18} />
-                  </div>
-                  <div className="metric-content">
-                    <div className="metric-value">{stats.wordCount}</div>
-                    <div className="metric-label">Words</div>
-                  </div>
-                </div>
-                
-                <div className="essay-metric-item">
-                  <div className="metric-icon character-count">
-                    <FileText size={18} />
-                  </div>
-                  <div className="metric-content">
-                    <div className="metric-value">{stats.characterCount}</div>
-                    <div className="metric-label">Characters</div>
-                  </div>
-                </div>
-                
-                <div className="essay-metric-item">
-                  <div className="metric-icon paragraph-count">
-                    <BookOpen size={18} />
-                  </div>
-                  <div className="metric-content">
-                    <div className="metric-value">{stats.paragraphCount}</div>
-                    <div className="metric-label">Paragraphs</div>
-                  </div>
-                </div>
-                
-                <div className="essay-metric-item">
-                  <div className="metric-icon reading-time">
-                    <Clock size={18} />
-                  </div>
-                  <div className="metric-content">
-                    <div className="metric-value">{stats.readingTime}<span className="metric-unit">min</span></div>
-                    <div className="metric-label">Reading Time</div>
-                  </div>
-                </div>
-                
-                <div className="essay-metric-item full-width">
-                  <div className="metric-icon sentence-average">
-                    <Target size={18} />
-                  </div>
-                  <div className="metric-content">
-                    <div className="metric-value">{stats.avgWordsPerSentence}</div>
-                    <div className="metric-label">Words per Sentence</div>
-                  </div>
-                  <div className="metric-gauge">
-                    <div className="metric-gauge-bar">
-                      <div 
-                        className={`metric-gauge-fill ${
-                          stats.avgWordsPerSentence < 10 ? 'low' : 
-                          stats.avgWordsPerSentence > 25 ? 'high' : 'optimal'
-                        }`}
-                        style={{ width: `${Math.min(100, (stats.avgWordsPerSentence / 30) * 100)}%` }}
-                      ></div>
-                    </div>
-                    <div className="metric-gauge-labels">
-                      <span>Short</span>
-                      <span>Optimal</span>
-                      <span>Long</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="word-limit-indicator full-width">
-                  <div className="word-limit-header">
-                    <span>Word Count</span>
-                    <span>{stats.wordCount} / {essayData.wordLimit || 500}</span>
-                  </div>
-                  <div className="word-limit-progress">
-                    <div 
-                      className={`word-limit-bar ${
-                        stats.wordCount > (essayData.wordLimit || 500) ? 'over-limit' :
-                        stats.wordCount > (essayData.wordLimit || 500) * 0.9 ? 'near-limit' : 'under-limit'
-                      }`}
-                      style={{ width: `${Math.min(100, (stats.wordCount / (essayData.wordLimit || 500)) * 100)}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-          
-          {/* History/Revision Timeline - Moved to the sidebar */}
-          <div className="essay-history-section">
-            <div 
-              className="essay-section-header"
-              onClick={() => setShowHistory(!showHistory)}
-            >
-              <div className="section-title-container">
+      </div>
+      
+      {/* Versioning Modal - Revision History */}
+      {showVersioningModal && (
+        <div 
+          className="essay-modal-overlay" 
+          onClick={handleCloseVersioningModal}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="versioning-modal-title"
+        >
+          <div 
+            className="essay-versioning-modal" 
+            ref={versioningModalRef}
+            onClick={e => e.stopPropagation()}
+            tabIndex="-1"
+          >
+            <div className="essay-modal-header">
+              <div className="essay-modal-title">
                 <HistoryIcon size={18} />
-                <h3>Revision History</h3>
-                <div className="history-count-badge">
-                  {essayData.revisionHistory?.length || 1}
-                </div>
+                <h2 id="versioning-modal-title">Revision History</h2>
               </div>
+              
               <button 
-                className="toggle-section-button"
-                aria-label={showHistory ? "Hide revision history" : "Show revision history"}
-                aria-expanded={showHistory}
+                className="essay-modal-close"
+                onClick={handleCloseVersioningModal}
+                aria-label="Close versioning"
               >
-                {showHistory ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+                <X size={18} />
               </button>
             </div>
             
-            {showHistory && (
-              <div className="revision-timeline">
+            <div className="essay-modal-content">
+              <div className="essay-versioning-timeline">
                 {(essayData.revisionHistory || [{
                   version: 1,
                   date: new Date().toISOString(),
@@ -774,35 +740,43 @@ const EssayStep4 = ({
                 }]).map((revision, index, array) => (
                   <div 
                     key={`revision-${index}`} 
-                    className={`revision-timeline-item ${index === array.length - 1 ? 'active' : ''}`}
+                    className={`essay-versioning-item ${index === array.length - 1 ? 'active' : ''}`}
                   >
-                    <div className="revision-timeline-connector">
-                      <div className="revision-timeline-line"></div>
-                      <div className="revision-timeline-dot"></div>
+                    <div className="essay-versioning-connector">
+                      <div className="essay-versioning-line"></div>
+                      <div className="essay-versioning-dot"></div>
                     </div>
                     
-                    <div className="revision-timeline-content">
-                      <div className="revision-header">
-                        <div className="revision-title">
-                          <span className="revision-version">Version {revision.version}</span>
+                    <div className="essay-versioning-content">
+                      <div className="essay-versioning-header">
+                        <div className="essay-versioning-title">
+                          <span className="essay-versioning-version">Version {revision.version}</span>
                           {index === array.length - 1 && (
-                            <span className="revision-current-badge">Current</span>
+                            <span className="essay-versioning-current-badge">Current</span>
                           )}
                         </div>
-                        <div className="revision-date">
+                        <div className="essay-versioning-date">
                           <Clock size={14} />
                           <span>{formatDate(revision.date)}</span>
                         </div>
                       </div>
                       
-                      <div className="revision-details">
-                        <div className="revision-instructions">
-                          <div className="revision-label">Instructions:</div>
+                      <div className="essay-versioning-details">
+                        <div className="essay-versioning-instructions">
+                          <div className="essay-versioning-label">Instructions:</div>
                           <p>{revision.instructions || "Initial generation"}</p>
                         </div>
                         
+                        <div className="essay-versioning-preview">
+                          <div className="essay-versioning-label">Content Preview:</div>
+                          <p className="essay-versioning-text-preview">
+                            {(revision.content || "").substring(0, 200)}
+                            {(revision.content || "").length > 200 ? "..." : ""}
+                          </p>
+                        </div>
+                        
                         {index < array.length - 1 && (
-                          <button className="revision-compare-button">
+                          <button className="essay-versioning-compare-button">
                             <FileText size={14} />
                             <span>Compare with current</span>
                           </button>
@@ -812,185 +786,14 @@ const EssayStep4 = ({
                   </div>
                 ))}
               </div>
-            )}
-          </div>
-          
-          {/* Confirm button - Moved to sidebar */}
-          <div className="essay-sidebar-confirm-container">
-            <button 
-              className={`essay-confirm-button ${isConfirmed ? 'confirmed' : ''} ${confirming ? 'confirming' : ''}`}
-              onClick={handleConfirmEssay}
-              disabled={isConfirmed || confirming}
-              aria-label="Confirm and save essay"
-            >
-              {isConfirmed ? (
-                <>
-                  <Check size={20} />
-                  <span>Confirmed</span>
-                </>
-              ) : confirming ? (
-                <>
-                  <div className="confirm-spinner"></div>
-                  <span>Confirming...</span>
-                </>
-              ) : (
-                <>
-                  <Check size={20} />
-                  <span>Confirm & Return to Schools</span>
-                </>
-              )}
-            </button>
-            
-            {!isConfirmed && (
-              <p className="essay-confirm-description">
-                Clicking confirm will save this essay to your school profile and mark it as generated.
-              </p>
-            )}
-          </div>
-          
-          {/* Help and resources */}
-          <div className="essay-help-section">
-            <HelpCircle size={14} />
-            <p>Need help? <a href="#" className="essay-help-link">Contact our support team</a></p>
-          </div>
-        </div>
-      </div>
-      
-      {/* Share Modal - Improved accessibility and scrolling */}
-      {showShareModal && (
-        <div 
-          className="essay-modal-overlay" 
-          onClick={handleCloseShareModal}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="share-modal-title"
-        >
-          <div 
-            className="essay-modal" 
-            ref={shareModalRef}
-            onClick={e => e.stopPropagation()}
-            tabIndex="-1"
-          >
-            <div className="essay-modal-header">
-              <div className="essay-modal-title">
-                <Share2 size={20} />
-                <h2 id="share-modal-title">Share Your Essay</h2>
-              </div>
-              <button 
-                className="essay-modal-close"
-                onClick={handleCloseShareModal}
-                aria-label="Close sharing options"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            
-            <div className="essay-modal-content">
-              <h3 className="share-section-title">Quick Share Options</h3>
-              <div className="share-options-grid">
-                <div 
-                  className="share-option-item"
-                  onClick={handleEmailShare}
-                  tabIndex="0"
-                  role="button"
-                  aria-label="Share via email"
-                  onKeyDown={(e) => e.key === 'Enter' && handleEmailShare()}
-                >
-                  <div className="share-option-icon email">
-                    <Mail size={24} />
-                  </div>
-                  <h4>Email</h4>
-                  <p>Send via your email client</p>
-                </div>
-                
-                <div 
-                  className="share-option-item"
-                  onClick={() => {
-                    navigator.clipboard.writeText(`Essay for ${school?.name || 'Medical School'}: ${essayData.revisedEssay || essayData.generatedEssay}`);
-                    alert('Link copied to clipboard!');
-                  }}
-                  tabIndex="0"
-                  role="button"
-                  aria-label="Copy link to clipboard"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      navigator.clipboard.writeText(`Essay for ${school?.name || 'Medical School'}: ${essayData.revisedEssay || essayData.generatedEssay}`);
-                      alert('Link copied to clipboard!');
-                    }
-                  }}
-                >
-                  <div className="share-option-icon link">
-                    <Link size={24} />
-                  </div>
-                  <h4>Copy Link</h4>
-                  <p>Copy shareable link</p>
-                </div>
-                
-                <div 
-                  className="share-option-item"
-                  onClick={handleDownload}
-                  tabIndex="0"
-                  role="button"
-                  aria-label="Download as PDF"
-                  onKeyDown={(e) => e.key === 'Enter' && handleDownload()}
-                >
-                  <div className="share-option-icon download">
-                    <Download size={24} />
-                  </div>
-                  <h4>Download</h4>
-                  <p>Save as PDF file</p>
-                </div>
-              </div>
-              
-              <div className="share-divider">
-                <span>OR</span>
-              </div>
-              
-              <h3 className="share-section-title">Share with Mentors</h3>
-              <div className="share-mentors-list">
-                <div className="share-mentor-item">
-                  <div className="mentor-avatar">JD</div>
-                  <div className="mentor-info">
-                    <h4 className="mentor-name">Dr. Jane Doe</h4>
-                    <p className="mentor-title">Academic Advisor</p>
-                  </div>
-                  <button 
-                    className="mentor-share-button"
-                    onClick={() => handleMentorShare('mentor-1')}
-                    aria-label="Share with Dr. Jane Doe"
-                  >
-                    Share
-                  </button>
-                </div>
-                
-                <div className="share-mentor-item">
-                  <div className="mentor-avatar">JS</div>
-                  <div className="mentor-info">
-                    <h4 className="mentor-name">John Smith</h4>
-                    <p className="mentor-title">Writing Coach</p>
-                  </div>
-                  <button 
-                    className="mentor-share-button"
-                    onClick={() => handleMentorShare('mentor-2')}
-                    aria-label="Share with John Smith"
-                  >
-                    Share
-                  </button>
-                </div>
-              </div>
-              
-              <div className="share-privacy-note">
-                <AlertCircle size={16} />
-                <p>Essays are shared securely and only visible to your selected recipients.</p>
-              </div>
             </div>
             
             <div className="essay-modal-footer">
               <button 
                 className="essay-modal-button"
-                onClick={handleCloseShareModal}
+                onClick={handleCloseVersioningModal}
               >
-                Done
+                Close
               </button>
             </div>
           </div>
@@ -1032,14 +835,14 @@ const EssayStep4 = ({
                 <div className="essay-tip-item">
                   <div className="essay-tip-number">1</div>
                   <div className="essay-tip-text">
-                    <strong>Final Review</strong> - Carefully proofread your essay before submitting it with your application.
+                    <strong>Review Versions</strong> - Click the <strong>Versioning</strong> button in the header to see all revision history and track your essay's evolution.
                   </div>
                 </div>
                 
                 <div className="essay-tip-item">
                   <div className="essay-tip-number">2</div>
                   <div className="essay-tip-text">
-                    <strong>Get Feedback</strong> - Share your essay with trusted advisors or mentors for additional input.
+                    <strong>Final Review</strong> - Carefully proofread your essay before submitting it with your application.
                   </div>
                 </div>
                 
@@ -1055,17 +858,17 @@ const EssayStep4 = ({
                 <h3>Additional Resources</h3>
                 <div className="essay-resources-grid">
                   <div className="essay-resource-item">
-                    <ExternalLink size={14} />
+                    <ArrowRight size={14} />
                     <a href="#" className="resource-link">Medical School Application Guide</a>
                   </div>
                   
                   <div className="essay-resource-item">
-                    <ExternalLink size={14} />
+                    <ArrowRight size={14} />
                     <a href="#" className="resource-link">Sample Successful Essays</a>
                   </div>
                   
                   <div className="essay-resource-item">
-                    <ExternalLink size={14} />
+                    <ArrowRight size={14} />
                     <a href="#" className="resource-link">Interview Preparation Tips</a>
                   </div>
                 </div>

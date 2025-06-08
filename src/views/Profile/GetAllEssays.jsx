@@ -183,7 +183,8 @@ const GetAllEssays = () => {
         characterLimit: essay.limitType === "characters" ? (essay.characterLimit || 2500) : 2500,
         tone: essay.tone || "professional",
         style: essay.style || "narrative",
-        context: essay.context || ""
+        context: essay.context || "",
+        category: essay.category || "other"
       };
       
       localStorage.setItem("selectedSchoolForEssay", JSON.stringify(school));

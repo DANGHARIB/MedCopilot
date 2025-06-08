@@ -38,117 +38,577 @@
   color: var(--text-primary);
 }
 
-/* Header styles */
-.school-essay-list-header {
+/* ===============================
+   COMMAND CENTER - COCKPIT DESIGN
+   Combining Jony Ive minimalism with cognitive intelligence
+   =============================== */
+
+/* Command Center Container */
+.school-command-center {
+  margin-bottom: 3rem;
+  background: var(--card);
+  border-radius: 24px;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+/* School Hero Section */
+.school-hero {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
+  align-items: center;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(135deg, #fafafa 0%, #f8f9fa 100%);
   border-bottom: 1px solid var(--border-light);
+  position: relative;
 }
 
-.school-essay-list-header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  flex: 1;
-}
-
-.school-essay-list-back-button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: none;
-  border: none;
-  color: var(--text-tertiary);
-  font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: var(--radius-md);
-  transition: var(--transition);
-  width: fit-content;
-}
-
-.school-essay-list-back-button:hover {
-  color: var(--primary);
-  background-color: var(--primary-light);
-  transform: translateX(-2px);
-}
-
-.school-essay-list-title {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
-}
-
-.school-essay-list-title-text {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
-  line-height: 1.2;
-}
-
-.school-essay-list-title-highlight {
-  color: var(--primary);
-  font-weight: 600;
-}
-
-.school-essay-list-free-trial-banner {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-  border: 1px solid #a7f3d0;
-  border-radius: 9999px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--success-dark);
-  max-width: fit-content;
-  box-shadow: var(--shadow-sm);
-}
-
-.school-essay-list-header-buttons {
-  display: flex;
-  gap: 12px;
-  margin-top: 1rem;
-  flex-shrink: 0;
-}
-
-.school-essay-list-view-button {
+/* Navigation Back Button */
+.school-nav-back {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.25rem;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  border: 1px solid #e2e8f0;
-  border-radius: var(--radius-md);
-  font-weight: 500;
-  font-size: 0.875rem;
-  color: #475569;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  color: var(--text-secondary);
   cursor: pointer;
   transition: var(--transition);
+  backdrop-filter: blur(4px);
+}
+
+.school-nav-back:hover {
+  background: white;
+  color: var(--text-primary);
+  transform: translateY(-50%) translateX(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.school-identity {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.school-logo-command {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  background: linear-gradient(135deg, var(--primary) 0%, #3a56d4 100%);
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.school-logo-command::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+  border-radius: 20px;
+}
+
+.school-logo-text-command {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.02em;
+  z-index: 1;
+  position: relative;
+}
+
+.school-info-command {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.school-name-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.school-name-command {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.school-portal-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-decoration: underline;
+  text-decoration-color: var(--border-light);
+  text-underline-offset: 3px;
+  transition: var(--transition);
+  padding: 0.375rem 0.75rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--border-light);
+  backdrop-filter: blur(2px);
+}
+
+.school-portal-link:hover {
+  color: var(--primary);
+  text-decoration-color: var(--primary);
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(67, 97, 238, 0.15);
+}
+
+.school-meta-command {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.school-location-command {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.school-priority-badge-command {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   box-shadow: var(--shadow-sm);
 }
 
-.school-essay-list-view-button:hover {
-  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-  color: #334155;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+.school-priority-badge-command.priority-high {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+  border: 1px solid #fca5a5;
 }
 
-.school-essay-list-view-button svg {
+.school-priority-badge-command.priority-medium {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  border: 1px solid #f59e0b;
+}
+
+.school-priority-badge-command.priority-low {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  color: #3730a3;
+  border: 1px solid #8b5cf6;
+}
+
+.school-trial-banner-command {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 1px solid #a7f3d0;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--success-dark);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+  backdrop-filter: blur(4px);
+}
+
+/* Dashboard Cards Grid - 2 Columns */
+.school-dashboard-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  background: var(--card);
+}
+
+.dashboard-card {
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  transition: var(--transition);
+  background: transparent;
+}
+
+.dashboard-card:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  width: 1px;
+  background: var(--border-light);
+}
+
+.dashboard-card:hover {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  transform: translateY(-1px);
+}
+
+.dashboard-card:hover .card-icon {
+  opacity: 1;
+  color: var(--text-primary);
+  transform: scale(1.05);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+}
+
+.card-header .card-icon {
+  flex-shrink: 0;
+}
+
+.card-header .deadline-date-header {
+  flex: 1;
+  margin-left: 0.25rem;
   margin-right: 0.5rem;
+}
+
+.card-header .card-label {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.card-icon {
+  color: var(--text-secondary);
+  opacity: 0.8;
+  transition: var(--transition);
+}
+
+.card-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Deadline Card Specific Styles */
+.deadline-date-header {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-left: 0.125rem;
+  flex: 1;
+  text-align: left;
+}
+
+.deadline-date-header.undefined {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+.deadline-status-badge {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  text-align: center;
+  line-height: 1.2;
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.deadline-status-badge.urgency-urgent {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.deadline-status-badge.urgency-soon {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  border: 1px solid #f59e0b;
+}
+
+.deadline-status-badge.urgency-normal {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  color: var(--success-dark);
+  border: 1px solid #a7f3d0;
+}
+
+.deadline-status-badge.urgency-overdue {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  color: #dc2626;
+  border: 1px solid #f87171;
+  animation: pulse 2s infinite;
+}
+
+/* Personalized deadline messages */
+.deadline-status-badge.personalized {
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+}
+
+.deadline-main-text {
+  font-weight: 700;
+  font-size: 0.875rem;
+  margin-bottom: 0.125rem;
+  display: block;
+}
+
+.deadline-support-text {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  font-weight: 400;
+  display: block;
+  line-height: 1.3;
+}
+
+.deadline-undefined {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  color: var(--text-tertiary);
+  margin-top: 0.25rem;
+}
+
+.deadline-action {
+  font-size: 0.8125rem;
+  color: var(--primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.deadline-action:hover {
+  color: var(--primary-hover);
+}
+
+/* Progress Card Specific Styles */
+.progress-percentage-header {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.2;
+  margin-left: 0.25rem;
+  margin-right: 0.5rem;
+  flex: 1;
+  text-align: left;
+}
+
+.progress-stats {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.progress-numbers {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.progress-label {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 6px;
+  background: var(--border-light);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary) 0%, #3a56d4 100%);
+  border-radius: 999px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 /* Content styles */
 .school-essay-list-content {
   margin-bottom: 2rem;
+}
+
+/* Empty State Styles - Apple-inspired horizontal layout */
+.school-essay-list-empty-state {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  padding: 3rem;
+  background: var(--card);
+  border-radius: 20px;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  min-height: 280px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.school-essay-list-empty-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 24px;
+  border: 1px solid var(--border-light);
+  transition: var(--transition);
+}
+
+.school-essay-list-empty-icon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.15);
+}
+
+.school-essay-list-empty-icon svg {
+  color: var(--primary);
+  opacity: 0.8;
+}
+
+.school-essay-list-empty-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.school-essay-list-empty-state h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.school-essay-list-empty-state p {
+  font-size: 1.0625rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 420px;
+}
+
+.school-essay-list-start-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(67, 97, 238, 0.3);
+  min-width: 160px;
+  height: 48px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 0.5rem;
+  margin-left: 8rem;
+}
+
+.school-essay-list-start-button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+}
+
+.school-essay-list-start-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 14px rgba(67, 97, 238, 0.3);
+}
+
+.school-essay-list-start-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.school-essay-list-start-button:hover::before {
+  width: 200px;
+  height: 200px;
 }
 
 /* Delete Confirmation Modal */
@@ -327,90 +787,302 @@
   }
 }
 
-/* Responsive styles */
+/* Responsive Command Center - Mobile First Design */
 @media (max-width: 768px) {
   .school-essay-list-container {
     padding: 0 1rem;
     margin: 1.5rem auto;
   }
 
-  .school-essay-list-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1.5rem;
+  /* Command Center Mobile Adaptations */
+  .school-command-center {
+    border-radius: 16px;
     margin-bottom: 2rem;
-    padding-bottom: 1rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   }
 
-  .school-essay-list-header-buttons {
-    flex-direction: row;
+  .school-hero {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #fafafa 0%, #f8f9fa 100%);
+  }
+
+  .school-identity {
+    gap: 1rem;
     width: 100%;
-    justify-content: flex-end;
-    margin-top: 0;
   }
 
-  .school-essay-list-view-button {
-    flex: 0 0 auto;
+  .school-logo-command {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(67, 97, 238, 0.2);
   }
 
-  .school-essay-list-title-text {
+  .school-logo-text-command {
+    font-size: 1.25rem;
+  }
+
+  .school-name-command {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+
+  .school-meta-command {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .school-trial-banner-command {
+    padding: 0.625rem 1rem;
+    font-size: 0.8125rem;
+    align-self: stretch;
+    text-align: center;
+    border-radius: 12px;
+  }
+
+  /* Dashboard Cards Mobile - Vertical Stack */
+  .school-dashboard-cards {
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--border-light);
+    border-radius: 0 0 16px 16px;
+    overflow: hidden;
+  }
+
+  /* Mobile Navigation */
+  .school-nav-back {
+    left: 0.75rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  /* Mobile School Info */
+  .school-name-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .school-name-command {
     font-size: 1.75rem;
   }
 
-  .school-essay-list-free-trial-banner {
-    font-size: 0.75rem;
-    padding: 0.375rem 0.75rem;
+  .school-portal-link {
+    font-size: 0.8125rem;
+    padding: 0.3125rem 0.625rem;
   }
-  
+
+  .dashboard-card {
+    padding: 1.5rem;
+    background: var(--card);
+    gap: 1.25rem;
+  }
+
+  .dashboard-card:not(:last-child)::after {
+    display: none;
+  }
+
+  .dashboard-card:hover {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  }
+
+  .card-header {
+    gap: 0.625rem;
+  }
+
+  .card-icon {
+    font-size: 1.125rem;
+  }
+
+  .card-label {
+    font-size: 0.8125rem;
+  }
+
+  /* Progress Card Mobile */
+  .progress-numbers {
+    font-size: 1.75rem;
+  }
+
+  .progress-bar-container {
+    height: 6px;
+  }
+
+
+
+  /* Toast and Modal Mobile */
   .school-essay-list-toast {
     left: 1rem;
     right: 1rem;
+    width: auto;
     bottom: 1rem;
-    max-width: none;
+    border-radius: 12px;
   }
-  
+
   .school-essay-list-modal {
-    max-width: 100%;
     margin: 1rem;
+    max-width: none;
+    width: calc(100% - 2rem);
+    border-radius: 16px;
+  }
+
+  /* Empty State Mobile */
+  .school-essay-list-empty-state {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+    padding: 2.5rem 1.5rem;
+    min-height: 320px;
+    max-width: none;
+    border-radius: 16px;
+  }
+
+  .school-essay-list-empty-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+  }
+
+  .school-essay-list-empty-icon svg {
+    width: 56px;
+    height: 56px;
+  }
+
+  .school-essay-list-empty-content {
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .school-essay-list-empty-state h3 {
+    font-size: 1.375rem;
+    text-align: center;
+  }
+
+  .school-essay-list-empty-state p {
+    font-size: 0.9375rem;
+    text-align: center;
+    max-width: 300px;
+  }
+
+  .school-essay-list-start-button {
+    padding: 0.875rem 2rem;
+    font-size: 0.9375rem;
+    min-width: 140px;
+    margin-top: 0;
+    border-radius: 12px;
   }
 }
 
+/* Ultra-Mobile Optimization */
 @media (max-width: 480px) {
   .school-essay-list-container {
     padding: 0 0.75rem;
     margin: 1rem auto;
   }
 
-  .school-essay-list-title-text {
-    font-size: 1.5rem;
-  }
-
-  .school-essay-list-header {
-    padding-bottom: 0.75rem;
+  /* Ultra-Mobile Command Center */
+  .school-command-center {
+    border-radius: 14px;
     margin-bottom: 1.5rem;
   }
 
-  .school-essay-list-header-buttons {
-    flex-direction: column;
+  .school-hero {
+    padding: 1.25rem;
+    gap: 1.25rem;
   }
 
-  .school-essay-list-view-button {
+  .school-logo-command {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+  }
+
+  .school-logo-text-command {
+    font-size: 1.125rem;
+  }
+
+  .school-name-command {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .school-trial-banner-command {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.75rem;
+    border-radius: 10px;
+  }
+
+  /* Ultra-Mobile Dashboard Cards */
+  .dashboard-card {
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+
+  .card-icon {
+    font-size: 1rem;
+  }
+
+  .progress-numbers {
+    font-size: 1.5rem;
+  }
+
+
+
+  /* Ultra-Mobile Modal */
+  .school-essay-list-modal-buttons {
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+  }
+
+  .school-essay-list-modal-cancel,
+  .school-essay-list-modal-delete {
     width: 100%;
     justify-content: center;
   }
 
-  .school-essay-list-back-button {
+  /* Ultra-Mobile Empty State */
+  .school-essay-list-empty-state {
+    padding: 2rem 1rem;
+    min-height: 280px;
+    border-radius: 14px;
+    gap: 1.5rem;
+  }
+
+  .school-essay-list-empty-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 18px;
+  }
+
+  .school-essay-list-empty-icon svg {
+    width: 44px;
+    height: 44px;
+  }
+
+  .school-essay-list-empty-content {
+    gap: 1rem;
+  }
+
+  .school-essay-list-empty-state h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0;
+  }
+
+  .school-essay-list-empty-state p {
     font-size: 0.875rem;
+    line-height: 1.4;
+    max-width: 280px;
   }
-  
-  .school-essay-list-modal-buttons {
-    flex-direction: column;
-  }
-  
-  .school-essay-list-modal-cancel,
-  .school-essay-list-modal-delete {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    text-align: center;
+
+  .school-essay-list-start-button {
+    padding: 0.75rem 1.75rem;
+    font-size: 0.875rem;
+    min-width: 130px;
+    height: 44px;
+    border-radius: 10px;
   }
 }

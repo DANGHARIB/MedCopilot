@@ -4,6 +4,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../../../../UI/Tabs
 import Table from '../../../../../UI/Table';
 import medicalSchoolsData from '../../../../../../data/medicalSchools.json';
 import './SchoolPicker.css';
+import '../shared/shared.css';
 
 const LOCAL_STORAGE_KEY = "mySavedSchools";
 
@@ -772,42 +773,8 @@ const SchoolPicker = ({
             </div>
           </div>
 
-          {/* Écoles sélectionnées (résumé) */}
-          {savedSchools.length > 0 && (
-            <div className="selected-schools-summary">
-              <h3 className="summary-title">Selected Schools ({savedSchools.length})</h3>
-              <div className="selected-schools-grid">
-                {savedSchools
-                  .sort((a, b) => {
-                    const priorityOrder = { HIGH: 1, MEDIUM: 2, LOW: 3 };
-                    return priorityOrder[a.priority] - priorityOrder[b.priority];
-                  })
-                  .map((school) => (
-                  <div key={school.id} className="selected-school-chip">
-                    <div className="school-chip-info">
-                      <span className="school-chip-name">{school.name}</span>
-                      <span className="school-chip-location">{school.location}</span>
-                      <span className={`school-chip-priority priority-${school.priority?.toLowerCase() || 'medium'}`}>
-                        {school.priority || 'MEDIUM'}
-                      </span>
-                    </div>
-                    <button
-                      className="school-chip-remove"
-                      onClick={() => handleUnsaveSchool(school.id)}
-                      aria-label={`Remove ${school.name}`}
-                    >
-                      <X size={16} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Table des écoles */}
           <div className="schools-table-section">
-           
-
             <Table
               columns={columns}
               data={dataForTable || []}
@@ -833,8 +800,8 @@ const SchoolPicker = ({
           </div>
         </div>
 
-        {/* Navigation */}
-        <div className="school-picker-navigation">
+        {/* Navigation simplifiée */}
+        <div className="step-navigation">
           <button
             type="button"
             className="nav-btn nav-btn-secondary"
@@ -844,19 +811,19 @@ const SchoolPicker = ({
             Back to Other Experiences
           </button>
 
-          <div className="nav-progress">
-            <span className="progress-text">Step 4 of 4</span>
-            {isTyping && (
+          {/* Indicateur de sauvegarde uniquement */}
+          {isTyping && (
+            <div className="auto-save-indicator">
               <div className="typing-indicator">
-                <span>Saving...</span>
+                <span>Auto-saving...</span>
                 <div className="typing-dots">
                   <div className="dot"></div>
                   <div className="dot"></div>
                   <div className="dot"></div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           <button
             type="button"

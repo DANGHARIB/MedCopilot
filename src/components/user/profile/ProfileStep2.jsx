@@ -209,8 +209,8 @@ const ProfileStep2 = ({ formData, updateFormData, onNext }) => {
 
         {/* Navigation */}
         <div className="profile-step2-navigation">
-          <div className="nav-progress">
-            {isTyping && (
+          {isTyping && (
+            <div className="nav-progress">
               <div className="typing-indicator">
                 <span>Saving...</span>
                 <div className="typing-dots">
@@ -219,8 +219,8 @@ const ProfileStep2 = ({ formData, updateFormData, onNext }) => {
                   <div className="dot"></div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           <button
             type="button"

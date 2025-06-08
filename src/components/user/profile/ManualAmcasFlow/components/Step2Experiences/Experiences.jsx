@@ -3,6 +3,7 @@ import { Briefcase, Plus, Trash2, Check, AlertCircle, Info, ChevronUp, ChevronDo
 import { CountrySelect, StateSelect, CitySelect } from 'react-country-state-city';
 import 'react-country-state-city/dist/react-country-state-city.css';
 import './Experiences.css';
+import '../shared/shared.css';
 
 // Types d'expériences selon AMCAS
 const experienceTypes = [
@@ -759,8 +760,8 @@ const Experiences = ({
           </div>
         </div>
         
-        {/* Navigation */}
-        <div className="experiences-navigation">
+        {/* Navigation simplifiée */}
+        <div className="step-navigation">
           <button
             type="button"
             className="nav-btn nav-btn-secondary"
@@ -770,19 +771,19 @@ const Experiences = ({
             Back to Personal Comments
           </button>
 
-          <div className="nav-progress">
-            <span className="progress-text">Step 2 of 4</span>
-            {isTyping && (
+          {/* Indicateur de sauvegarde uniquement */}
+          {isTyping && (
+            <div className="auto-save-indicator">
               <div className="typing-indicator">
-                <span>Saving...</span>
+                <span>Auto-saving...</span>
                 <div className="typing-dots">
                   <div className="dot"></div>
                   <div className="dot"></div>
                   <div className="dot"></div>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           <button
             type="button"

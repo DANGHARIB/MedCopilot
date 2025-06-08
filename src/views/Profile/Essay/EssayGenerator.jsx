@@ -95,7 +95,8 @@ const EssayGenerator = () => {
             "To create and nurture a diverse community of the best people committed to leadership in alleviating human suffering caused by disease.",
           tone: parsedEssay.tone || "professional",
           style: parsedEssay.style || "narrative",
-          context: parsedEssay.context || ""
+          context: parsedEssay.context || "",
+          category: parsedEssay.category || "other"
         }));
         
         // Générer immédiatement l'essai puisque nous sautons l'étape 1
@@ -107,6 +108,7 @@ const EssayGenerator = () => {
           tone: parsedEssay.tone || "professional",
           style: parsedEssay.style || "narrative",
           context: parsedEssay.context || "",
+          category: parsedEssay.category || "other",
           schoolMission: parsedSchool?.missionFocus || 
             "To create and nurture a diverse community of the best people committed to leadership in alleviating human suffering caused by disease."
         });

@@ -298,12 +298,15 @@
   border-top: 1px solid rgba(0, 0, 0, 0.06);
   padding: 24px 40px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: var(--spacing-4);
+  position: relative;
 }
 
 .nav-progress {
+  position: absolute;
+  left: 40px;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -431,8 +434,15 @@
   
   .profile-step2-navigation {
     padding: 20px 24px;
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 16px;
+    align-items: center;
+  }
+  
+  .nav-progress {
+    position: static;
+    left: auto;
+    margin-bottom: 8px;
   }
   
   .nav-btn {

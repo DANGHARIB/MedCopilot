@@ -39,7 +39,7 @@
   /* Header Styles */
   .table-essays-header {
     display: grid;
-    grid-template-columns: 1fr 2fr 1.2fr 1fr;
+    grid-template-columns: 1.7fr 1fr 0.8fr 0.4fr;
     gap: 0;
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     border-bottom: 2px solid var(--essays-border);
@@ -68,7 +68,7 @@
   
   .table-essays-card {
     display: grid;
-    grid-template-columns: 1fr 2fr 1.2fr 1fr;
+    grid-template-columns: 1.7fr 1.8fr 1.2fr 0.6fr;
     gap: 0;
     border-bottom: 1px solid var(--essays-border-light);
     transition: var(--essays-transition);
@@ -115,143 +115,358 @@
     min-height: 80px;
   }
   
+  /* Padding adaptatif selon le type de colonne */
+  .table-essays-cell.essay-school,
+  .table-essays-cell.essay-topic {
+    padding: 1.5rem; /* Padding normal pour les colonnes principales */
+  }
+  
+  .table-essays-cell.essay-category,
+  .table-essays-cell.essay-status {
+    padding: 0.75rem; /* Padding réduit pour les badges */
+  }
+  
+  .table-essays-cell.essay-actions {
+    padding: 0.5rem; /* Padding minimal pour les actions */
+  }
+  
   .table-essays-cell:last-child {
     border-right: none;
   }
   
   /* Essay Topic Section */
   .essay-topic-content {
-    width: 100%;
-  }
-  
-  .essay-topic-header {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
     gap: 0.75rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .essay-topic-icon {
-    color: var(--essays-primary);
-    flex-shrink: 0;
-    margin-top: 0.125rem;
-  }
-  
-  .essay-topic-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--essays-text-primary);
-    margin: 0;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  .essay-topic-meta {
-    margin-left: 2rem;
+    align-items: flex-start;
+    width: 100%;
   }
   
   .essay-limit-badge {
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0.75rem;
-    background-color: var(--essays-primary-light);
-    color: var(--essays-primary);
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    border: 1px solid rgba(67, 97, 238, 0.2);
+    padding: 0.375rem 0.75rem;
+    background: rgba(67, 97, 238, 0.1);
+    color: #4361ee;
+    border-radius: 16px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(67, 97, 238, 0.3);
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    cursor: help;
+  }
+
+  .essay-limit-badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(67, 97, 238, 0.15);
   }
   
-  /* Context Section (replacing Style & Tone) */
-  .essay-context-content {
-    width: 100%;
-  }
-  
-  .essay-context-text {
+  .essay-topic-title {
     font-size: 0.875rem;
-    line-height: 1.5;
-    color: var(--essays-text-secondary);
+    font-weight: 500;
+    color: #374151;
     margin: 0;
+    line-height: 1.5;
+    width: 100%;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
   }
   
-  .essay-context-empty {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8125rem;
-    color: var(--essays-text-tertiary);
-    font-style: italic;
-    margin: 0;
+  .essay-topic-title[title]:hover {
+    position: relative;
   }
   
-  .context-icon {
-    color: var(--essays-text-tertiary);
-    flex-shrink: 0;
+  /* Custom tooltip styles pour un meilleur rendu */
+  .essay-topic-title[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    z-index: 1000;
+    max-width: 300px;
+    padding: 0.75rem 1rem;
+    background: var(--essays-text-primary);
+    color: white;
+    border-radius: var(--essays-radius-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    box-shadow: var(--essays-shadow-lg);
+    white-space: normal;
+    word-wrap: break-word;
+    transform: translateY(-0.5rem);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    animation: tooltipFadeIn 0.2s ease forwards;
   }
   
-  /* Status Section */
-  .essay-status-content {
+  @keyframes tooltipFadeIn {
+    to {
+      opacity: 1;
+      transform: translateY(-0.25rem);
+    }
+  }  
+  /* School Section - Optimisé pour plus d'espace */
+  .essay-school-content {
     width: 100%;
-  }
-  
-  .essay-status-generated,
-  .essay-status-pending {
     display: flex;
     align-items: center;
     gap: 0.75rem;
   }
   
+  .essay-school-logo {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--essays-primary) 0%, var(--essays-primary-hover) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--essays-shadow-sm);
+  }
+  
+  .essay-school-logo-text {
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  
+  .essay-school-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .essay-school-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--essays-text-primary);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .essay-school-location {
+    font-size: 0.75rem;
+    color: var(--essays-text-tertiary);
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  
+  /* Category Section - Badges colorés */
+  .essay-category-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .category-badge-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.2s ease;
+    cursor: help;
+  }
+
+  .category-badge-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+  
+  /* Couleurs spécifiques par catégorie - approche "surlignage fluo" */
+  .category-badge-wrapper.diversity {
+    background-color: rgba(139, 69, 19, 0.1);
+    color: #8b4513;
+    border-color: rgba(139, 69, 19, 0.3);
+  }
+  
+  .category-badge-wrapper.adversity {
+    background-color: rgba(220, 38, 127, 0.1);
+    color: #dc267f;
+    border-color: rgba(220, 38, 127, 0.3);
+  }
+  
+  .category-badge-wrapper.challenge {
+    background-color: rgba(249, 115, 22, 0.1);
+    color: #f97316;
+    border-color: rgba(249, 115, 22, 0.3);
+  }
+  
+  .category-badge-wrapper.why-school {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    border-color: rgba(34, 197, 94, 0.3);
+  }
+  
+  .category-badge-wrapper.gap-year {
+    background-color: rgba(168, 85, 247, 0.1);
+    color: #a855f7;
+    border-color: rgba(168, 85, 247, 0.3);
+  }
+  
+  .category-badge-wrapper.leadership {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+  
+  .category-badge-wrapper.covid {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+  
+  .category-badge-wrapper.clinical-experience {
+    background-color: rgba(6, 182, 212, 0.1);
+    color: #06b6d4;
+    border-color: rgba(6, 182, 212, 0.3);
+  }
+  
+  .category-badge-wrapper.teamwork {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+  
+  .category-badge-wrapper.medicine-interest {
+    background-color: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+  
+  .category-badge-wrapper.anything-else {
+    background-color: rgba(107, 114, 128, 0.1);
+    color: #6b7280;
+    border-color: rgba(107, 114, 128, 0.3);
+  }
+  
+  .category-badge-wrapper.other {
+    background-color: rgba(156, 163, 175, 0.1);
+    color: #9ca3af;
+    border-color: rgba(156, 163, 175, 0.3);
+  }
+  
+  .category-badge-wrapper:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .category-text {
+    color: var(--essays-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    letter-spacing: 0.025em;
+  }
+  
+  /* Status Section - Badges compacts */
+  .essay-status-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .essay-status-generated,
+  .essay-status-pending {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 16px;
+    border: 1px solid;
+    transition: var(--essays-transition);
+    cursor: help;
+  }
+  
+  .essay-status-generated {
+    background-color: var(--essays-success-light);
+    color: var(--essays-success-dark);
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+  
+  .essay-status-pending {
+    background-color: var(--essays-warning-light);
+    color: var(--essays-warning);
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+  
+  .essay-status-generated:hover,
+  .essay-status-pending:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--essays-shadow-sm);
+  }
+  
   .status-icon {
     flex-shrink: 0;
-  }
-  
-  .essay-status-generated .status-icon {
-    color: var(--essays-success);
-  }
-  
-  .essay-status-pending .status-icon {
-    color: var(--essays-warning);
+    width: 14px;
+    height: 14px;
   }
   
   .status-text {
     display: flex;
     flex-direction: column;
     gap: 0.125rem;
+    min-width: 0;
   }
   
   .status-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--essays-text-primary);
-  }
-  
-  .essay-status-generated .status-label {
-    color: var(--essays-success-dark);
-  }
-  
-  .essay-status-pending .status-label {
-    color: var(--essays-warning);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .status-date {
-    font-size: 0.75rem;
-    color: var(--essays-text-tertiary);
+    font-size: 0.6rem;
+    opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   /* Actions Section */
   .essay-actions-content {
     width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    gap: 1rem;
+    justify-content: center;
+    gap: 0.5rem;
   }
   
   /* Modern, clean action buttons */
@@ -260,15 +475,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     background-color: transparent;
     border: none;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     overflow: hidden;
     padding: 0;
+    color: var(--essays-text-tertiary);
   }
 
   .essay-action-btn:focus {
@@ -276,54 +492,36 @@
   }
 
   .essay-action-btn:hover {
-    transform: translateY(-3px);
+    transform: translateY(-1px);
+    box-shadow: var(--essays-shadow-sm);
   }
 
   .essay-action-btn:active {
-    transform: translateY(-1px);
+    transform: translateY(0);
   }
 
   /* View button */
-  .view-btn {
+  .view-btn:hover {
+    background-color: var(--essays-primary-light);
     color: var(--essays-primary);
   }
 
-  .view-btn:hover {
-    background-color: var(--essays-primary-light);
-    box-shadow: 0 3px 10px rgba(67, 97, 238, 0.2);
-  }
-
   /* Edit button */
-  .edit-btn {
-    color: var(--essays-text-secondary);
-  }
-
   .edit-btn:hover {
     background-color: #f0f9ff;
     color: #0ea5e9;
-    box-shadow: 0 3px 10px rgba(14, 165, 233, 0.2);
   }
 
   /* Delete button */
-  .delete-btn {
-    color: var(--essays-text-secondary);
-  }
-
   .delete-btn:hover {
     background-color: var(--essays-danger-light);
     color: var(--essays-danger);
-    box-shadow: 0 3px 10px rgba(239, 68, 68, 0.2);
   }
 
   /* Generate button */
-  .generate-btn {
-    color: var(--essays-text-secondary);
-  }
-
   .generate-btn:hover {
     background-color: var(--essays-success-light);
     color: var(--essays-success);
-    box-shadow: 0 3px 10px rgba(16, 185, 129, 0.2);
   }
 
   .btn-icon {
@@ -400,15 +598,37 @@
   @media (max-width: 1024px) {
     .table-essays-header,
     .table-essays-card {
-      grid-template-columns: 1fr 2fr 1.5fr 1fr;
+      grid-template-columns: 3fr 2fr 0.8fr 0.9fr 0.7fr;
     }
     
-    .table-essays-cell {
+    .table-essays-cell.essay-school,
+    .table-essays-cell.essay-topic {
       padding: 1.25rem;
     }
     
+    .table-essays-cell.essay-category,
+    .table-essays-cell.essay-status {
+      padding: 0.5rem;
+    }
+    
+    .table-essays-cell.essay-actions {
+      padding: 0.375rem;
+    }
+    
     .essay-topic-title {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+    }
+    
+    .category-badge-wrapper,
+    .essay-status-generated,
+    .essay-status-pending {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.625rem;
+    }
+    
+    .essay-action-btn {
+      width: 28px;
+      height: 28px;
     }
   }
   
@@ -441,7 +661,7 @@
       margin-bottom: 0.5rem;
     }
     
-    .essay-context-content {
+    .essay-category-content {
       margin-bottom: 0.5rem;
     }
     
@@ -450,7 +670,9 @@
     }
     
     .essay-actions-content {
-      justify-content: flex-end;
+      flex-direction: row;
+      justify-content: center;
+      gap: 0.75rem;
     }
   }
   
@@ -472,13 +694,13 @@
       padding: 0.1875rem 0.625rem;
     }
     
-    .essay-context-text {
-      font-size: 0.8125rem;
+    .category-text {
+      font-size: 0.7rem;
     }
     
     .essay-action-btn {
-      width: 36px;
-      height: 36px;
+      width: 30px;
+      height: 30px;
     }
     
     .btn-icon {

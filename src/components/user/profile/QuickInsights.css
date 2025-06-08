@@ -1,0 +1,421 @@
+/* QuickInsights Satellite - Intelligence contextuelle */
+.quick-insights {
+  background: linear-gradient(135deg, #1a1d3a 0%, #2d1b69 100%);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 
+    0 8px 32px rgba(99, 102, 241, 0.15),
+    0 4px 16px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-insights::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(99, 102, 241, 0.5) 50%, transparent 100%);
+}
+
+/* Header avec titre et compteur */
+.quick-insights-header {
+  margin-bottom: 20px;
+}
+
+.quick-insights-title-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quick-insights-title-icon {
+  color: #fbbf24;
+  width: 20px;
+  height: 20px;
+  filter: drop-shadow(0 2px 4px rgba(251, 191, 36, 0.3));
+}
+
+.quick-insights-title {
+  color: #e5e7eb;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+.quick-insights-count {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #1f2937;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(251, 191, 36, 0.3);
+}
+
+/* État de chargement */
+.quick-insights-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 20px;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.quick-insights-loading-icon {
+  width: 20px;
+  height: 20px;
+  color: #fbbf24;
+  animation: pulse 2s infinite;
+}
+
+/* État vide optimisé */
+.quick-insights-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.quick-insights-empty-icon {
+  width: 48px;
+  height: 48px;
+  color: #10b981;
+  margin: 0 auto 16px;
+  filter: drop-shadow(0 4px 8px rgba(16, 185, 129, 0.3));
+}
+
+.quick-insights-empty-state h4 {
+  color: #e5e7eb;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.quick-insights-empty-state p {
+  color: #9ca3af;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Grille des insights */
+.quick-insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* Cartes d'insights individuelles */
+.quick-insights-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.quick-insights-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.quick-insights-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.quick-insights-card:hover::before {
+  width: 8px;
+}
+
+/* Couleurs des cartes par type */
+.quick-insights-card.color-blue::before {
+  background: linear-gradient(180deg, #3b82f6, #1d4ed8);
+}
+
+.quick-insights-card.color-green::before {
+  background: linear-gradient(180deg, #10b981, #047857);
+}
+
+.quick-insights-card.color-orange::before {
+  background: linear-gradient(180deg, #f59e0b, #d97706);
+}
+
+.quick-insights-card.color-red::before {
+  background: linear-gradient(180deg, #ef4444, #dc2626);
+}
+
+.quick-insights-card.color-purple::before {
+  background: linear-gradient(180deg, #8b5cf6, #7c3aed);
+}
+
+/* Header de la carte avec icône et priorité */
+.quick-insights-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.quick-insights-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.quick-insights-card.color-blue .quick-insights-icon {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3b82f6;
+}
+
+.quick-insights-card.color-green .quick-insights-icon {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.quick-insights-card.color-orange .quick-insights-icon {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+}
+
+.quick-insights-card.color-red .quick-insights-icon {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.quick-insights-card.color-purple .quick-insights-icon {
+  background: rgba(139, 92, 246, 0.15);
+  color: #8b5cf6;
+}
+
+.quick-insights-card:hover .quick-insights-icon {
+  transform: scale(1.1);
+}
+
+/* Badge de priorité */
+.quick-insights-priority-badge {
+  display: flex;
+  align-items: center;
+}
+
+.priority-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.priority-indicator.priority-high {
+  background: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+.priority-indicator.priority-medium {
+  background: #f59e0b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+}
+
+.priority-indicator.priority-low {
+  background: #10b981;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.priority-indicator.priority-high::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: inherit;
+  animation: ping 2s infinite;
+}
+
+/* Contenu de la carte */
+.quick-insights-card-content {
+  margin-bottom: 16px;
+}
+
+.quick-insights-card-title {
+  color: #f9fafb;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.quick-insights-card-description {
+  color: #d1d5db;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Actions de la carte */
+.quick-insights-card-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.quick-insights-action-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f9fafb;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quick-insights-action-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.quick-insights-action-btn:active {
+  transform: translateY(0);
+}
+
+/* Animations pour les priorités hautes */
+@keyframes ping {
+  75%, 100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Effets de cascade pour l'apparition */
+.quick-insights-card {
+  animation: slideInUp 0.6s ease forwards;
+}
+
+.quick-insights-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.quick-insights-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.quick-insights-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.quick-insights-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .quick-insights {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .quick-insights-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .quick-insights-card {
+    padding: 16px;
+  }
+
+  .quick-insights-title {
+    font-size: 16px;
+  }
+
+  .quick-insights-card-title {
+    font-size: 15px;
+  }
+
+  .quick-insights-card-description {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-insights {
+    padding: 16px;
+  }
+
+  .quick-insights-card {
+    padding: 14px;
+  }
+
+  .quick-insights-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .quick-insights-empty-state {
+    padding: 30px 16px;
+  }
+
+  .quick-insights-empty-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Mode sombre amélioré */
+@media (prefers-color-scheme: dark) {
+  .quick-insights {
+    background: linear-gradient(135deg, #0f1419 0%, #1a1d3a 100%);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+
+  .quick-insights-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .quick-insights-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+} 

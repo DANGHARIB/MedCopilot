@@ -40,17 +40,43 @@ const EssayStep2 = ({
   onRequestRevisions,
   onSaveEssay
 }) => {
+  // Format essay category for display
+  const formatCategory = (category) => {
+    if (!category || category === 'other') return 'Non spécifiée';
+    
+    const categoryLabels = {
+      'diversity': 'Diversity Essay',
+      'adversity': 'Adversity Essay',
+      'challenge': 'Challenge Essay',
+      'why-school': '"Why Our School?" Essay',
+      'gap-year': 'Gap Year Essay',
+      'leadership': 'Leadership Essay',
+      'covid': 'COVID-19 Essay',
+      'clinical-experience': 'Meaningful Clinical Experience Essay',
+      'teamwork': 'Teamwork / Collaboration Essay',
+      'medicine-interest': 'Area of Medicine Interest Essay',
+      'anything-else': '"Anything Else You\'d Like Us to Know?" Essay',
+      'other': 'Autre'
+    };
+    
+    return categoryLabels[category] || 'Non spécifiée';
+  };
+
   // State management
   const [copied, setCopied] = useState(false);
-  const [feedback, setFeedback] = useState(null);
-  const [downloading, setDownloading] = useState(false);
+  const [_downloading, setDownloading] = useState(false);
   const [currentCount, setCurrentCount] = useState(0);
   const [focusMode, setFocusMode] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [showTipsModal, setShowTipsModal] = useState(false);
   const [showEssayInfo, setShowEssayInfo] = useState(false);
   const [animatedCount, setAnimatedCount] = useState(0);
-  const [showShareModal, setShowShareModal] = useState(false);
+  
+  // New states for manual editing
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedContent, setEditedContent] = useState('');
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
   const [paragraphs, setParagraphs] = useState([]);
   
   // Refs
@@ -104,8 +130,8 @@ const EssayStep2 = ({
           </svg>
         </div>
         <div>
-          <div class="essay-viewer-toast-title">Mode Focus activé</div>
-          <div class="essay-viewer-toast-message">Appuyez sur Échap ou utilisez le bouton pour quitter</div>
+          <div class="essay-viewer-toast-title">Focus Mode Enabled</div>
+          <div class="essay-viewer-toast-message">Press Escape or use the button to exit</div>
         </div>
       `;
       
@@ -129,8 +155,15 @@ const EssayStep2 = ({
   // Update current count when essayData changes or component mounts
   useEffect(() => {
     const updateCount = () => {
-      const essayText = essayData?.generatedEssay || 
-                       (essayContentRef.current ? essayContentRef.current.innerText : "");
+      let essayText;
+      
+      // Use edited content if in editing mode, otherwise use generated essay
+      if (isEditing) {
+        essayText = editedContent;
+      } else {
+        essayText = essayData?.generatedEssay || 
+                   (essayContentRef.current ? essayContentRef.current.innerText : "");
+      }
                        
       if (essayText) {
         const count = isCountingCharacters 
@@ -144,18 +177,20 @@ const EssayStep2 = ({
     // Initial count
     updateCount();
     
-    // Set up observer to recount when content might change
-    const observer = new MutationObserver(updateCount);
-    if (essayContentRef.current) {
-      observer.observe(essayContentRef.current, { 
-        characterData: true, 
-        childList: true, 
-        subtree: true 
-      });
+    // Set up observer to recount when content might change (only in read mode)
+    if (!isEditing) {
+      const observer = new MutationObserver(updateCount);
+      if (essayContentRef.current) {
+        observer.observe(essayContentRef.current, { 
+          characterData: true, 
+          childList: true, 
+          subtree: true 
+        });
+      }
+      
+      return () => observer.disconnect();
     }
-    
-    return () => observer.disconnect();
-  }, [essayData?.generatedEssay, isCountingCharacters]);
+  }, [essayData?.generatedEssay, isCountingCharacters, isEditing, editedContent]);
 
   // Animated count effect
   useEffect(() => {
@@ -319,16 +354,58 @@ const EssayStep2 = ({
     }
   }, [currentCount, maxCount, isCountingCharacters, school?.name, essayData?.tone, essayData?.style, essayData?.selectedPrompt, essayData?.prompt]);
 
-  // Handle feedback
-  const handleFeedback = (type) => {
-    setFeedback(type);
-  };
-
   // Handle saving the essay (skip to step 4)
   const handleSaveEssay = () => {
     if (onSaveEssay) {
       onSaveEssay();
     }
+  };
+  
+  // Manual editing handlers
+  const handleEnterEditMode = () => {
+    const currentContent = essayData?.generatedEssay || dummyEssay;
+    setEditedContent(currentContent);
+    setIsEditing(true);
+    setHasUnsavedChanges(false);
+  };
+  
+  const handleExitEditMode = () => {
+    setIsEditing(false);
+    setEditedContent('');
+    setHasUnsavedChanges(false);
+  };
+  
+  const handleContentChange = (e) => {
+    setEditedContent(e.target.value);
+    setHasUnsavedChanges(true);
+  };
+  
+  const handleSaveChanges = () => {
+    // Update the essay data with edited content
+    if (essayData) {
+      essayData.generatedEssay = editedContent;
+    }
+    
+    // Update paragraphs for display
+    const split = editedContent.split(/\n+/).filter(p => p.trim() !== "");
+    setParagraphs(split);
+    
+    // Exit edit mode
+    setIsEditing(false);
+    setHasUnsavedChanges(false);
+    
+    // Optional: Call a callback to notify parent component of changes
+    // if (onEssayUpdate) {
+    //   onEssayUpdate(editedContent);
+    // }
+  };
+  
+  const handleCancelChanges = () => {
+    if (hasUnsavedChanges) {
+      const confirmCancel = window.confirm('Vous avez des modifications non sauvegardées. Êtes-vous sûr de vouloir annuler ?');
+      if (!confirmCancel) return;
+    }
+    handleExitEditMode();
   };
   
   // Handle keyboard shortcuts
@@ -347,14 +424,26 @@ const EssayStep2 = ({
         toggleFocusMode();
       }
       
-      // Copy to clipboard with Ctrl+C
-      if (e.ctrlKey && e.key === 'c' && !window.getSelection().toString()) {
+      // Enter edit mode with Ctrl+E (only if not already editing)
+      if (e.ctrlKey && e.key === 'e' && !isEditing) {
+        e.preventDefault();
+        handleEnterEditMode();
+      }
+      
+      // Save changes in edit mode with Ctrl+S
+      if (e.ctrlKey && e.key === 's' && isEditing) {
+        e.preventDefault();
+        handleSaveChanges();
+      }
+      
+      // Copy to clipboard with Ctrl+C (only in read mode)
+      if (e.ctrlKey && e.key === 'c' && !window.getSelection().toString() && !isEditing) {
         e.preventDefault();
         handleCopyToClipboard();
       }
       
-      // Download PDF with Ctrl+P
-      if (e.ctrlKey && e.key === 'p') {
+      // Download PDF with Ctrl+P (only in read mode)
+      if (e.ctrlKey && e.key === 'p' && !isEditing) {
         e.preventDefault();
         handleDownloadPDF();
       }
@@ -363,15 +452,14 @@ const EssayStep2 = ({
       if (e.key === 'Escape') {
         if (showTipsModal) setShowTipsModal(false);
         if (showStats) setShowStats(false);
-        if (showShareModal) setShowShareModal(false);
       }
     };
     
-    document.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [focusMode, showTipsModal, showStats, showShareModal, handleCopyToClipboard, handleDownloadPDF, toggleFocusMode]);
+      }, [focusMode, showTipsModal, showStats, isEditing, handleCopyToClipboard, handleDownloadPDF, toggleFocusMode, handleEnterEditMode, handleSaveChanges]);
   
   // Analyze essay and get statistics
   const getEssayStats = () => {
@@ -430,7 +518,7 @@ const EssayStep2 = ({
 
   // Body scroll lock for modals
   useEffect(() => {
-    const hasActiveModal = showTipsModal || showShareModal;
+    const hasActiveModal = showTipsModal;
     
     if (hasActiveModal) {
       document.body.style.overflow = 'hidden';
@@ -441,7 +529,7 @@ const EssayStep2 = ({
     return () => {
       document.body.style.overflow = '';
     };
-  }, [showTipsModal, showShareModal]);
+  }, [showTipsModal]);
 
   // Déplacer la définition de dummyEssay avant qu'elle ne soit utilisée dans useEffect
   // Le contenu de l'essai par défaut pour demo/test
@@ -581,73 +669,56 @@ The obstacle I faced didn't deter me from pursuing medicine—it clarified why I
           <CheckCircle size={20} />
           <div>
             <p className="essay-viewer-notification-title">Essay successfully generated!</p>
-            <p className="essay-viewer-notification-message">Your essay is ready. Review it below and make any necessary adjustments.</p>
+            <p className="essay-viewer-notification-message">Review it below and make any necessary adjustments.</p>
           </div>
         </div>
         
-        {/* Main content grid */}
-        <div className="essay-viewer-grid">
-          {/* Left column - Essay content */}
-          <div className="essay-viewer-content-column">
-            {/* Enhanced Essay content card with integrated information */}
-            <div className="essay-viewer-card essay-viewer-essay-card">
-              <div className="essay-viewer-card-header">
-                <div className="essay-viewer-card-icon accent">
-                  <BookOpen size={20} />
-                </div>
-                
-                <div className="essay-viewer-header-content">
-                  <h2 className="essay-viewer-card-title">Essay for {school?.name || 'Medical School'}</h2>
-                  <div className="essay-viewer-header-meta">
-                    <span className="essay-viewer-meta-item">{essayData?.tone === 'professional' ? 'Professional' : 'Conversational'} Tone</span>
-                    <span className="essay-viewer-meta-item">{essayData?.style === 'narrative' ? 'Narrative' : 'Analytical'} Style</span>
-                  </div>
-                </div>
-                
-                <button 
-                  className="essay-viewer-view-details-button"
-                  onClick={() => setShowEssayInfo(!showEssayInfo)}
-                  aria-label={showEssayInfo ? "Hide essay details" : "View essay details"}
-                >
-                  {showEssayInfo ? "Hide details" : "View details"}
-                  {showEssayInfo ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-                </button>
-                
+        {/* Single column layout - Essay is the hero */}
+        <div className="essay-viewer-content-container">
+          {/* Enhanced Essay content card with integrated actions */}
+          <div className="essay-viewer-card essay-viewer-essay-card">
+            <div className="essay-viewer-card-header">
+              <div className="essay-viewer-card-icon accent">
+                <BookOpen size={20} />
               </div>
               
-              {/* Expandable Essay Information Panel */}
-              {showEssayInfo && (
-                <div className="essay-viewer-info-panel">
-                  <div className="essay-viewer-info-grid">
-                    <div className="essay-viewer-info-group">
-                      <label>PROMPT</label>
-                      <p>{essayData?.selectedPrompt || essayData?.prompt || 'Describe a challenge or obstacle you have faced and how it has shaped your perspective on medicine and healthcare.'}</p>
-                    </div>
-                    
-                    <div className="essay-viewer-info-stats">
-                      <div className="essay-viewer-info-stat">
-                        <label>{isCountingCharacters ? "CHARACTERS" : "WORDS"}</label>
-                        <p>
-                          <span className="essay-viewer-info-highlight">{currentCount}</span>
-                          <span className="essay-viewer-info-separator">/</span>
-                          <span>{maxCount}</span>
-                        </p>
-                      </div>
-                      
-                      <div className="essay-viewer-info-stat">
-                        <label>PARAGRAPHS</label>
-                        <p>{essayStats.paragraphs}</p>
-                      </div>
-                      
-                      <div className="essay-viewer-info-stat">
-                        <label>READING TIME</label>
-                        <p>{essayStats.readingTime} min</p>
-                      </div>
-                    </div>
+              <div className="essay-viewer-header-content">
+                <h2 className="essay-viewer-card-title">Essay for {school?.name}</h2>
+              </div>
+              
+              <button 
+                className="essay-viewer-view-details-button"
+                onClick={() => setShowEssayInfo(!showEssayInfo)}
+                aria-label={showEssayInfo ? "Hide essay details" : "View essay details"}
+              >
+                {showEssayInfo ? "Hide details" : "View details"}
+                {showEssayInfo ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+              </button>
+            </div>
+            
+            {/* Expandable Essay Information Panel */}
+            {showEssayInfo && (
+              <div className="essay-viewer-info-panel">
+                <div className="essay-viewer-info-grid">
+                  <div className="essay-viewer-info-group">
+                    <label>PROMPT</label>
+                    <p>{essayData?.selectedPrompt || essayData?.prompt || 'Describe a challenge or obstacle you have faced and how it has shaped your perspective on medicine and healthcare.'}</p>
+                  </div>
+                  
+                  <div className="essay-viewer-info-group">
+                    <label>CONTEXT</label>
+                    <p>{essayData?.context || 'No additional context provided.'}</p>
+                  </div>
+                  <div className="essay-viewer-info-group">
+                    <label>CATÉGORIE</label>
+                    <p>{formatCategory(essayData?.category)}</p>
                   </div>
                 </div>
-              )}
-              
+              </div>
+            )}
+            
+            {/* Essay Content - Read Mode */}
+            {!isEditing && (
               <div 
                 className="essay-viewer-essay-content" 
                 ref={essayContentRef}
@@ -661,99 +732,87 @@ The obstacle I faced didn't deter me from pursuing medicine—it clarified why I
                   </p>
                 ))}
               </div>
-            </div>
-          </div>
-          
-          {/* Right column - Actions panel */}
-          <div className="essay-viewer-actions-column">
-            {/* Feedback card */}
-            <div className="essay-viewer-card">
-              <div className="essay-viewer-card-header">
-                <div className="essay-viewer-card-icon secondary">
-                  <MessageSquare size={18} />
+            )}
+            
+            {/* Essay Content - Edit Mode */}
+            {isEditing && (
+              <div className="essay-viewer-essay-edit-container">
+                <div className="essay-viewer-edit-header">
+                  <div className="essay-viewer-edit-indicator">
+                    <Edit3 size={16} />
+                    <span>Mode édition</span>
+                  </div>
+                  <div className="essay-viewer-edit-count">
+                    <span className={`essay-viewer-edit-count-text ${isCountingCharacters ? (editedContent.length > maxCount ? 'over-limit' : '') : (countWords(editedContent) > maxCount ? 'over-limit' : '')}`}>
+                      {isCountingCharacters ? editedContent.length : countWords(editedContent)} / {maxCount} {countLabel}
+                    </span>
+                  </div>
                 </div>
-                <h2 className="essay-viewer-card-title">Provide Feedback</h2>
-              </div>
-              
-              <div className="essay-viewer-card-content">
-                <p className="essay-viewer-feedback-prompt">How do you feel about this essay?</p>
                 
-                <div className="essay-viewer-feedback-options">
+                <textarea
+                  className="essay-viewer-edit-textarea"
+                  value={editedContent}
+                  onChange={handleContentChange}
+                  placeholder="Edit your essay here..."
+                  rows={20}
+                  autoFocus
+                />
+                
+                <div className="essay-viewer-edit-actions">
                   <button 
-                    className={`essay-viewer-feedback-button ${feedback === 'positive' ? 'active' : ''}`}
-                    onClick={() => handleFeedback('positive')}
-                    aria-pressed={feedback === 'positive'}
-                    aria-label="I like this essay"
+                    className="essay-viewer-edit-button cancel"
+                    onClick={handleCancelChanges}
                   >
-                    <ThumbsUp size={20} />
-                    <span>I like it</span>
+                    <X size={16} />
+                    <span>Cancel</span>
                   </button>
                   
                   <button 
-                    className={`essay-viewer-feedback-button ${feedback === 'negative' ? 'active' : ''}`}
-                    onClick={() => handleFeedback('negative')}
-                    aria-pressed={feedback === 'negative'}
-                    aria-label="I don't like this essay"
+                    className="essay-viewer-edit-button save"
+                    onClick={handleSaveChanges}
+                    disabled={!hasUnsavedChanges}
                   >
-                    <ThumbsDown size={20} />
-                    <span>Needs work</span>
+                    <CheckCircle size={16} />
+                    <span>Save</span>
                   </button>
                 </div>
-                
-                {feedback && (
-                  <div className="essay-viewer-feedback-message">
-                    <CheckCircle size={16} />
-                    <span>Thank you for your feedback!</span>
-                  </div>
-                )}
               </div>
-            </div>
-            
-            {/* Actions & Next Steps card - Combined */}
-            <div className="essay-viewer-card">
-              <div className="essay-viewer-card-header">
-                <div className="essay-viewer-card-icon success">
-                  <Settings size={18} />
-                </div>
-                <h2 className="essay-viewer-card-title">Actions & Next Steps</h2>
-              </div>
-              
-              <div className="essay-viewer-card-content">
-                <div className="essay-viewer-actions-group">
+            )}
+
+            {/* Integrated Actions Footer */}
+            {!isEditing && (
+              <div className="essay-viewer-actions-footer">
+                <div className="essay-viewer-integrated-actions">
                   <button 
-                    className={`essay-viewer-action-button ${copied ? 'success' : ''}`}
+                    className={`essay-viewer-action-icon ${copied ? 'success' : ''}`}
                     onClick={handleCopyToClipboard}
                     aria-label="Copy to clipboard"
+                    title="Copy essay"
                   >
                     {copied ? <CheckCircle size={18} /> : <Copy size={18} />}
-                    <span>{copied ? 'Copied!' : 'Copy to Clipboard'}</span>
                   </button>
                   
                   <button 
-                    className={`essay-viewer-action-button ${downloading ? 'processing' : ''}`}
-                    onClick={handleDownloadPDF}
-                    disabled={downloading}
-                    aria-label="Download as PDF"
-                  >
-                    <Download size={18} />
-                    <span>{downloading ? 'Processing...' : 'Download as PDF'}</span>
-                  </button>
-                </div>
-                
-                <div className="essay-viewer-actions-divider"></div>
-                
-                <div className="essay-viewer-next-steps">
-                  <button 
-                    className="essay-viewer-secondary-button"
-                    onClick={onRequestRevisions}
-                    aria-label="Request revisions"
+                    className="essay-viewer-action-button"
+                    onClick={handleEnterEditMode}
+                    aria-label="Manual Edit"
+                    title="Edit manually"
                   >
                     <Edit3 size={18} />
-                    <span>Request Revisions</span>
+                    <span>Manual Edit</span>
                   </button>
                   
                   <button 
-                    className="essay-viewer-primary-button"
+                    className="essay-viewer-action-button secondary"
+                    onClick={onRequestRevisions}
+                    aria-label="Edit with AI"
+                  >
+                    <Edit3 size={18} />
+                    <span>Edit with AI</span>
+                  </button>
+                  
+                  <button 
+                    className="essay-viewer-action-button primary"
                     onClick={handleSaveEssay}
                     aria-label="Save & Continue"
                   >
@@ -762,7 +821,7 @@ The obstacle I faced didn't deter me from pursuing medicine—it clarified why I
                   </button>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         
@@ -818,12 +877,6 @@ The obstacle I faced didn't deter me from pursuing medicine—it clarified why I
                     <div className="essay-viewer-shortcut-desc">Copy Essay</div>
                   </div>
                   
-                  <div className="essay-viewer-shortcut">
-                    <div className="essay-viewer-shortcut-keys">
-                      <kbd>Ctrl</kbd> + <kbd>P</kbd>
-                    </div>
-                    <div className="essay-viewer-shortcut-desc">Download PDF</div>
-                  </div>
                   
                   <div className="essay-viewer-shortcut">
                     <div className="essay-viewer-shortcut-keys">
@@ -834,9 +887,23 @@ The obstacle I faced didn't deter me from pursuing medicine—it clarified why I
                   
                   <div className="essay-viewer-shortcut">
                     <div className="essay-viewer-shortcut-keys">
+                      <kbd>Ctrl</kbd> + <kbd>E</kbd>
+                    </div>
+                    <div className="essay-viewer-shortcut-desc">Enter Edit Mode</div>
+                  </div>
+                  
+                  <div className="essay-viewer-shortcut">
+                    <div className="essay-viewer-shortcut-keys">
+                      <kbd>Ctrl</kbd> + <kbd>S</kbd>
+                    </div>
+                    <div className="essay-viewer-shortcut-desc">Save Changes (Edit Mode)</div>
+                  </div>
+                  
+                  <div className="essay-viewer-shortcut">
+                    <div className="essay-viewer-shortcut-keys">
                       <kbd>Esc</kbd>
                     </div>
-                    <div className="essay-viewer-shortcut-desc">Close Popups</div>
+                    <div className="essay-viewer-shortcut-desc">Close Popups / Exit Focus</div>
                   </div>
                 </div>
               </div>

@@ -7,7 +7,6 @@ import {
   Clock,
   CheckCircle2,
   Trash2,
-  Info,
 } from "lucide-react";
 import "./TableEssays.css";
 
@@ -24,6 +23,28 @@ const TableEssays = ({
   isLoading = false,
   emptyMessage = "No essays configured",
 }) => {
+  // Format essay category for display
+  const formatCategory = (category) => {
+    if (!category || category === 'other') return 'Other';
+    
+    const categoryLabels = {
+      'diversity': 'Diversity Essay',
+      'adversity': 'Adversity Essay',
+      'challenge': 'Challenge Essay',
+      'why-school': '"Why Our School?" Essay',
+      'gap-year': 'Gap Year Essay',
+      'leadership': 'Leadership Essay',
+      'covid': 'COVID-19 Essay',
+      'clinical-experience': 'Meaningful Clinical Experience Essay',
+      'teamwork': 'Teamwork / Collaboration Essay',
+      'medicine-interest': 'Area of Medicine Interest Essay',
+      'anything-else': '"Anything Else You\'d Like Us to Know?" Essay',
+      'other': 'Other'
+    };
+    
+    return categoryLabels[category] || 'Other';
+  };
+
   // Format word or character limit with appropriate unit
   const formatLimit = (essay) => {
     if (!essay) return "N/A";
@@ -45,6 +66,19 @@ const TableEssays = ({
       day: "numeric",
       year: "numeric",
     }).format(date);
+  };
+
+  // Truncate essay subject with option to show full text
+  const truncateText = (text, maxLength = 60) => {
+    if (!text) return "Untitled Essay";
+    if (text.length <= maxLength) return text;
+    
+    // Find the last space within the limit to avoid cutting words
+    const truncated = text.substring(0, maxLength);
+    const lastSpace = truncated.lastIndexOf(' ');
+    const cutPoint = lastSpace > maxLength * 0.7 ? lastSpace : maxLength;
+    
+    return text.substring(0, cutPoint) + '...';
   };
 
   // Handle row click to view essay details
@@ -89,7 +123,7 @@ const TableEssays = ({
       {/* Header */}
       <div className="table-essays-header">
         <div className="table-essays-header-cell essay-topic">Essay Topic</div>
-        <div className="table-essays-header-cell essay-context">Context</div>
+        <div className="table-essays-header-cell essay-category">Category</div>
         <div className="table-essays-header-cell essay-status">Status</div>
         <div className="table-essays-header-cell essay-actions">Actions</div>
       </div>
@@ -114,31 +148,26 @@ const TableEssays = ({
             {/* Essay Topic Section */}
             <div className="table-essays-cell essay-topic">
               <div className="essay-topic-content">
-                <div className="essay-topic-header">
-                  <FileText size={20} className="essay-topic-icon" />
-                  <h4 className="essay-topic-title">
-                    {essay.subject || "Untitled Essay"}
-                  </h4>
-                </div>
-                <div className="essay-topic-meta">
-                  <span className="essay-limit-badge">
-                    {formatLimit(essay)}
-                  </span>
-                </div>
+                <span className="essay-limit-badge">
+                  {formatLimit(essay)}
+                </span>
+                <h4 
+                  className="essay-topic-title"
+                  title={essay.subject || "Untitled Essay"}
+                >
+                  {truncateText(essay.subject)}
+                </h4>
               </div>
             </div>
 
-            {/* Context Section (replaces Style & Tone) */}
-            <div className="table-essays-cell essay-context">
-              <div className="essay-context-content">
-                {essay.context ? (
-                  <p className="essay-context-text">{essay.context}</p>
-                ) : (
-                  <p className="essay-context-empty">
-                    <Info size={14} className="context-icon" />
-                    <span>No additional context provided</span>
-                  </p>
-                )}
+            {/* Category Section */}
+            <div className="table-essays-cell essay-category">
+              <div className="essay-category-content">
+                <div className={`category-badge-wrapper ${essay.category || 'other'}`}>
+                  <span className="category-badge-text">
+                    {formatCategory(essay.category)}
+                  </span>
+                </div>
               </div>
             </div>
 

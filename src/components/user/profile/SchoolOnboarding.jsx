@@ -27,13 +27,17 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
   const modalRef = useRef(null);
   
   // Configuration states
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const [essayCount, setEssayCount] = useState(1);
   const [customEssayCount, setCustomEssayCount] = useState('');
   const [isCustomCount, setIsCustomCount] = useState(false);
-  const [essays, setEssays] = useState([{ id: 1, subject: '', wordLimit: 500, limitType: 'words', context: '', tone: 'professional', style: 'narrative' }]);
+  const [essays, setEssays] = useState([{ id: 1, subject: '', wordLimit: 500, limitType: 'words', context: '', category: 'other', style: 'narrative' }]);
   const [currentEssayIndex, setCurrentEssayIndex] = useState(0);
   const [isCompleting, setIsCompleting] = useState(false);
+  
+  // Invitation and deadline states
+  const [hasInvitation, setHasInvitation] = useState(null);
+  const [deadline, setDeadline] = useState('');
 
   const navigate = useNavigate();
 
@@ -74,7 +78,7 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
           wordLimit: 500,
           limitType: 'words',
           context: '',
-          tone: 'professional',
+          category: 'other',
           style: 'narrative'
         });
       }
@@ -87,7 +91,10 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
 
   // Handle navigation between steps
   const goToNextStep = () => {
-    if (currentStep === 1) {
+    if (currentStep === 0) {
+      // Move from invitation step to essay count
+      setCurrentStep(1);
+    } else if (currentStep === 1) {
       // Move to essay configuration
       setCurrentStep(2);
       setCurrentEssayIndex(0);
@@ -111,6 +118,9 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
         // Return to essay count selection
         setCurrentStep(1);
       }
+    } else if (currentStep === 1) {
+      // Return to invitation step
+      setCurrentStep(0);
     }
   };
 
@@ -162,6 +172,11 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
         const schoolEssays = JSON.parse(localStorage.getItem('schoolEssays') || '{}');
         schoolEssays[school.id] = essays;
         localStorage.setItem('schoolEssays', JSON.stringify(schoolEssays));
+        
+        // Save deadline information
+        const schoolDeadlines = JSON.parse(localStorage.getItem('schoolDeadlines') || '{}');
+        schoolDeadlines[school.id] = formatDeadlineForStorage();
+        localStorage.setItem('schoolDeadlines', JSON.stringify(schoolDeadlines));
       } catch (e) {
         console.error("Failed to save essay configurations", e);
       }
@@ -182,7 +197,9 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
 
   // Check if next button should be disabled
   const isNextButtonDisabled = () => {
-    if (currentStep === 1) {
+    if (currentStep === 0) {
+      return hasInvitation === null; // Disabled if no invitation status selected
+    } else if (currentStep === 1) {
       const actualCount = isCustomCount ? parseInt(customEssayCount) || 0 : essayCount;
       return actualCount < 1; // Disabled if no valid count
     } else if (currentStep === 2) {
@@ -192,9 +209,29 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
     return false;
   };
 
+  // Handle deadline date change
+  const handleDeadlineChange = (value) => {
+    setDeadline(value);
+  };
+
+  // Format deadline for storage
+  const formatDeadlineForStorage = () => {
+    if (hasInvitation === false) {
+      return "not defined";
+    }
+    
+    if (hasInvitation === true && deadline) {
+      return deadline; // Already in YYYY-MM-DD format from date input
+    }
+    
+    return "not defined";
+  };
+
   // Conditional rendering of content based on current step
   const renderStepContent = () => {
     switch (currentStep) {
+      case 0:
+        return renderInvitationStep();
       case 1:
         return renderEssayCountStep();
       case 2:
@@ -203,6 +240,66 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
         return null;
     }
   };
+
+  // Step 0: Invitation status and deadline
+  const renderInvitationStep = () => (
+    <div className="school-onboarding-step">
+      <div className="school-onboarding-school-info">
+        <School size={24} />
+        <h2>{school.name}</h2>
+        <p className="school-onboarding-location">{school.location}</p>
+      </div>
+
+      <div className="school-onboarding-invitation-section">
+        <h3>Did you receive your invitation?</h3>
+        <p className="school-onboarding-description">
+          Let us know if you've been invited to interview so we can help you set the right timeline for your application.
+        </p>
+
+        <div className="school-onboarding-invitation-options">
+          <button
+            className={`school-onboarding-invitation-option ${hasInvitation === true ? 'active' : ''}`}
+            onClick={() => setHasInvitation(true)}
+          >
+            <span className="school-onboarding-option-text">Yes</span>
+            <span className="school-onboarding-option-subtitle">I received an invitation</span>
+          </button>
+
+          {hasInvitation === true && (
+          <div className="school-onboarding-deadline-section">
+            <h4>Select your deadline</h4>
+            <p className="school-onboarding-deadline-description">
+              When do you need to submit your application?
+            </p>
+            
+            <div className="school-onboarding-date-picker-container">
+              <input
+                id="deadline-date"
+                type="date"
+                className="school-onboarding-date-input"
+                value={deadline}
+                onChange={(e) => handleDeadlineChange(e.target.value)}
+                min={new Date().toISOString().split('T')[0]} // Minimum today
+                max={new Date(new Date().setFullYear(new Date().getFullYear() + 2)).toISOString().split('T')[0]} // Maximum 2 years from now
+                onClick={(e) => e.target.showPicker()}
+              />
+            </div>
+          </div>
+        )}
+          
+          <button
+            className={`school-onboarding-invitation-option ${hasInvitation === false ? 'active' : ''}`}
+            onClick={() => setHasInvitation(false)}
+          >
+            <span className="school-onboarding-option-text">No</span>
+            <span className="school-onboarding-option-subtitle">Not yet invited</span>
+          </button>
+        </div>
+
+        
+      </div>
+    </div>
+  );
 
   // Step 1: Essay count selection
   const renderEssayCountStep = () => (
@@ -262,7 +359,7 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
         <div className="school-onboarding-info-box">
           <AlertCircle size={18} />
           <div>
-            <p>The number and topics of essays vary by school. Check the school's website for accurate information.</p>
+            <p>The number and topics of essays vary by school. <br/> Check the school's website for accurate information.</p>
           </div>
         </div>
       </div>
@@ -292,17 +389,30 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
 
         <div className="school-onboarding-essay-form">
           <div className="school-onboarding-form-group">
-            <label htmlFor="essay-subject">Essay Topic</label>
+            <label htmlFor="essay-subject">Essay Prompt</label>
             <textarea
               id="essay-subject"
               className="school-onboarding-textarea"
-              placeholder="Enter the exact essay topic or question..."
+              placeholder=" Paste the exact prompt from the school's application for best results."
               value={currentEssay.subject}
               onChange={(e) => updateCurrentEssay({ subject: e.target.value })}
               rows={4}
             />
+           
+          </div>
+
+          <div className="school-onboarding-form-group">
+            <label htmlFor="essay-context">Additional Context (optional)</label>
+            <textarea
+              id="essay-context"
+              className="school-onboarding-textarea"
+              placeholder="Add extra details to personalize your essay..."
+              value={currentEssay.context}
+              onChange={(e) => updateCurrentEssay({ context: e.target.value })}
+              rows={4}
+            />
             <p className="school-onboarding-field-hint">
-              Paste the exact topic from the school's application for best results.
+              E.g.: specific experiences, school values, preferred focus...
             </p>
           </div>
 
@@ -368,56 +478,30 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
             </div>
           </div>
 
+         
+
           <div className="school-onboarding-form-group">
-            <label htmlFor="essay-context">Additional Context (optional)</label>
-            <textarea
-              id="essay-context"
-              className="school-onboarding-textarea"
-              placeholder="Add extra details to personalize your essay..."
-              value={currentEssay.context}
-              onChange={(e) => updateCurrentEssay({ context: e.target.value })}
-              rows={4}
-            />
-            <p className="school-onboarding-field-hint">
-              E.g.: specific experiences, school values, preferred focus...
-            </p>
-          </div>
-
-          <div className="school-onboarding-form-row">
-            <div className="school-onboarding-form-group">
-              <label>Essay Tone</label>
-              <div className="school-onboarding-toggle">
-                <button
-                  className={`school-onboarding-toggle-option ${currentEssay.tone === 'professional' ? 'active' : ''}`}
-                  onClick={() => updateCurrentEssay({ tone: 'professional' })}
-                >
-                  Professional
-                </button>
-                <button
-                  className={`school-onboarding-toggle-option ${currentEssay.tone === 'conversational' ? 'active' : ''}`}
-                  onClick={() => updateCurrentEssay({ tone: 'conversational' })}
-                >
-                  Conversational
-                </button>
-              </div>
-            </div>
-
-            <div className="school-onboarding-form-group">
-              <label>Writing Style</label>
-              <div className="school-onboarding-toggle">
-                <button
-                  className={`school-onboarding-toggle-option ${currentEssay.style === 'narrative' ? 'active' : ''}`}
-                  onClick={() => updateCurrentEssay({ style: 'narrative' })}
-                >
-                  Narrative
-                </button>
-                <button
-                  className={`school-onboarding-toggle-option ${currentEssay.style === 'analytical' ? 'active' : ''}`}
-                  onClick={() => updateCurrentEssay({ style: 'analytical' })}
-                >
-                  Analytical
-                </button>
-              </div>
+            <label htmlFor="essay-category">Essay Category</label>
+            <div className="school-onboarding-select-container">
+              <select
+                id="essay-category"
+                className="school-onboarding-select"
+                value={currentEssay.category}
+                onChange={(e) => updateCurrentEssay({ category: e.target.value })}
+              >
+                <option value="diversity">Diversity Essay</option>
+                <option value="adversity">Adversity Essay</option>
+                <option value="challenge">Challenge Essay</option>
+                <option value="why-school">"Why Our School?" Essay</option>
+                <option value="gap-year">Gap Year Essay</option>
+                <option value="leadership">Leadership Essay</option>
+                <option value="covid">COVID-19 Essay</option>
+                <option value="clinical-experience">Meaningful Clinical Experience Essay</option>
+                <option value="teamwork">Teamwork / Collaboration Essay</option>
+                <option value="medicine-interest">Area of Medicine Interest Essay</option>
+                <option value="anything-else">"Anything Else You'd Like Us to Know?" Essay</option>
+                <option value="other">Other</option>
+              </select>
             </div>
           </div>
         </div>
@@ -451,15 +535,17 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
           <button
             className="school-onboarding-button secondary"
             onClick={goToPrevStep}
-            disabled={currentStep === 1 && currentEssayIndex === 0}
+            disabled={currentStep === 0}
           >
             <ArrowLeft size={16} />
             <span>Previous</span>
           </button>
 
           <div className="school-onboarding-step-indicator">
-            {currentStep === 1 ? (
-              <span>Step 1 of 2</span>
+            {currentStep === 0 ? (
+              <span>Step 1 of 3</span>
+            ) : currentStep === 1 ? (
+              <span>Step 2 of 3</span>
             ) : (
               <span>Essay {currentEssayIndex + 1} of {essays.length}</span>
             )}
@@ -471,7 +557,9 @@ const SchoolOnboarding = ({ school, isOpen, onClose, onComplete }) => {
             disabled={isNextButtonDisabled() || isCompleting}
           >
             <span>
-              {currentStep === 1 
+              {currentStep === 0 
+                ? "Next" 
+                : currentStep === 1 
                 ? "Configure Essays" 
                 : currentEssayIndex < essays.length - 1 
                   ? "Next Essay" 

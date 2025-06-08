@@ -18,7 +18,7 @@
     "@stripe/react-stripe-js": "^3.6.0",
     "@stripe/stripe-js": "^7.0.0",
     "axios": "^1.9.0",
-    "date-fns": "^2.29.3",
+    "date-fns": "^2.30.0",
     "dayjs": "^1.11.13",
     "diff": "^8.0.1",
     "html2canvas": "^1.4.1",

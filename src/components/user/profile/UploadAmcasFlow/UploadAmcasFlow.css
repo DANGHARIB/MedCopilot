@@ -1,0 +1,49 @@
+/* ============================================
+   UPLOAD AMCAS FLOW - Container Principal
+   Design minimaliste cohérent avec ManualAmcasFlow
+   ============================================ */
+
+/* === CONTAINER PRINCIPAL === */
+.upload-amcas-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  min-height: 70vh;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* === CONTENU PRINCIPAL === */
+.upload-amcas-content {
+  width: 100%;
+  transition: opacity 0.2s ease;
+}
+
+.upload-amcas-content.fade-transition {
+  opacity: 0.7;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .upload-amcas-flow {
+    padding: 0 0.75rem;
+    gap: 1rem;
+  }
+}
+
+/* === ACCESSIBILITÉ === */
+@media (prefers-reduced-motion: reduce) {
+  .upload-amcas-content {
+    transition: none;
+  }
+}
+
+/* === MODE SOMBRE === */
+@media (prefers-color-scheme: dark) {
+  .upload-amcas-flow {
+    background: rgba(15, 23, 42, 0.95);
+  }
+} 

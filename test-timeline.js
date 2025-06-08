@@ -1,0 +1,1 @@
+console.log('📊 Testing TimelineDataProcessor...'); import('../src/utils/TimelineDataProcessor.js').then(module => { const TimelineDataProcessor = module.default; const debug = TimelineDataProcessor.debugData(); console.log('🎯 Timeline Test Results:', debug); });
